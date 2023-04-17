@@ -43,6 +43,8 @@ require 'src/utilities/quads'
 -- require 'src/world/Boss_Room'
 -- require 'src/ProgressBar'
 
+require 'src/gui/ProgressBar'
+
 VIRTUAL_WIDTH = 384
 VIRTUAL_HEIGHT = 216
 
