@@ -2,7 +2,9 @@ Class = require 'lib/class'
 Event = require 'lib/knife.event'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
+Camera = require 'lib/camera'
 
+require 'src/Camera'
 require 'src/Animation'
 require 'src/Entity'
 -- require 'src/GameObject'
@@ -86,7 +88,7 @@ MAP_RENDER_OFFSET_Y = (VIRTUAL_HEIGHT - (MAP_HEIGHT * TILE_SIZE)) / 2
 TEXTURES = {
     --['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
-    ['bg-play'] = love.graphics.newImage('graphics/bg-play.png'),
+    ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     ['character-walk'] = love.graphics.newImage('graphics/character_walk.png')
 }
 

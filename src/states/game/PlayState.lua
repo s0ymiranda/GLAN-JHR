@@ -1,6 +1,9 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
+
+    self.camera = Camera {}
+
     self.player = Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
@@ -54,6 +57,18 @@ function PlayState:update(dt)
     -- self.dungeon:update(dt)
     -- self.player.currentAnimation:update(dt)
     self.player:update(dt)
+
+    self.camera.x = math.max(0,self.player.x + 8 - VIRTUAL_WIDTH/2)
+    self.camera.y = math.max(0,self.player.y + 8 - VIRTUAL_HEIGHT/2)
+    -- self.camera.x = math.max(0,math.min(self.player.x + 8 - VIRTUAL_WIDTH / 2, 16 - VIRTUAL_WIDTH))
+    -- self.camera.y = math.max(
+    --     0,
+    --     math.min(
+    --         self.player.y + 10 - VIRTUAL_HEIGHT / 2,
+    --         16 - VIRTUAL_HEIGHT
+    --     )
+    -- )
+    
 end
 
 function PlayState:render()
@@ -81,9 +96,11 @@ function PlayState:render()
     --     healthLeft = healthLeft - 2
     -- end
 
-    
-    love.graphics.draw(TEXTURES['bg-play'], 0, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['bg-play']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['bg-play']:getHeight())
-    self.player:render()
+    -- love.graphics.draw(TEXTURES['bg-play'], 0, 0, 0,
+    -- VIRTUAL_WIDTH / TEXTURES['bg-play']:getWidth(),
+    -- VIRTUAL_HEIGHT / TEXTURES['bg-play']:getHeight())
+    self.camera:set()
+        love.graphics.draw(TEXTURES['bg-play'],0,0,0)
+        self.player:render()
+    self.camera:unset()
 end
