@@ -40,3 +40,6 @@ luac.out
 *.hex
 
 # From https://github.com/github/gitignore/blob/main/Lua.gitignore
+
+# Visual Studio Code
+.vscode
