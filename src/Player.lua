@@ -18,7 +18,7 @@ end
 
 function Player:render()
     Entity.render(self)
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end
