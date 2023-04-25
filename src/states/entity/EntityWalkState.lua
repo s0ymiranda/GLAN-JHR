@@ -1,14 +1,3 @@
---[[
-    ISPPJ1 2023
-    Study Case: The Legend of the Princess (ARPG)
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-
-    Modified by Alejandro Mujica (alejandro.j.mujic4@gmail.com) for teaching purpose.
-
-    This file contains the class EntityWalkState.
-]]
 EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, dungeon)
@@ -33,34 +22,36 @@ function EntityWalkState:update(dt)
     if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
         
-        -- if self.entity.x <= MAP_RENDER_OFFSET_X + TILE_SIZE then 
-        --     self.entity.x = MAP_RENDER_OFFSET_X + TILE_SIZE
-        --     self.bumped = true
-        -- end
+        if self.entity.x <= 0 then 
+            self.entity.x = 0
+            self.bumped = true
+        end
     elseif self.entity.direction == 'right' then
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
 
-        -- if self.entity.x + self.entity.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 then
-        --     self.entity.x = VIRTUAL_WIDTH - TILE_SIZE * 2 - self.entity.width
-        --     self.bumped = true
-        -- end
+        if self.entity.x + self.entity.width >= VIRTUAL_WIDTH*4 then
+            self.entity.x = VIRTUAL_WIDTH*4 - self.entity.width
+            self.bumped = true
+        end
     elseif self.entity.direction == 'up' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
-        -- if self.entity.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2 then 
-        --     self.entity.y = MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2
-        --     self.bumped = true
-        -- end
+        if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then 
+            self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
+            self.bumped = true
+        end
     elseif self.entity.direction == 'down' then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
         -- local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
         --     + MAP_RENDER_OFFSET_Y - TILE_SIZE
 
-        -- if self.entity.y + self.entity.height >= bottomEdge then
-        --     self.entity.y = bottomEdge - self.entity.height
-        --     self.bumped = true
-        -- end
+        local bottomEdge = VIRTUAL_HEIGHT
+
+        if self.entity.y + self.entity.height >= bottomEdge then
+            self.entity.y = bottomEdge - self.entity.height
+            self.bumped = true
+        end
     end
 end
 

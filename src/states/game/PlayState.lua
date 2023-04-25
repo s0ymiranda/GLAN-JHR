@@ -8,17 +8,17 @@ function PlayState:init()
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         
-        x = VIRTUAL_WIDTH / 2 ,
+        x = 0 ,
         y = VIRTUAL_HEIGHT / 2 ,
         
-        width = 16,
-        height = 22,
+        width = 32,
+        height = 73,
         
         -- one_heart == 2 health
         health = 6,
         
         -- rendering and collision offset for spaced sprites
-        offsetY = 5
+        offsetY = 0
     }
     
     -- local xHB_P, yHB_P
@@ -84,14 +84,16 @@ function PlayState:update(dt)
     self.player:update(dt)
 
     -- print(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2))
-    self.camera.x = math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2))
-    self.camera.y = math.floor(math.max(0,self.player.y + self.player.height/2 - VIRTUAL_HEIGHT/2))
+    self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
+    --self.camera.y = math.floor(math.max(0,self.player.y + self.player.height/2 - VIRTUAL_HEIGHT/2))
 
     self.healthBar:setValue(self.player.health)
-    self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), math.floor(math.max(10,self.player.y - self.player.height/2 - VIRTUAL_HEIGHT/2 + 32)))
+    --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), math.floor(math.max(10,self.player.y - self.player.height/2 - VIRTUAL_HEIGHT/2 + 32)))
+    self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
     self.healthBar:update()
     self.respectBar:setValue(self.player.respect)
-    self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), self.healthBar.y + self.healthBar.height + 10)
+    --self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), self.healthBar.y + self.healthBar.height + 10)
+    self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
     -- self.camera.x = math.max(0,math.min(self.player.x + 8 - VIRTUAL_WIDTH / 2, 16 - VIRTUAL_WIDTH))
     -- self.camera.y = math.max(
@@ -133,7 +135,8 @@ function PlayState:render()
     -- VIRTUAL_WIDTH / TEXTURES['bg-play']:getWidth(),
     -- VIRTUAL_HEIGHT / TEXTURES['bg-play']:getHeight())
     self.camera:set()
-        love.graphics.draw(TEXTURES['bg-play'],0,0,0)
+        --love.graphics.draw(TEXTURES['bg-play'],0,0,0)
+        love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
         self.player:render()
         self.healthBar:render()
         self.respectBar:render()
