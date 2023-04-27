@@ -57,11 +57,14 @@ TILE_SIZE = 16
 -- --
 -- -- map constants
 -- --
-MAP_WIDTH = VIRTUAL_WIDTH / TILE_SIZE - 2
-MAP_HEIGHT = math.floor(VIRTUAL_HEIGHT / TILE_SIZE) - 2
+-- MAP_WIDTH = VIRTUAL_WIDTH / TILE_SIZE - 2
+-- MAP_HEIGHT = math.floor(VIRTUAL_HEIGHT / TILE_SIZE) - 2
 
-MAP_RENDER_OFFSET_X = (VIRTUAL_WIDTH - (MAP_WIDTH * TILE_SIZE)) / 2
-MAP_RENDER_OFFSET_Y = (VIRTUAL_HEIGHT - (MAP_HEIGHT * TILE_SIZE)) / 2
+MAP_WIDTH = VIRTUAL_WIDTH*4
+MAP_HEIGHT = VIRTUAL_HEIGHT
+
+--MAP_RENDER_OFFSET_X = (VIRTUAL_WIDTH - (MAP_WIDTH * TILE_SIZE)) / 2
+--MAP_RENDER_OFFSET_Y = VIRTUAL_HEIGHT*0.6
 
 -- --
 -- -- tile IDs
@@ -90,11 +93,14 @@ TEXTURES = {
     --['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
-    ['character-walk'] = love.graphics.newImage('graphics/character_walk.png')
+    --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
+    ['character-walk'] = love.graphics.newImage('graphics/herp.png'),
+    ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
 
+
 FRAMES = {
-    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 16, 32)
+    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73)
 }
 -- FRAMES = {
 --     ['tiles'] = generateQuads(TEXTURES['tiles'], 16, 16),

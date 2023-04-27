@@ -1,14 +1,3 @@
---[[
-    ISPPJ1 2023
-    Study Case: The Legend of the Princess (ARPG)
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-
-    Modified by Alejandro Mujica (alejandro.j.mujic4@gmail.com) for teaching purpose.
-
-    This file contains the class PlayerWalkState.
-]]
 PlayerWalkState = Class{__includes = EntityWalkState}
 
 function PlayerWalkState:init(player)
@@ -16,7 +5,7 @@ function PlayerWalkState:init(player)
     -- self.dungeon = dungeon
 
     -- render offset for spaced character sprite
-    self.entity.offsetY = 5
+    self.entity.offsetY = 0
     self.entity.offsetX = 0
 end
 
@@ -91,8 +80,8 @@ function PlayerWalkState:update(dt)
         --         pot = takenPot
         --     })
         -- end
-    elseif love.keyboard.wasPressed('p') and self.entity.have_bow then
-        self.entity:changeState('shoot-arrow')
+    -- elseif love.keyboard.wasPressed('p') and self.entity.have_bow then
+    --     self.entity:changeState('shoot-arrow')
     end
 
     -- perform base collision detection against walls
