@@ -67,6 +67,8 @@ function PlayState:init()
 
     SOUNDS['dungeon-music']:setLooping(true)
     SOUNDS['dungeon-music']:play()
+
+    --table.insert(self.entities,self.player)
 end
 
 function PlayState:exit()
@@ -134,7 +136,19 @@ function PlayState:update(dt)
     self.respectBar:setValue(self.player.respect)
     self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
+
+    --print(self.entities)
+
+
 end
+
+-- function PlayState:orderByZ()
+--     --local aux = self.entities
+--     local i = 1, j = 1, aux = {}
+--     while(i < #self.entities) do
+        
+--     end
+-- end
 
 function PlayState:render()
     -- -- render dungeon and all entities separate from hearts GUI
@@ -167,10 +181,18 @@ function PlayState:render()
     self.camera:set()
         --love.graphics.draw(TEXTURES['bg-play'],0,0,0)
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
-        for k, entity in pairs(self.entities) do
-            if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        for i=0,9,1 do
+            if self.player.z == i then
+                self.player:render()
+            end
+            for k, entity in pairs(self.entities) do
+                if not entity.dead and entity.z == i then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+            end
         end
-        self.player:render()
+        -- for k, entity in pairs(self.entities) do
+        --     if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        -- end
+        --self.player:render()
         self.healthBar:render()
         self.respectBar:render()
     self.camera:unset()
@@ -204,5 +226,5 @@ function PlayState:generateEntity()
         ['walk'] = function() return EntityWalkState(self.entities[i]) end,
         ['idle'] = function() return EntityIdleState(self.entities[i]) end
     }
-    self.entities[i]:changeState('walk')
+    self.entities[i]:changeState('idle')
 end

@@ -36,17 +36,17 @@ function PlayerSlapState:init(player,entities)
 end
 
 function PlayerSlapState:enter(params)
-    -- SOUNDS['sword']:stop()
-    -- SOUNDS['sword']:play()
+    -- SOUNDS['slap']:stop()
+    -- SOUNDS['slap']:play()
 
-    -- restart sword swing animation
+    -- restart slap swing animation
     self.player.currentAnimation:refresh()
 end
 
 function PlayerSlapState:update(dt)
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.entities) do
-        if entity:collides(self.swordHitbox) and not entity.invulnerable then
+        if entity:collides(self.slapHitbox) and not entity.invulnerable then
             entity:damage(1)
             SOUNDS['hit-enemy']:play()
         end
@@ -70,7 +70,7 @@ function PlayerSlapState:render()
     -- debug for player and hurtbox collision rects
     -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
     -- love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
-    -- love.graphics.rectangle('line', self.swordHitbox.x, self.swordHitbox.y,
-    -- self.swordHitbox.width, self.swordHitbox.height)
+    -- love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
+    -- self.slapHitbox.width, self.slapHitbox.height)
     -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

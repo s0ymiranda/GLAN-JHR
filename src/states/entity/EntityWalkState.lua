@@ -2,7 +2,7 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, dungeon)
     self.entity = entity
-    self.entity:changeAnimation('walk-down')
+    --self.entity:changeAnimation('walk-down')
 
     self.dungeon = dungeon
 
@@ -12,6 +12,7 @@ function EntityWalkState:init(entity, dungeon)
 
     -- keeps track of whether we just hit a wall
     self.bumped = false
+    self.prevDirection = entity.direction
 end
 
 function EntityWalkState:update(dt)
@@ -58,19 +59,31 @@ end
 function EntityWalkState:processAI(params, dt)
     -- TODO: add punches
     local room = params.room
-    local directions = {'left', 'right', 'up', 'down'}
+    local directions = {'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'}
 
     if self.moveDuration == 0 or self.bumped then
         
         -- set an initial move duration and direction
         self.moveDuration = math.random(5)
         self.entity.direction = directions[math.random(#directions)]
+        local a,b = string.find(self.entity.direction,'left') or 0,0
+        if a == 0 and b == 0 then
+            a,b = string.find(self.entity.direction,'right')
+        end
+        self.prevDirection = string.sub(self.entity.direction, a, b)
+        -- if string.len(self.entity.direction) < 6 then
+        --     self.prevDirection = self.entity.direction
+        -- else
+        --     self.prevDirection = self.entity.direction
+        -- end  
+        -- self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
 
         -- chance to go idle
         if math.random(3) == 1 then
+            self.entity.direction = self.prevDirection
             self.entity:changeState('idle')
         else
             self.moveDuration = math.random(5)

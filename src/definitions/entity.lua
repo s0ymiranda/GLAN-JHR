@@ -196,16 +196,28 @@ ENTITY_DEFS = {
                 --interval = 0.15,
                 texture =  'enemy-walk'
             },
-            ['walk-down'] = {
+            ['walk-down-left'] = {
                 frames = {1},
                 --interval = 0.15,
                 texture =  'enemy-walk'
             },
-            ['walk-up'] = {
+            ['walk-up-left'] = {
                 frames = {1},
                 --interval = 0.15,
                 texture =  'enemy-walk'
             },
+
+            ['walk-down-right'] = {
+                frames = {1},
+                --interval = 0.15,
+                texture =  'enemy-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {1},
+                --interval = 0.15,
+                texture =  'enemy-walk'
+            },
+
             ['idle-left'] = {
                 frames = {1},
                 texture = 'enemy-walk'
@@ -213,15 +225,15 @@ ENTITY_DEFS = {
             ['idle-right'] = {
                 frames = {1},
                 texture =  'enemy-walk'
-            },
-            ['idle-down'] = {
-                frames = {1},
-                texture =  'enemy-walk'
-            },
-            ['idle-up'] = {
-                frames = {1},
-                texture =  'enemy-walk'
-            },
+            }
+            -- ['idle-down'] = {
+            --     frames = {1},
+            --     texture =  'enemy-walk'
+            -- },
+            -- ['idle-up'] = {
+            --     frames = {1},
+            --     texture =  'enemy-walk'
+            -- },
         }
     }
 }
