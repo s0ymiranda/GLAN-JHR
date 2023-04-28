@@ -12,6 +12,29 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'Hero'
             },
+
+            ['walk-up-left'] = {
+                frames = {12,11,10,11},
+                interval = 0.20,
+                texture = 'Hero'
+            },
+            ['walk-up-right'] = {
+                frames = {5,6,7,6},
+                interval = 0.20,
+                texture = 'Hero'
+            },
+
+            ['walk-down-left'] = {
+                frames = {12,11,10,11},
+                interval = 0.20,
+                texture = 'Hero'
+            },
+            ['walk-down-right'] = {
+                frames = {5,6,7,6},
+                interval = 0.20,
+                texture = 'Hero'
+            },
+
             ['walk-down'] = {
                 frames = {1},
                 --interval = 0.15,
@@ -74,17 +97,17 @@ ENTITY_DEFS = {
             --     frames = {9},
             --     texture = 'character-walk'
             -- },
-            ['sword-left'] = {
+            ['slap-left'] = {
                 frames = {13, 14, 15, 16},
                 interval = 0.05,
                 looping = false,
-                texture = 'character-swing-sword'
+                texture = 'Hero'
             },
-            ['sword-right'] = {
-                frames = {9, 10, 11, 12},
+            ['slap-right'] = {
+                frames = {20, 19, 18, 17},
                 interval = 0.05,
                 looping = false,
-                texture = 'character-swing-sword'
+                texture = 'Hero'
             },
             ['sword-down'] = {
                 frames = {1, 2, 3, 4},

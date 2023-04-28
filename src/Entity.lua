@@ -6,7 +6,7 @@ function Entity:init(def)
 
     self.stateMachine = StateMachine(def.states or {})
 
-    self.direction = 'down'
+    self.direction = 'right'
 
     self.animations = self:createAnimations(def.animations)
 

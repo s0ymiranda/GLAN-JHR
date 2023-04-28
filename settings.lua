@@ -7,7 +7,7 @@ require 'src/Camera'
 require 'src/Animation'
 require 'src/Entity'
 -- require 'src/GameObject'
--- require 'src/Hitbox'
+require 'src/Hitbox'
 require 'src/Player'
 -- require 'src/Projectile'
 require 'src/StateMachine'
@@ -23,6 +23,7 @@ require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 -- require 'src/states/entity/player/PlayerSwingSwordState'
 require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/entity/player/PlayerSlapState'
 -- require 'src/states/entity/player/PlayerPotLiftState'
 -- require 'src/states/entity/player/PlayerPotIdleState'
 -- require 'src/states/entity/player/PlayerPotWalkState'
@@ -95,7 +96,11 @@ TEXTURES = {
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-walk'] = love.graphics.newImage('graphics/hero.png'),
+<<<<<<< HEAD
     ['enemy-walk'] = love.graphics.newImage('graphics/npco.png'),
+=======
+    ['enemy-walk'] = love.graphics.newImage('graphics/hero.png'),
+>>>>>>> 1a18f5506dcfffb7a7046594a98386cccae24afa
     ['Hero'] = love.graphics.newImage('graphics/Hero.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
