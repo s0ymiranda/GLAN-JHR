@@ -3,40 +3,40 @@ ENTITY_DEFS = {
         walkSpeed = 60,
         animations = {
            ['walk-left'] = {
-                frames = {1},
-                --interval = 0.155,
-                texture = 'character-walk'
+                frames = {12,11,10,11},
+                interval = 0.20,
+                texture = 'Hero'
             },
             ['walk-right'] = {
-                frames = {1},
-                --interval = 0.15,
-                texture = 'character-walk'
+                frames = {5,6,7,6},
+                interval = 0.20,
+                texture = 'Hero'
             },
             ['walk-down'] = {
                 frames = {1},
                 --interval = 0.15,
-                texture = 'character-walk'
+                texture = 'Hero'
             },
             ['walk-up'] = {
                 frames = {1},
                 --interval = 0.15,
-                texture = 'character-walk'
+                texture = 'Hero'
             },
             ['idle-left'] = {
                 frames = {1},
-                texture = 'character-walk'
+                texture = 'Hero'
             },
             ['idle-right'] = {
-                frames = {1},
-                texture = 'character-walk'
+                frames = {2},
+                texture = 'Hero'
             },
             ['idle-down'] = {
                 frames = {1},
-                texture = 'character-walk'
+                texture = 'Hero'
             },
             ['idle-up'] = {
                 frames = {1},
-                texture = 'character-walk'
+                texture = 'Hero'
             },
             -- ['walk-left'] = {
             --     frames = {13, 14, 15, 16},
