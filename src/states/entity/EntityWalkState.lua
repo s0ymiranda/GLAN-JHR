@@ -56,6 +56,7 @@ function EntityWalkState:update(dt)
 end
 
 function EntityWalkState:processAI(params, dt)
+    -- TODO: add punches
     local room = params.room
     local directions = {'left', 'right', 'up', 'down'}
 
