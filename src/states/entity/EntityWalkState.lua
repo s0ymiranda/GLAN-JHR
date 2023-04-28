@@ -33,14 +33,14 @@ function EntityWalkState:update(dt)
             self.entity.x = VIRTUAL_WIDTH*4 - self.entity.width
             self.bumped = true
         end
-    elseif self.entity.direction == 'up' then
+    elseif self.entity.direction == 'up-left' or self.entity.direction == 'up-right' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
         if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then 
             self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
             self.bumped = true
         end
-    elseif self.entity.direction == 'down' then
+    elseif self.entity.direction == 'down-left' or self.entity.direction == 'down-right' then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
         -- local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
