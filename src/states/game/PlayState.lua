@@ -15,7 +15,7 @@ function PlayState:init()
         height = 73,
         
         -- one_heart == 2 health
-        health = 6,
+        health = 100,
         
         -- rendering and collision offset for spaced sprites
         offsetY = 0
@@ -42,7 +42,7 @@ function PlayState:init()
         height = 12,
         color = {r = 128, g = 128, b = 128},
         value = self.player.respect,
-        max = self.player.respect,
+        max = 100,
         showDetails = true,
         title = 'Respect'
     }
@@ -125,26 +125,14 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    -- print(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2))
     self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
-    --self.camera.y = math.floor(math.max(0,self.player.y + self.player.height/2 - VIRTUAL_HEIGHT/2))
-
     self.healthBar:setValue(self.player.health)
-    --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), math.floor(math.max(10,self.player.y - self.player.height/2 - VIRTUAL_HEIGHT/2 + 32)))
-    self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
+    --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
+    self.healthBar:setPosition(self.camera.x+10, 10)
     self.healthBar:update()
     self.respectBar:setValue(self.player.respect)
-    --self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), self.healthBar.y + self.healthBar.height + 10)
-    self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), self.healthBar.y + self.healthBar.height + 10)
+    self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
-    -- self.camera.x = math.max(0,math.min(self.player.x + 8 - VIRTUAL_WIDTH / 2, 16 - VIRTUAL_WIDTH))
-    -- self.camera.y = math.max(
-    --     0,
-    --     math.min(
-    --         self.player.y + 10 - VIRTUAL_HEIGHT / 2,
-    --         16 - VIRTUAL_HEIGHT
-    --     )
-    -- )
 end
 
 function PlayState:render()
@@ -201,7 +189,7 @@ function PlayState:generateEntity()
 
         -- ensure X and Y are within bounds of the map
         x = math.random(min_x, max_x),
-        y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT),
+        y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT - height),
 
         width = 32,
         height = height,
