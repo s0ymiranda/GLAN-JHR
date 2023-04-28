@@ -98,14 +98,14 @@ ENTITY_DEFS = {
             --     texture = 'character-walk'
             -- },
             ['slap-left'] = {
-                frames = {13, 14, 15, 16},
-                interval = 0.05,
+                frames = {13, 14, 15, 16,16},
+                interval = 0.09,
                 looping = false,
                 texture = 'Hero'
             },
             ['slap-right'] = {
-                frames = {20, 19, 18, 17},
-                interval = 0.05,
+                frames = {20, 19, 18, 17, 17},
+                interval = 0.09,
                 looping = false,
                 texture = 'Hero'
             },
