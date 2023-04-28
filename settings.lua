@@ -95,12 +95,14 @@ TEXTURES = {
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-walk'] = love.graphics.newImage('graphics/herp.png'),
+    ['enemy-walk'] = love.graphics.newImage('graphics/herp.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
 
 
 FRAMES = {
-    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73)
+    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73),
+    ['enemy-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73),
 }
 -- FRAMES = {
 --     ['tiles'] = generateQuads(TEXTURES['tiles'], 16, 16),

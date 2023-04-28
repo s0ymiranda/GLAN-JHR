@@ -58,6 +58,12 @@ function PlayState:init()
     }
     self.player:changeState('idle')
 
+    self.entities = {}
+
+    -- Key combinations
+    self.lctrlPressed = false
+    self.rctrlPressed = false
+
     SOUNDS['dungeon-music']:setLooping(true)
     SOUNDS['dungeon-music']:play()
 end
@@ -79,9 +85,45 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('o') then
         stateMachine:change('win')
     end
+    -- Left Ctrl pressed and released
+    if love.keyboard.wasPressed('lctrl') then
+        self.lctrlPressed = true
+        print('lctrl pressed')
+    end
+    if not love.keyboard.isDown('lctrl') then
+        self.lctrlPressed = false
+    end
+    -- Right Ctrl pressed and released
+    if love.keyboard.wasPressed('rctrl') then
+        self.rctrlPressed = true
+        print 'rctrl pressed'
+    end
+    if not love.keyboard.isDown('rctrl') then
+        self.rctrlPressed = false
+    end
+    -- Ctrl + E: generate entity
+    if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
+        self:generateEntity()
+    end
+
     -- self.dungeon:update(dt)
     -- self.player.currentAnimation:update(dt)
     self.player:update(dt)
+
+    for i = #self.entities, 1, -1 do
+        local entity = self.entities[i]
+        -- remove entity from the table if health is <= 0
+        if entity.health <= 0 then
+            entity.dead = true
+        end
+        if entity.dead then
+            goto continue
+        end
+        entity:processAI({room = self}, dt)
+        entity:update(dt)
+        -- TODO: check if the entity throw a punch
+        ::continue::
+    end
 
     -- print(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2))
     self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
@@ -103,7 +145,6 @@ function PlayState:update(dt)
     --         16 - VIRTUAL_HEIGHT
     --     )
     -- )
-    
 end
 
 function PlayState:render()
@@ -137,8 +178,42 @@ function PlayState:render()
     self.camera:set()
         --love.graphics.draw(TEXTURES['bg-play'],0,0,0)
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
+        for k, entity in pairs(self.entities) do
+            if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        end
         self.player:render()
         self.healthBar:render()
         self.respectBar:render()
     self.camera:unset()
+end
+
+function PlayState:generateEntity()
+    local types = {'enemy'}
+    local type = types[math.random(#types)]
+
+    local x_distance = 20
+    local min_x = math.max(0, self.player.x - x_distance)
+    local max_x = math.min(MAP_WIDTH, self.player.x + x_distance)
+    local height = 73
+    table.insert(self.entities, Entity {
+        animations = ENTITY_DEFS[type].animations,
+        walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
+
+        -- ensure X and Y are within bounds of the map
+        x = math.random(min_x, max_x),
+        y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT),
+
+        width = 32,
+        height = height,
+
+        health = 1,
+        offsetY = 0,
+    })
+
+    local i = #self.entities
+    self.entities[i].stateMachine = StateMachine {
+        ['walk'] = function() return EntityWalkState(self.entities[i]) end,
+        ['idle'] = function() return EntityIdleState(self.entities[i]) end
+    }
+    self.entities[i]:changeState('walk')
 end

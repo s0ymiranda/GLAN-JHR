@@ -12,6 +12,7 @@ function EntityIdleState:init(entity, dungeon)
 end
 
 function EntityIdleState:processAI(params, dt)
+    -- TODO: add punches
     if self.waitDuration == 0 then
         self.waitDuration = math.random(5)
     else
