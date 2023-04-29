@@ -7,7 +7,7 @@ require 'src/Camera'
 require 'src/Animation'
 require 'src/Entity'
 -- require 'src/GameObject'
--- require 'src/Hitbox'
+require 'src/Hitbox'
 require 'src/Player'
 -- require 'src/Projectile'
 require 'src/StateMachine'
@@ -23,6 +23,7 @@ require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 -- require 'src/states/entity/player/PlayerSwingSwordState'
 require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/entity/player/PlayerSlapState'
 -- require 'src/states/entity/player/PlayerPotLiftState'
 -- require 'src/states/entity/player/PlayerPotIdleState'
 -- require 'src/states/entity/player/PlayerPotWalkState'
@@ -46,8 +47,8 @@ require 'src/utilities/quads'
 require 'src/gui/Dialog'
 require 'src/gui/ProgressBar'
 
-VIRTUAL_WIDTH = 384
-VIRTUAL_HEIGHT = 216
+VIRTUAL_WIDTH = 576
+VIRTUAL_HEIGHT = 324
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -67,7 +68,7 @@ HARASSMENT_MESSAGES = {
 -- MAP_WIDTH = VIRTUAL_WIDTH / TILE_SIZE - 2
 -- MAP_HEIGHT = math.floor(VIRTUAL_HEIGHT / TILE_SIZE) - 2
 
-MAP_WIDTH = VIRTUAL_WIDTH*4
+MAP_WIDTH = VIRTUAL_WIDTH*8
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 --MAP_RENDER_OFFSET_X = (VIRTUAL_WIDTH - (MAP_WIDTH * TILE_SIZE)) / 2
@@ -101,15 +102,17 @@ TEXTURES = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
-    ['character-walk'] = love.graphics.newImage('graphics/herp.png'),
-    ['enemy-walk'] = love.graphics.newImage('graphics/herp.png'),
+    ['character-walk'] = love.graphics.newImage('graphics/hero.png'),
+    ['enemy-walk'] = love.graphics.newImage('graphics/npco.png'),
+    ['Hero'] = love.graphics.newImage('graphics/heroSpriteSheet.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
 
 
 FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73),
-    ['enemy-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73),
+    ['Hero'] = generateQuads(TEXTURES['Hero'], 32, 73),
+    ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 24, 75),
 }
 -- FRAMES = {
 --     ['tiles'] = generateQuads(TEXTURES['tiles'], 16, 16),

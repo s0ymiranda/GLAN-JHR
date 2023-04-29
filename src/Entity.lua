@@ -6,13 +6,16 @@ function Entity:init(def)
 
     self.stateMachine = StateMachine(def.states or {})
 
-    self.direction = 'down'
+    self.direction = 'right'
 
     self.animations = self:createAnimations(def.animations)
 
     -- dimensions
     self.x = def.x
     self.y = def.y
+    self.z = 0 
+    --self.z_base = math.floor(VIRTUAL_HEIGHT*0.4 - def.height * 0.45)
+    self.z_base = VIRTUAL_HEIGHT*0.55
     self.width = def.width
     self.height = def.height
 
@@ -50,10 +53,10 @@ function Entity:createAnimations(animations)
     return animationsReturned
 end
 
--- function Entity:collides(target)
---     return not (self.x + self.width < target.x or self.x > target.x + target.width or
---                 self.y + self.height < target.y or self.y > target.y + target.height)
--- end
+function Entity:collides(target)
+    return not (self.x + self.width < target.x or self.x > target.x + target.width or
+                self.y + self.height < target.y or self.y > target.y + target.height)
+end
 
 function Entity:damage(dmg)
     self.health = self.health - dmg
@@ -94,6 +97,9 @@ function Entity:update(dt)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end
+
+    self.z = math.floor(((self.y+self.height)-self.z_base)/10)
+    print(self.z)
 end
 
 function Entity:processAI(params, dt)
@@ -102,10 +108,10 @@ end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
-    -- if self.invulnerable and self.flashTimer > 0.06 then
-    --     self.flashTimer = 0
-    --     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 64))
-    -- end
+    if self.invulnerable and self.flashTimer > 0.06 then
+        self.flashTimer = 0
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 64))
+    end
 
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()

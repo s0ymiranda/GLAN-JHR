@@ -2,7 +2,7 @@ Player = Class{__includes = Entity}
 
 function Player:init(def)
     Entity.init(self, def)
-    self.respect = 100
+    self.respect = 50
 end
 
 function Player:update(dt)

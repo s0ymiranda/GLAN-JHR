@@ -15,7 +15,7 @@ function PlayState:init()
         height = 73,
         
         -- one_heart == 2 health
-        health = 6,
+        health = 100,
         
         -- rendering and collision offset for spaced sprites
         offsetY = 0
@@ -42,15 +42,16 @@ function PlayState:init()
         height = 12,
         color = {r = 128, g = 128, b = 128},
         value = self.player.respect,
-        max = self.player.respect,
+        max = 100,
         showDetails = true,
         title = 'Respect'
     }
     -- self.dungeon = Dungeon(self.player)
 
     self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player, self.dungeon) end,
-        ['idle'] = function() return PlayerIdleState(self.player, self.dungeon) end
+        ['walk'] = function() return PlayerWalkState(self.player) end,
+        ['idle'] = function() return PlayerIdleState(self.player) end,
+        ['slap'] = function() return PlayerSlapState(self.player, self.entities) end
         -- ['swing-sword'] = function() return PlayerSwingSwordState(self.player, self.dungeon) end,
         -- ['pot-lift'] = function() return PlayerPotLiftState(self.player, self.dungeon) end,
         -- ['pot-idle'] = function() return PlayerPotIdleState(self.player, self.dungeon) end,
@@ -66,6 +67,8 @@ function PlayState:init()
 
     SOUNDS['dungeon-music']:setLooping(true)
     SOUNDS['dungeon-music']:play()
+
+    --table.insert(self.entities,self.player)
 end
 
 function PlayState:exit()
@@ -125,27 +128,27 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    -- print(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2))
     self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
-    --self.camera.y = math.floor(math.max(0,self.player.y + self.player.height/2 - VIRTUAL_HEIGHT/2))
-
     self.healthBar:setValue(self.player.health)
-    --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), math.floor(math.max(10,self.player.y - self.player.height/2 - VIRTUAL_HEIGHT/2 + 32)))
-    self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
+    --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
+    self.healthBar:setPosition(self.camera.x+10, 10)
     self.healthBar:update()
     self.respectBar:setValue(self.player.respect)
-    --self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + 26)), self.healthBar.y + self.healthBar.height + 10)
-    self.respectBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), self.healthBar.y + self.healthBar.height + 10)
+    self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
-    -- self.camera.x = math.max(0,math.min(self.player.x + 8 - VIRTUAL_WIDTH / 2, 16 - VIRTUAL_WIDTH))
-    -- self.camera.y = math.max(
-    --     0,
-    --     math.min(
-    --         self.player.y + 10 - VIRTUAL_HEIGHT / 2,
-    --         16 - VIRTUAL_HEIGHT
-    --     )
-    -- )
+
+    --print(self.entities)
+
+
 end
+
+-- function PlayState:orderByZ()
+--     --local aux = self.entities
+--     local i = 1, j = 1, aux = {}
+--     while(i < #self.entities) do
+        
+--     end
+-- end
 
 function PlayState:render()
     -- -- render dungeon and all entities separate from hearts GUI
@@ -178,10 +181,18 @@ function PlayState:render()
     self.camera:set()
         --love.graphics.draw(TEXTURES['bg-play'],0,0,0)
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
-        for k, entity in pairs(self.entities) do
-            if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        for i=0,9,1 do
+            if self.player.z == i then
+                self.player:render()
+            end
+            for k, entity in pairs(self.entities) do
+                if not entity.dead and entity.z == i then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+            end
         end
-        self.player:render()
+        -- for k, entity in pairs(self.entities) do
+        --     if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        -- end
+        --self.player:render()
         self.healthBar:render()
         self.respectBar:render()
     self.camera:unset()
@@ -201,7 +212,7 @@ function PlayState:generateEntity()
 
         -- ensure X and Y are within bounds of the map
         x = math.random(min_x, max_x),
-        y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT),
+        y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT - height),
 
         width = 32,
         height = height,
@@ -215,5 +226,5 @@ function PlayState:generateEntity()
         ['walk'] = function() return EntityWalkState(self.entities[i]) end,
         ['idle'] = function() return EntityIdleState(self.entities[i]) end
     }
-    self.entities[i]:changeState('walk')
+    self.entities[i]:changeState('idle')
 end

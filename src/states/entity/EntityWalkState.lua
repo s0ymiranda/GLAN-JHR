@@ -2,7 +2,7 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, dungeon)
     self.entity = entity
-    self.entity:changeAnimation('walk-down')
+    --self.entity:changeAnimation('walk-down')
 
     self.dungeon = dungeon
 
@@ -12,6 +12,7 @@ function EntityWalkState:init(entity, dungeon)
 
     -- keeps track of whether we just hit a wall
     self.bumped = false
+    self.prevDirection = entity.direction
 end
 
 function EntityWalkState:update(dt)
@@ -31,14 +32,14 @@ function EntityWalkState:update(dt)
             self.entity.x = VIRTUAL_WIDTH*4 - self.entity.width
             self.bumped = true
         end
-    elseif self.entity.direction == 'up' then
+    elseif self.entity.direction == 'up-left' or self.entity.direction == 'up-right' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
         if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then
             self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
             self.bumped = true
         end
-    elseif self.entity.direction == 'down' then
+    elseif self.entity.direction == 'down-left' or self.entity.direction == 'down-right' then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
         -- local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE)
@@ -75,18 +76,30 @@ function EntityWalkState:processAI(params, dt)
         end
     end
 
-    local directions = {'left', 'right', 'up', 'down'}
+    local directions = {'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'}
 
     if self.moveDuration == 0 or self.bumped then
         -- set an initial move duration and direction
         self.moveDuration = math.random(5)
         self.entity.direction = directions[math.random(#directions)]
+        local a,b = string.find(self.entity.direction,'left') or 0,0
+        if a == 0 and b == 0 then
+            a,b = string.find(self.entity.direction,'right')
+        end
+        self.prevDirection = string.sub(self.entity.direction, a, b)
+        -- if string.len(self.entity.direction) < 6 then
+        --     self.prevDirection = self.entity.direction
+        -- else
+        --     self.prevDirection = self.entity.direction
+        -- end  
+        -- self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
 
         -- chance to go idle
         if math.random(3) == 1 then
+            self.entity.direction = self.prevDirection
             self.entity:changeState('idle', {
                 dialogElapsedTime = self.dialogElapsedTime,
                 dialog = self.dialog,
