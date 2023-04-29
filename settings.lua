@@ -43,6 +43,7 @@ require 'src/utilities/quads'
 -- require 'src/world/Boss_Room'
 -- require 'src/ProgressBar'
 
+require 'src/gui/Dialog'
 require 'src/gui/ProgressBar'
 
 VIRTUAL_WIDTH = 384
@@ -53,6 +54,12 @@ WINDOW_HEIGHT = 720
 
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
+
+HARASSMENT_MESSAGES = {
+    'Hey beauty',
+    'omg im sorry, this is too awkward to write',
+    'I dont know what to say',
+}
 
 -- --
 -- -- map constants
