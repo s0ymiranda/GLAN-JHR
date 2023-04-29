@@ -97,7 +97,7 @@ TEXTURES = {
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-walk'] = love.graphics.newImage('graphics/hero.png'),
     ['enemy-walk'] = love.graphics.newImage('graphics/npco.png'),
-    ['Hero'] = love.graphics.newImage('graphics/Hero.png'),
+    ['Hero'] = love.graphics.newImage('graphics/heroSpriteSheet.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
 
