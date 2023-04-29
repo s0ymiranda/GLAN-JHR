@@ -61,7 +61,7 @@ TILE_SIZE = 16
 -- MAP_WIDTH = VIRTUAL_WIDTH / TILE_SIZE - 2
 -- MAP_HEIGHT = math.floor(VIRTUAL_HEIGHT / TILE_SIZE) - 2
 
-MAP_WIDTH = VIRTUAL_WIDTH*8
+MAP_WIDTH = VIRTUAL_WIDTH*4
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 --MAP_RENDER_OFFSET_X = (VIRTUAL_WIDTH - (MAP_WIDTH * TILE_SIZE)) / 2
@@ -95,16 +95,16 @@ TEXTURES = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
-    ['character-walk'] = love.graphics.newImage('graphics/hero.png'),
+    ['character-walk'] = love.graphics.newImage('graphics/Walk-Hero.png'),
     ['enemy-walk'] = love.graphics.newImage('graphics/npco.png'),
-    ['Hero'] = love.graphics.newImage('graphics/heroSpriteSheet.png'),
+    ['character-slap'] = love.graphics.newImage('graphics/Slap-Hero.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
 
 
 FRAMES = {
-    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 32, 73),
-    ['Hero'] = generateQuads(TEXTURES['Hero'], 32, 73),
+    ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
+    ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 24, 75),
 }
 -- FRAMES = {
