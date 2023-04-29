@@ -99,7 +99,8 @@ function Entity:update(dt)
     end
 
     self.z = math.floor(((self.y+self.height)-self.z_base)/10)
-    print(self.z)
+    --self.z = math.max(0,math.floor(((self.y+self.height)-self.z_base)/10))
+    --print(self.z)
 end
 
 function Entity:processAI(params, dt)
@@ -110,7 +111,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then
         self.flashTimer = 0
-        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 64))
+        love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
     end
 
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)

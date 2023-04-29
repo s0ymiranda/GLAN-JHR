@@ -29,14 +29,19 @@ function EntityWalkState:update(dt)
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
 
         if self.entity.x + self.entity.width >= VIRTUAL_WIDTH*4 then
-            self.entity.x = VIRTUAL_WIDTH*4 - self.entity.width
+            self.entity.x = VIRTUAL_WIDTH*45 - self.entity.width
             self.bumped = true
         end
     elseif self.entity.direction == 'up-left' or self.entity.direction == 'up-right' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
+
         if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then
             self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
+
+        --if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then 
+            --self.entity.y = VIRTUAL_HEIGHT*0.45  - self.entity.height * 0.45
+
             self.bumped = true
         end
     elseif self.entity.direction == 'down-left' or self.entity.direction == 'down-right' then
@@ -82,11 +87,16 @@ function EntityWalkState:processAI(params, dt)
         -- set an initial move duration and direction
         self.moveDuration = math.random(5)
         self.entity.direction = directions[math.random(#directions)]
-        local a,b = string.find(self.entity.direction,'left') or 0,0
-        if a == 0 and b == 0 then
-            a,b = string.find(self.entity.direction,'right')
+        local a,b = string.find(self.entity.direction,'left')
+        --print(a,b)
+        -- if a == -1 and b == -1 then
+        --     a,b = string.find(self.entity.direction,'right')
+        -- end
+        if a == nil or b == nil then
+            self.prevDirection = 'right'
+        else
+            self.prevDirection = string.sub(self.entity.direction, a, b)
         end
-        self.prevDirection = string.sub(self.entity.direction, a, b)
         -- if string.len(self.entity.direction) < 6 then
         --     self.prevDirection = self.entity.direction
         -- else
@@ -119,10 +129,17 @@ function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+
     if self.displayDialog then
         self.dialog:render()
     end
     -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
     -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
     -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+
+    
+    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+
 end
