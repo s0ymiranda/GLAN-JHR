@@ -131,7 +131,7 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
+    if self.player.stateMachine.currentStateName ~= 'slap' then self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))) end
     self.healthBar:setValue(self.player.health)
     --self.healthBar:setPosition(math.floor(math.max(10,self.player.x - self.player.width/2 - VIRTUAL_WIDTH/2 + self.player.width + 10)), 10)
     self.healthBar:setPosition(self.camera.x+10, 10)
