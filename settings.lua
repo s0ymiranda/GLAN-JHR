@@ -96,7 +96,7 @@ TEXTURES = {
     ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-walk'] = love.graphics.newImage('graphics/Walk-Hero.png'),
-    ['enemy-walk'] = love.graphics.newImage('graphics/npco.png'),
+    ['enemy-walk'] = love.graphics.newImage('graphics/Walk-Npc0.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Slap-Hero.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
 }
@@ -105,7 +105,7 @@ TEXTURES = {
 FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
-    ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 24, 75),
+    ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
 }
 -- FRAMES = {
 --     ['tiles'] = generateQuads(TEXTURES['tiles'], 16, 16),
