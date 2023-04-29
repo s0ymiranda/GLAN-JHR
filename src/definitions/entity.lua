@@ -115,34 +115,40 @@ ENTITY_DEFS = {
         walkSpeed = 60,
         animations = {
             ['walk-left'] = {
-                frames = {5,7,8,7},
+                --frames = {5,7,8,7},
+                frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
             ['walk-right'] = {
-                frames = {9,11,12,11},
+                --frames = {9,11,12,11},
+                frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
             
             ['walk-up-left'] = {
-                frames = {5,7,8,7},
+                --frames = {5,7,8,7},
+                frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
             ['walk-up-right'] = {
-                frames = {9,11,12,11},
+                --frames = {9,11,12,11},
+                frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
 
             ['walk-down-left'] = {
-                frames = {5,7,8,7},
+                --frames = {5,7,8,7},
+                frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
             ['walk-down-right'] = {
-                frames = {9,11,12,11},
+                --frames = {9,11,12,11},
+                frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'enemy-walk'
             },

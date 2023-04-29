@@ -11,7 +11,7 @@ function PlayState:init()
         x = 0 ,
         y = VIRTUAL_HEIGHT / 2 ,
         
-        width = 32,
+        width = 24,
         height = 73,
         
         -- one_heart == 2 health
@@ -115,12 +115,13 @@ function PlayState:update(dt)
 
     for i = #self.entities, 1, -1 do
         local entity = self.entities[i]
-        -- remove entity from the table if health is <= 0
-        if entity.health <= 0 then
-            entity.dead = true
-        end
         if entity.dead then
             goto continue
+        end
+        -- remove entity from the table if health is <= 0
+        if entity.health <= 0 then
+            SOUNDS['dead']:play()
+            entity.dead = true
         end
         entity:processAI({room = self}, dt)
         entity:update(dt)
@@ -181,7 +182,7 @@ function PlayState:render()
     self.camera:set()
         --love.graphics.draw(TEXTURES['bg-play'],0,0,0)
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
-        for i=0,9,1 do
+        for i=0,VIRTUAL_HEIGHT*0.45/5,1 do
             if self.player.z == i then
                 self.player:render()
             end
@@ -214,10 +215,10 @@ function PlayState:generateEntity()
         x = math.random(min_x, max_x),
         y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT - height),
 
-        width = 32,
+        width = 24,
         height = height,
 
-        health = 1,
+        health = 3,
         offsetY = 0,
     })
 

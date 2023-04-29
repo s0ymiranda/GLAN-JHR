@@ -10,14 +10,14 @@ function PlayerSlapState:init(player,entities)
 
     if direction == 'left' then
         hitboxWidth = 8
-        hitboxHeight = 16
+        hitboxHeight = 12
         hitboxX = self.player.x - hitboxWidth
-        hitboxY = self.player.y + 2
+        hitboxY = self.player.y + 13
     elseif direction == 'right' then
         hitboxWidth = 8
-        hitboxHeight = 16
+        hitboxHeight = 12
         hitboxX = self.player.x + self.player.width
-        hitboxY = self.player.y + 2
+        hitboxY = self.player.y + 13
     -- elseif direction == 'up' then
     --     hitboxWidth = 16
     --     hitboxHeight = 8
@@ -46,9 +46,11 @@ end
 function PlayerSlapState:update(dt)
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.entities) do
-        if entity:collides(self.slapHitbox) and not entity.invulnerable then
+        if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.slapHitbox) and not entity.invulnerable then
             entity:damage(1)
-            SOUNDS['hit-enemy']:play()
+            entity:goInvulnerable(0.5)
+            SOUNDS['UOFF']:stop()
+            SOUNDS['UOFF']:play()
         end
     end
 
@@ -68,9 +70,9 @@ function PlayerSlapState:render()
         math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
 
     -- debug for player and hurtbox collision rects
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
-    -- love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
-    -- self.slapHitbox.width, self.slapHitbox.height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
+    love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
+    self.slapHitbox.width, self.slapHitbox.height)
+    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end
