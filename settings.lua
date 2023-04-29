@@ -130,12 +130,14 @@ FONTS = {
 }
 
 SOUNDS = {
-    ['start-music'] = love.audio.newSource('sounds/start_music.mp3', 'static'),
-    ['dungeon-music'] = love.audio.newSource('sounds/dungeon_music.mp3', 'static'),
+    ['start-music'] = love.audio.newSource('sounds/blood_of_villain.mp3', 'static'),
+    ['dungeon-music'] = love.audio.newSource('sounds/scenary_music.mp3', 'static'),
     ['game-over-music'] = love.audio.newSource('sounds/game_over_music.mp3', 'static'),
     ['win-music'] = love.audio.newSource('sounds/win_music.mp3', 'static'),
     ['UOFF'] = love.audio.newSource('sounds/UOFF.mp3', 'static'),
-    ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static')
+    ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
+    ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
+    ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static')
     -- ['sword'] = love.audio.newSource('sounds/sword.wav', 'static'),
     -- ['hit-enemy'] = love.audio.newSource('sounds/hit_enemy.wav', 'static'),
     -- ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),

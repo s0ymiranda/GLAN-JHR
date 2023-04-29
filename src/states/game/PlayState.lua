@@ -122,6 +122,8 @@ function PlayState:update(dt)
         if entity.health <= 0 then
             SOUNDS['dead']:play()
             entity.dead = true
+            -- AQUI ELIMINO LA ENTIDAD DE LA TABLA NO SE SI ESTEN DE ACUERDO BY GERARDO
+            --table.remove(self.entities,i)
         end
         entity:processAI({room = self}, dt)
         entity:update(dt)

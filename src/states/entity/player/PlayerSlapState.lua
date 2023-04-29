@@ -3,20 +3,21 @@ PlayerSlapState = Class{__includes = BaseState}
 function PlayerSlapState:init(player,entities)
     self.player = player
     self.entities = entities
+    self.miss = true
     -- create hitbox based on where the player is and facing
     local direction = self.player.direction
     
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
 
     if direction == 'left' then
-        hitboxWidth = 8
+        hitboxWidth = 16
         hitboxHeight = 12
-        hitboxX = self.player.x - hitboxWidth
+        hitboxX = self.player.x - hitboxWidth/2
         hitboxY = self.player.y + 13
     elseif direction == 'right' then
-        hitboxWidth = 8
+        hitboxWidth = 16
         hitboxHeight = 12
-        hitboxX = self.player.x + self.player.width
+        hitboxX = self.player.x + hitboxWidth--self.player.width
         hitboxY = self.player.y + 13
     -- elseif direction == 'up' then
     --     hitboxWidth = 16
@@ -51,7 +52,16 @@ function PlayerSlapState:update(dt)
             entity:goInvulnerable(0.5)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
+            SOUNDS['slap']:stop()
+            SOUNDS['slap']:play()
+            self.miss = false
         end
+    end
+
+    if self.miss then
+        SOUNDS['miss']:stop()
+        SOUNDS['miss']:play()
+        self.miss = false
     end
 
     if self.player.currentAnimation.timesPlayed > 0 then

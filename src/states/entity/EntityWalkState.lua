@@ -66,12 +66,16 @@ function EntityWalkState:processAI(params, dt)
         -- set an initial move duration and direction
         self.moveDuration = math.random(5)
         self.entity.direction = directions[math.random(#directions)]
-        local a,b = string.find(self.entity.direction,'left') or -1,-1
-        print(a,b)
-        if a == -1 and b == -1 then
-            a,b = string.find(self.entity.direction,'right')
+        local a,b = string.find(self.entity.direction,'left')
+        --print(a,b)
+        -- if a == -1 and b == -1 then
+        --     a,b = string.find(self.entity.direction,'right')
+        -- end
+        if a == nil or b == nil then
+            self.prevDirection = 'right'
+        else
+            self.prevDirection = string.sub(self.entity.direction, a, b)
         end
-        self.prevDirection = string.sub(self.entity.direction, a, b)
         -- if string.len(self.entity.direction) < 6 then
         --     self.prevDirection = self.entity.direction
         -- else
