@@ -17,7 +17,7 @@ function EntityIdleState:processAI(params, dt)
     if self.dialogElapsedTime == nil then
         local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
         if distance < 500 then
-            local message = HARASSMENT_MESSAGES[math.random(#HARASSMENT_MESSAGES)]
+            local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
             self.displayDialog = true
             self.dialogElapsedTime = 0
