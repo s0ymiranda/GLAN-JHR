@@ -13,13 +13,32 @@ end
 
 function EntityIdleState:processAI(params, dt)
     -- TODO: add punches
+    local room = params.room
+    if self.dialogElapsedTime == nil then
+        local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
+        if distance < 500 then
+            local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
+            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
+            self.displayDialog = true
+            self.dialogElapsedTime = 0
+        end
+    elseif self.displayDialog then
+        self.dialogElapsedTime = self.dialogElapsedTime + dt
+        if self.dialogElapsedTime > 3 then
+            self.displayDialog = false
+        end
+    end
     if self.waitDuration == 0 then
         self.waitDuration = math.random(5)
     else
         self.waitTimer = self.waitTimer + dt
 
         if self.waitTimer > self.waitDuration then
-            self.entity:changeState('walk')
+            self.entity:changeState('walk', {
+                dialogElapsedTime = self.dialogElapsedTime,
+                dialog = self.dialog,
+                displayDialog = self.displayDialog,
+            })
         end
     end
 end
