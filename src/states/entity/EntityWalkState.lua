@@ -36,11 +36,11 @@ function EntityWalkState:update(dt)
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
 
-        if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then
-            self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
+        -- if self.entity.y <= VIRTUAL_HEIGHT*0.4 - self.entity.height * 0.45 then
+        --     self.entity.y = VIRTUAL_HEIGHT*0.4  - self.entity.height * 0.45
 
-        --if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then 
-            --self.entity.y = VIRTUAL_HEIGHT*0.45  - self.entity.height * 0.45
+        if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then 
+            self.entity.y = VIRTUAL_HEIGHT*0.45  - self.entity.height * 0.45
 
             self.bumped = true
         end
