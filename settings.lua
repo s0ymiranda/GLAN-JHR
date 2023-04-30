@@ -105,7 +105,7 @@ TEXTURES = {
     ['character-walk'] = love.graphics.newImage('graphics/Walk-Hero.png'),
     ['enemy-walk'] = love.graphics.newImage('graphics/Walk-Npc0.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Slap-Hero.png'),
-    ['scenary'] = love.graphics.newImage('graphics/Scenary.png')
+    ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png')
 }
 
 
