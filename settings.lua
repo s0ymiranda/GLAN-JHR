@@ -43,9 +43,15 @@ GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
 CATCALLING_MESSAGES = {
-    'Hey beauty',
-    'omg im sorry, this is too awkward to write',
-    'I dont know what to say',
+    "So many curves and me with no brakes",
+    "I could stare at you all day",
+    "Nice legs, what time do they open?",
+    "Hey baby, why don't you come over and show me a good time?",
+    "Hey sweetheart, I bet you'd look even better without those clothes on",
+    "I'd like to mop you up, baby",
+    "Hey baby, you got a boyfriend?",
+    "What's your hurry, babe?",
+    "*Wolf whistle*",
 }
 
 
