@@ -194,6 +194,7 @@ function EntityWalkState:processAIFighting(params,dt)
             self.prevDirection = string.sub(self.entity.direction, a, b)
         end
         self.entity.punching = true
+        self.entity.direction = self.prevDirection
         self.entity:changeState('idle', {
             dialogElapsedTime = self.dialogElapsedTime,
             dialog = self.dialog,
