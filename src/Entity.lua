@@ -12,6 +12,7 @@ function Entity:init(def)
 
     self.pervert = false
     self.fighting = false
+    self.punching = false
 
     -- dimensions
     self.x = def.x

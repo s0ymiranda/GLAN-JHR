@@ -9,8 +9,8 @@ function EntityWalkState:init(entity, dungeon)
     -- used for AI control
     self.moveDuration = 0
     self.movementTimer = 0
-    self.waitDuration = 0
-    self.waitTimer = 0
+    -- self.waitDuration = 0
+    -- self.waitTimer = 0
 
     -- keeps track of whether we just hit a wall
     self.bumped = false
@@ -137,7 +137,7 @@ function EntityWalkState:processAIFighting(params,dt)
     local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
     --print("fighting")
 
-    if distance < 30 then
+    if distance < math.random(20,30) then
         self.bumped = true
     end
 
@@ -187,45 +187,78 @@ function EntityWalkState:processAIFighting(params,dt)
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     --elseif self.movementTimer > self.moveDuration then
     else
-        self.movementTimer = 0
-
-        -- chance to punch
-        if math.random(3) == 1 then
-            self.entity.direction = self.prevDirection
-            self.entity:changeState('punch', {
-                dialogElapsedTime = self.dialogElapsedTime,
-                dialog = self.dialog,
-                displayDialog = self.displayDialog,
-            })
+        local a,b = string.find(self.entity.direction,'left')
+        if a == nil or b == nil then
+            self.prevDirection = 'right'
         else
-            self.moveDuration = math.random(5)
-            --self.entity.direction = directions[math.random(#directions)]
-            if room.player.x + room.player.width < self.entity.x and math.abs(room.player.z - self.entity.z) <= 1 then
-                self.entity.direction = "left"
-            elseif room.player.x > self.entity.x + self.entity.width and math.abs(room.player.z - self.entity.z) <= 1 then
-                self.entity.direction = "right"
-            elseif room.player.x + room.player.width < self.entity.x and self.entity.z+1 < room.player.z then
-                self.entity.direction = "down-left"
-            elseif room.player.x + room.player.width < self.entity.x and self.entity.z-1 > room.player.z then
-                self.entity.direction = "up-left"
-            elseif room.player.x > self.entity.x + self.entity.width and self.entity.z+1 < room.player.z then
-                self.entity.direction = "down-right"
-            elseif room.player.x > self.entity.x + self.entity.width and self.entity.z-1 > room.player.z then
-                self.entity.direction = "up-right"
-            end
-
-            local a,b = string.find(self.entity.direction,'left')
-            if a == nil or b == nil then
-                self.prevDirection = 'right'
-            else
-                self.prevDirection = string.sub(self.entity.direction, a, b)
-            end
-
-            self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
+            self.prevDirection = string.sub(self.entity.direction, a, b)
         end
+        self.entity.punching = true
+        self.entity:changeState('idle', {
+            dialogElapsedTime = self.dialogElapsedTime,
+            dialog = self.dialog,
+            displayDialog = self.displayDialog,
+        })
+        --self.movementTimer = 0
+        -- if self.waitDuration == 0 then
+        --     self.waitTimer = 0
+        --     self.waitDuration = math.random(2)
+        -- end
+        -- self.waitTimer = self.waitTimer + dt
+        -- -- chance to punch
+        -- --if math.random(3) == 1 then
+        -- if self.waitTimer > self.waitDuration then
+        --     self.waitTimer = 0
+        --     self.waitDuration = 0
+        --     self.entity.direction = self.prevDirection
+        --     self.entity:changeState('punch', {
+        --         dialogElapsedTime = self.dialogElapsedTime,
+        --         dialog = self.dialog,
+        --         displayDialog = self.displayDialog,
+        --     })
+        -- else      
+        --     local a,b = string.find(self.entity.direction,'left')
+        --     if a == nil or b == nil then
+        --         self.prevDirection = 'right'
+        --     else
+        --         self.prevDirection = string.sub(self.entity.direction, a, b)
+        --     end
+        --     self.entity.punching = true
+        --     self.entity:changeState('idle', {
+        --         dialogElapsedTime = self.dialogElapsedTime,
+        --         dialog = self.dialog,
+        --         displayDialog = self.displayDialog,
+        --     })
+            -- --self.entity:changeAnimation('idle-' .. tostring(self.entity.direction))
+            -- self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+            -- self.moveDuration = math.random(5)
+            -- --self.entity.direction = directions[math.random(#directions)]
+            -- if room.player.x + room.player.width < self.entity.x and math.abs(room.player.z - self.entity.z) <= 1 then
+            --     self.entity.direction = "left"
+            -- elseif room.player.x > self.entity.x + self.entity.width and math.abs(room.player.z - self.entity.z) <= 1 then
+            --     self.entity.direction = "right"
+            -- elseif room.player.x + room.player.width < self.entity.x and self.entity.z+1 < room.player.z then
+            --     self.entity.direction = "down-left"
+            -- elseif room.player.x + room.player.width < self.entity.x and self.entity.z-1 > room.player.z then
+            --     self.entity.direction = "up-left"
+            -- elseif room.player.x > self.entity.x + self.entity.width and self.entity.z+1 < room.player.z then
+            --     self.entity.direction = "down-right"
+            -- elseif room.player.x > self.entity.x + self.entity.width and self.entity.z-1 > room.player.z then
+            --     self.entity.direction = "up-right"
+            -- end
+
+            -- local a,b = string.find(self.entity.direction,'left')
+            -- if a == nil or b == nil then
+            --     self.prevDirection = 'right'
+            -- else
+            --     self.prevDirection = string.sub(self.entity.direction, a, b)
+            -- end
+
+            -- self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
+        -- end
     end
 
-    self.movementTimer = self.movementTimer + dt
+    --self.movementTimer = self.movementTimer + dt
     --local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
     -- if distance < 5 then
     --     self.entity.bumped = true

@@ -1,8 +1,10 @@
 EntityIdleState = Class{__includes = BaseState}
 
-function EntityIdleState:init(entity, dungeon)
+function EntityIdleState:init(entity)
     self.entity = entity
-    self.dungeon = dungeon
+    --self.dungeon = dungeon
+
+    --self.punching = punching or false
 
     self.entity:changeAnimation('idle-' .. self.entity.direction)
 
@@ -53,8 +55,29 @@ function EntityIdleState:processAIFighting(params, dt)
     --     dialog = self.dialog,
     --     displayDialog = self.displayDialog,
     -- })
-    self:processAI(params, dt)
-    -- local room = params.room
+    if not self.entity.punching then
+        self:processAI(params, dt)
+    else
+        if self.waitDuration == 0 then
+            self.waitTimer = 0
+            while self.waitDuration < 0.2 do
+                self.waitDuration = math.random()
+            end
+        end
+        self.waitTimer = self.waitTimer + dt
+        if self.waitTimer > self.waitDuration then
+            self.waitTimer = 0
+            self.waitDuration = 0
+            self.entity.punching = false
+            --self.entity.direction = self.prevDirection
+            self.entity:changeState('punch', {
+                dialogElapsedTime = self.dialogElapsedTime,
+                dialog = self.dialog,
+                displayDialog = self.displayDialog,
+            })
+        end
+    end
+        -- local room = params.room
     -- if self.dialogElapsedTime == nil then
     --     local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
     --     if distance < 500 then
