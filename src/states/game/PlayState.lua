@@ -206,7 +206,7 @@ function PlayState:render()
 end
 
 function PlayState:generateEntity()
-    local types = {'enemy'}
+    local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
 
     local x_distance = 20
