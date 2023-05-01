@@ -160,7 +160,7 @@ ENTITY_DEFS = {
             ['idle-right'] = {
                 frames = {2},
                 texture =  'enemy-walk'
-            }
+            },
             -- ['idle-down'] = {
             --     frames = {1},
             --     texture =  'enemy-walk'
@@ -169,6 +169,18 @@ ENTITY_DEFS = {
             --     frames = {1},
             --     texture =  'enemy-walk'
             -- },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'Npc0-punch'
+            },
+            ['punch-right'] = {
+                frames = {4,3,4},
+                interval = 0.30,
+                looping = false,
+                texture = 'Npc0-punch'
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ function StateMachine:init(states)
         render = function() end,
         update = function() end,
         processAI = function() end,
+        processAIFighting = function() end,
         enter = function() end,
         exit = function() end
     }
@@ -32,4 +33,8 @@ end
 
 function StateMachine:processAI(params, dt)
     self.current:processAI(params, dt)
+end
+
+function StateMachine:processAIFighting(params, dt)
+    self.current:processAIFighting(params, dt)
 end

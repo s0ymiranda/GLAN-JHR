@@ -10,6 +10,9 @@ function Entity:init(def)
 
     self.animations = self:createAnimations(def.animations)
 
+    self.pervert = false
+    self.fighting = false
+
     -- dimensions
     self.x = def.x
     self.y = def.y
@@ -104,7 +107,11 @@ function Entity:update(dt)
 end
 
 function Entity:processAI(params, dt)
-    self.stateMachine:processAI(params, dt)
+    if self.fighting then
+        self.stateMachine:processAIFighting(params, dt)
+    else
+        self.stateMachine:processAI(params, dt)
+    end
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)

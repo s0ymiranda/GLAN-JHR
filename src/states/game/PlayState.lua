@@ -82,7 +82,8 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('p') then
         stateMachine:change('pause')
     end
-    if love.keyboard.wasPressed('g') then
+    --if love.keyboard.wasPressed('g') then
+    if self.player.health <= 0 then
         stateMachine:change('game-over')
     end
     if love.keyboard.wasPressed('o') then
@@ -117,6 +118,9 @@ function PlayState:update(dt)
         local entity = self.entities[i]
         if entity.dead then
             goto continue
+        end
+        if entity.health < 3 then
+            entity.fighting = true
         end
         -- remove entity from the table if health is <= 0
         if entity.health <= 0 then
@@ -227,7 +231,8 @@ function PlayState:generateEntity()
     local i = #self.entities
     self.entities[i].stateMachine = StateMachine {
         ['walk'] = function() return EntityWalkState(self.entities[i]) end,
-        ['idle'] = function() return EntityIdleState(self.entities[i]) end
+        ['idle'] = function() return EntityIdleState(self.entities[i]) end,
+        ['punch'] = function() return EntityPunchState(self.entities[i],self.player) end
     }
     self.entities[i]:changeState('idle')
 end

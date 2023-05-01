@@ -19,6 +19,7 @@ require 'src/states/BaseState'
 
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
+require 'src/states/entity/EntityPunchState'
 
 require 'src/states/entity/player/PlayerIdleState'
 -- require 'src/states/entity/player/PlayerSwingSwordState'
@@ -100,11 +101,12 @@ MAP_HEIGHT = VIRTUAL_HEIGHT
 TEXTURES = {
     --['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
-    ['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
+    --['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
     --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-walk'] = love.graphics.newImage('graphics/Walk-Hero.png'),
     ['enemy-walk'] = love.graphics.newImage('graphics/Walk-Npc0.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Slap-Hero.png'),
+    ['Npc0-punch'] = love.graphics.newImage('graphics/Punch-Npc0.png'),
     ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png')
 }
 
@@ -113,6 +115,7 @@ FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
+    ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75)
 }
 -- FRAMES = {
 --     ['tiles'] = generateQuads(TEXTURES['tiles'], 16, 16),
@@ -142,6 +145,7 @@ SOUNDS = {
     ['game-over-music'] = love.audio.newSource('sounds/game_over_music.mp3', 'static'),
     ['win-music'] = love.audio.newSource('sounds/win_music.mp3', 'static'),
     ['UOFF'] = love.audio.newSource('sounds/UOFF.mp3', 'static'),
+    ['hero-damage'] = love.audio.newSource('sounds/hero_damage.wav', 'static'),
     ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
     ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
     ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static')
