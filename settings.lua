@@ -43,20 +43,23 @@ GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
 CATCALLING_MESSAGES = {
-    'Hey beauty',
-    'omg im sorry, this is too awkward to write',
-    'I dont know what to say',
+    "So many curves and me with no brakes",
+    "I could stare at you all day",
+    "Nice legs, what time do they open?",
+    "Hey baby, why don't you come over and show me a good time?",
+    "Hey sweetheart, I bet you'd look even better without those clothes on",
+    "I'd like to mop you up, baby",
+    "Hey baby, you got a boyfriend?",
+    "What's your hurry, babe?",
+    "*Wolf whistle*",
 }
 
-
 -- map constants
-
 
 MAP_WIDTH = VIRTUAL_WIDTH*4
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
-
     --Hero
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
@@ -68,14 +71,9 @@ TEXTURES = {
     --Background1
     ['background'] = love.graphics.newImage('graphics/background.png'),
     
-
-    --['bg-play'] = love.graphics.newImage('graphics/bg-play-2.png'),
-    --['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
-    --['character-walk'] = love.graphics.newImage('graphics/Walk-Hero.png'),
-    --['enemy-walk'] = love.graphics.newImage('graphics/Walk-Npc0.png'),
-    --['character-slap'] = love.graphics.newImage('graphics/Slap-Hero.png'),
-    --['Npc0-punch'] = love.graphics.newImage('graphics/Punch-Npc0.png'),
+    --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png'),
+    
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
     ['npc0-blackskin-blond-punch'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Punch-Npc0-BlackSkin-Blond.png'),
@@ -99,6 +97,7 @@ FRAMES = {
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
+
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = generateQuads(TEXTURES['npc0-blackskin-blond-walk'], 25, 75),
     ['npc0-blackskin-blond-punch'] = generateQuads(TEXTURES['npc0-blackskin-blond-punch'], 35, 75),
@@ -124,7 +123,6 @@ FONTS = {
 }
 
 SOUNDS = {
-
     ['start-music'] = love.audio.newSource('sounds/blood_of_villain.mp3', 'static'),
     ['dungeon-music'] = love.audio.newSource('sounds/scenary_music.mp3', 'static'),
     ['game-over-music'] = love.audio.newSource('sounds/game_over_music.mp3', 'static'),
