@@ -71,7 +71,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'enemy-walk'
             },
-            
+
             ['walk-up-left'] = {
                 --frames = {5,7,8,7},
                 frames = {8,7,5,7},
@@ -133,7 +133,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blackskin-blond-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -191,7 +191,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blackskin-blond-noglasses-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -249,7 +249,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blackskin-whiteclothes-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -307,7 +307,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blond-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -365,7 +365,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blond-chinese-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -423,7 +423,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blond-noglasses-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,
@@ -481,7 +481,7 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'npc0-blond-otherclothes-walk'
             },
-            
+
             ['walk-up-left'] = {
                 frames = {8,7,5,7},
                 interval = 0.20,

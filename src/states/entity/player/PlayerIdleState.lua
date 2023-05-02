@@ -33,7 +33,7 @@ function PlayerIdleState:update(dt)
     --             local objYCenter = obj.y + obj.height / 2
     --             local objCol = math.floor(objXCenter / TILE_SIZE)
     --             local objRow = math.floor(objYCenter / TILE_SIZE)
-                
+
     --             if (self.entity.direction == 'right') and (objRow == playerRow) and (objCol == (playerCol + 1)) then
     --                 takenPot = obj
     --                 potIdx = k

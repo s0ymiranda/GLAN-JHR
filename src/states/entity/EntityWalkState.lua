@@ -32,7 +32,7 @@ function EntityWalkState:update(dt)
     elseif self.entity.direction == 'up-left' or self.entity.direction == 'up-right' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
-        if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then 
+        if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then
             self.entity.y = VIRTUAL_HEIGHT*0.45  - self.entity.height * 0.45
 
             self.bumped = true
@@ -184,7 +184,6 @@ function EntityWalkState:render()
     -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
     -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 
-    
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
     love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))

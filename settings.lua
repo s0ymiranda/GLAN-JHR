@@ -63,17 +63,17 @@ TEXTURES = {
     --Hero
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
-    
+
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
 
     --Background1
     ['background'] = love.graphics.newImage('graphics/background.png'),
-    
+
     --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png'),
-    
+
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
     ['npc0-blackskin-blond-punch'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Punch-Npc0-BlackSkin-Blond.png'),

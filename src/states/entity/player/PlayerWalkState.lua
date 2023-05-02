@@ -24,7 +24,7 @@ function PlayerWalkState:update(dt)
         if self.prev == 'left' then
             self.entity.direction = 'left'
         elseif self.prev == 'right' then
-            self.entity.direction = 'right'            
+            self.entity.direction = 'right'
         end
         self.entity:changeState('idle')
     end
@@ -32,7 +32,7 @@ function PlayerWalkState:update(dt)
         if self.prev == 'left' then
             self.entity.direction = 'left'
         elseif self.prev == 'right' then
-            self.entity.direction = 'right'  
+            self.entity.direction = 'right'
         end
         self.entity:changeState('slap')
     elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
@@ -46,7 +46,6 @@ function PlayerWalkState:update(dt)
     -- if we bumped something when checking collision, check any object collisions
     if self.bumped then
         if self.entity.direction == 'left' then
-            
             -- temporarily adjust position
             self.entity.x = self.entity.x - self.entity.walkSpeed * dt
             -- readjust position

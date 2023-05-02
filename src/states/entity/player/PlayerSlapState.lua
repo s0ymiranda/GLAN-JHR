@@ -6,7 +6,7 @@ function PlayerSlapState:init(player,entities)
     self.miss = true
     -- create hitbox based on where the player is and facing
     local direction = self.player.direction
-    
+
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
 
     if direction == 'left' then
@@ -53,20 +53,20 @@ function PlayerSlapState:update(dt)
         SOUNDS['miss']:play()
         self.miss = false
     end
-    
+
     if self.player.currentAnimation.timesPlayed > 0 then
         self.player.currentAnimation.timesPlayed = 0
-        
-        if self.player.direction == 'left' then 
-            self.player.x = self.player.x + 7 
-        end 
+
+        if self.player.direction == 'left' then
+            self.player.x = self.player.x + 7
+        end
         self.player:changeState('idle')
     end
 
     if love.keyboard.wasPressed('space') then
-        if self.player.direction == 'left' then 
+        if self.player.direction == 'left' then
             self.player.x = self.player.x + 7
-        end 
+        end
         self.player:changeState('slap')
     end
 end

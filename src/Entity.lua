@@ -17,7 +17,7 @@ function Entity:init(def)
     -- dimensions
     self.x = def.x
     self.y = def.y
-    self.z = 0 
+    self.z = 0
     self.z_base = VIRTUAL_HEIGHT*0.55
     self.width = def.width
     self.height = def.height
@@ -33,7 +33,6 @@ function Entity:init(def)
     self.flashTimer = 0
 
     self.dead = false
-    
     --  track whether entity has dropped items or not
     self.dropped = false
 end
