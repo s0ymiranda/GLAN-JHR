@@ -4,7 +4,6 @@ function PlayerSlapState:init(player,entities)
     self.player = player
     self.entities = entities
     self.miss = true
-    --print(self.player.stateMachine.currentStateName)
     -- create hitbox based on where the player is and facing
     local direction = self.player.direction
     
@@ -19,23 +18,12 @@ function PlayerSlapState:init(player,entities)
     elseif direction == 'right' then
         hitboxWidth = 16
         hitboxHeight = 12
-        hitboxX = self.player.x + hitboxWidth--self.player.width
+        hitboxX = self.player.x + hitboxWidth
         hitboxY = self.player.y + 13
-    -- elseif direction == 'up' then
-    --     hitboxWidth = 16
-    --     hitboxHeight = 8
-    --     hitboxX = self.player.x
-    --     hitboxY = self.player.y - hitboxHeight
-    -- else
-    --     hitboxWidth = 16
-    --     hitboxHeight = 8
-    --     hitboxX = self.player.x
-    --     hitboxY = self.player.y + self.player.height
     end
 
     self.slapHitbox = Hitbox(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
     self.player:changeAnimation('slap-' .. self.player.direction)
-    -- self.player:changeAnimation('slap-left')
 end
 
 function PlayerSlapState:enter(params)
@@ -86,7 +74,7 @@ end
 function PlayerSlapState:render()
     local anim = self.player.currentAnimation
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
+        math.floor(self.player.x), math.floor(self.player.y))
 
     -- debug for player and hurtbox collision rects
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))

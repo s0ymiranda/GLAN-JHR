@@ -77,7 +77,7 @@ end
 function EntityPunchState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+        math.floor(self.entity.x), math.floor(self.entity.y))
 
     -- debug for player and hurtbox collision rects
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
