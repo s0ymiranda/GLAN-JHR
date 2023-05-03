@@ -149,7 +149,7 @@ function PlayState:update(dt)
 
     local enemyFighting = false
     for k, entity in pairs(self.entities) do
-        if entity.pervert and self.player.fighting and not entity.fighting and not entity.dead then
+        if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting and not entity.dead then
             local distance = math.sqrt((entity.x - self.player.x)^2 + (entity.y - self.player.y)^2)
             if distance < 150 then
                 entity.fighting = true
@@ -166,13 +166,13 @@ function PlayState:update(dt)
     if not enemyFighting and self.player.fighting then
         self.player.afterFigthing = true
         --self.player.fighting = false
-        Timer.tween(1.5, {
+        Timer.tween(0.5, {
             [self.camera] = {
                 x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))),
                 y = self.camera.y
             }
         })
-        Timer.after(2,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = VIRTUAL_WIDTH*4 end)
+        Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = VIRTUAL_WIDTH*4 end)
     end
 
     for k, entity in pairs(self.entities) do
@@ -210,8 +210,9 @@ function PlayState:update(dt)
             --     }
             -- })
             -- Timer.after(1.2,function() entity.fighting = false self.player.afterFigthing = false end)
-        elseif (entity.x < -25 and self.player.x < VIRTUAL_WIDTH/2) or (entity.x < self.player.x - VIRTUAL_WIDTH/2 - 25 and self.player.x >= VIRTUAL_WIDTH/2 and self.player.x < VIRTUAL_WIDTH*3)  or
-                (self.player.x >= VIRTUAL_WIDTH*3 and entity.x < VIRTUAL_WIDTH*3 - 25) then
+        -- elseif (entity.x < -25 and self.player.x < VIRTUAL_WIDTH/2) or (entity.x < self.player.x - VIRTUAL_WIDTH/2 - 25 and self.player.x >= VIRTUAL_WIDTH/2 and self.player.x < VIRTUAL_WIDTH*3)  or
+        --         (self.player.x >= VIRTUAL_WIDTH*3 and entity.x < VIRTUAL_WIDTH*3 - 25) then
+        elseif entity.x < self.camera.x - 25 then
             if entity.pervert then
                 self.player.respect = self.player.respect - 10
             end
@@ -256,7 +257,8 @@ function PlayState:render()
 end
 
 function PlayState:generateWalkingEntity()
-    local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local types = {'npc1','enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    --local types = {'npc1'}
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20
@@ -297,7 +299,8 @@ function PlayState:generateWalkingEntity()
 end
 
 function PlayState:generateEntity()
-    local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    --local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local types = {'npc1'}
     local type = types[math.random(#types)]
 
     local x_distance = 20

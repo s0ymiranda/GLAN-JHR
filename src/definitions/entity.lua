@@ -56,13 +56,13 @@ ENTITY_DEFS = {
             },
             ['knee-hit-left'] = {
                 frames = {4,5,6,5},
-                interval = 0.06,
+                interval = 0.12,
                 looping = false,
                 texture = 'character-knee-hit'
             },
             ['knee-hit-right'] = {
                 frames = {1,2,3,2},
-                interval = 0.06,
+                interval = 0.12,
                 looping = false,
                 texture = 'character-knee-hit'
             }
@@ -535,6 +535,64 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blond-otherclothes-punch'
+            }
+        }
+    },
+    ['npc1'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-walk'
+            },
+
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-punch'
             }
         }
     }

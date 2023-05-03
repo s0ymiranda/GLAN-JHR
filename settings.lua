@@ -69,6 +69,10 @@ TEXTURES = {
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
 
+    --Npc1
+    ['npc1-walk'] = love.graphics.newImage('graphics/Npc1/Walk-Npc1.png'),
+    ['npc1-punch'] = love.graphics.newImage('graphics/Npc1/Punch-Npc1.png'),
+
     --Background1
     ['background'] = love.graphics.newImage('graphics/background.png'),
 
@@ -100,6 +104,9 @@ FRAMES = {
 
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
+
+    ['npc1-walk'] = generateQuads(TEXTURES['npc1-walk'], 25, 74),
+    ['npc1-punch'] = generateQuads(TEXTURES['npc1-punch'], 32, 74),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = generateQuads(TEXTURES['npc0-blackskin-blond-walk'], 25, 75),

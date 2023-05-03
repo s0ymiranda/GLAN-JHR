@@ -10,11 +10,11 @@ function Entity:init(def)
 
     self.animations = self:createAnimations(def.animations)
 
-    local random = math.random(1,3)
+    local random = math.random(2)
     if random == 1 then
-        self.pervert = false
-    else
         self.pervert = true
+    else
+        self.pervert = false
     end
     self.fighting = false
     self.punching = false
