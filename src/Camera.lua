@@ -1,7 +1,6 @@
 Camera = Class{}
 
 function Camera:init()
-  --self.camera = {}
   self.x = 0
   self.y = 0
   self.scaleX = 1

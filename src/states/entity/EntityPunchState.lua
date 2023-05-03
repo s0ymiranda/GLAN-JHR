@@ -6,7 +6,7 @@ function EntityPunchState:init(entity,player)
     self.miss = true
 
     local direction = self.entity.direction
-    
+
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
 
     if direction == 'left' then
@@ -52,24 +52,24 @@ function EntityPunchState:update(dt)
         SOUNDS['miss']:play()
         self.miss = false
     end
-    
+
     if self.entity.currentAnimation.timesPlayed > 0 then
         self.entity.currentAnimation.timesPlayed = 0
-        
-        if self.entity.direction == 'left' then 
-            self.entity.x = self.entity.x + 7 
+
+        if self.entity.direction == 'left' then
+            self.entity.x = self.entity.x + 7
         else
             self.entity.x = self.entity.x + 3
-        end 
+        end
         self.entity:changeState('idle')
     end
 
     if love.keyboard.wasPressed('space') then
-        if self.entity.direction == 'left' then 
+        if self.entity.direction == 'left' then
             self.entity.x = self.entity.x + 7
         else
             self.entity.x = self.entity.x + 3
-        end 
+        end
         self.entity:changeState('punch')
     end
 end
@@ -77,7 +77,7 @@ end
 function EntityPunchState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+        math.floor(self.entity.x), math.floor(self.entity.y))
 
     -- debug for player and hurtbox collision rects
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))

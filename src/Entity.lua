@@ -10,22 +10,26 @@ function Entity:init(def)
 
     self.animations = self:createAnimations(def.animations)
 
-    self.pervert = false
+    local random = math.random(2)
+    if random == 1 then
+        self.pervert = true
+    else
+        self.pervert = false
+    end
     self.fighting = false
     self.punching = false
+    self.justWalking = false
+
+    self.leftLimit = 0
+    self.rightLimit = VIRTUAL_WIDTH*4
 
     -- dimensions
     self.x = def.x
     self.y = def.y
-    self.z = 0 
-    --self.z_base = math.floor(VIRTUAL_HEIGHT*0.4 - def.height * 0.45)
+    self.z = 0
     self.z_base = VIRTUAL_HEIGHT*0.55
     self.width = def.width
     self.height = def.height
-
-    -- drawing offsets for padded sprites
-    self.offsetX = def.offsetX or 0
-    self.offsetY = def.offsetY or 0
 
     self.walkSpeed = def.walkSpeed
 
@@ -38,7 +42,6 @@ function Entity:init(def)
     self.flashTimer = 0
 
     self.dead = false
-    
     --  track whether entity has dropped items or not
     self.dropped = false
 end
@@ -103,8 +106,6 @@ function Entity:update(dt)
     end
 
     self.z = math.floor(((self.y+self.height)-self.z_base)/10)
-    --self.z = math.max(0,math.floor(((self.y+self.height)-self.z_base)/10))
-    --print(self.z)
 end
 
 function Entity:processAI(params, dt)
@@ -115,15 +116,15 @@ function Entity:processAI(params, dt)
     end
 end
 
-function Entity:render(adjacentOffsetX, adjacentOffsetY)
+function Entity:render()
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then
         self.flashTimer = 0
         love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
     end
 
-    self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
+    self.x, self.y = self.x, self.y
     self.stateMachine:render()
     -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    -- self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
+    -- self.x, self.y = self.x, self.y
 end
