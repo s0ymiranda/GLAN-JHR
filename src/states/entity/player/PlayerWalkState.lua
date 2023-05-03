@@ -35,6 +35,13 @@ function PlayerWalkState:update(dt)
             self.entity.direction = 'right'
         end
         self.entity:changeState('slap')
+    elseif love.keyboard.wasPressed('k') then
+        if self.prev == 'left' then
+            self.entity.direction = 'left'
+        elseif self.prev == 'right' then
+            self.entity.direction = 'right'
+        end
+        self.entity:changeState('knee-hit')
     elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         local takenPot = nil
         local potIdx = 0

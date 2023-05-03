@@ -16,6 +16,13 @@ function PlayState:init()
         height = 73,
         health = 100,
     }
+    self.player.stateMachine = StateMachine {
+        ['walk'] = function() return PlayerWalkState(self.player) end,
+        ['idle'] = function() return PlayerIdleState(self.player) end,
+        ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
+        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
+    }
+    self.player:changeState('idle')
     self.player.pervert = false
 
     self.healthBar = ProgressBar {
@@ -40,13 +47,6 @@ function PlayState:init()
         showDetails = true,
         title = 'Respect'
     }
-
-    self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player) end,
-        ['idle'] = function() return PlayerIdleState(self.player) end,
-        ['slap'] = function() return PlayerSlapState(self.player, self.entities) end
-    }
-    self.player:changeState('idle')
 
     self.entities = {}
 
@@ -225,7 +225,7 @@ function PlayState:update(dt)
     end
 
 
-    if self.player.stateMachine.currentStateName ~= 'slap' and not self.player.fighting and not self.player.afterFighting then
+    if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and not self.player.fighting and not self.player.afterFighting then
         self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
     end
     self.healthBar:setValue(self.player.health)

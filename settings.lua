@@ -21,6 +21,7 @@ require 'src/states/entity/EntityPunchState'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerSlapState'
+require 'src/states/entity/player/PlayerKneeHitState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
@@ -63,7 +64,7 @@ TEXTURES = {
     --Hero
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
-
+    ['character-knee-hit'] = love.graphics.newImage('graphics/Hero/KneeHit-Hero.png'),
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -95,6 +96,8 @@ TEXTURES = {
 FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
+    ['character-knee-hit'] = generateQuads(TEXTURES['character-knee-hit'], 32, 73),
+
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
 

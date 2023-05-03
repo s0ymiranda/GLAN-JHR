@@ -53,6 +53,18 @@ ENTITY_DEFS = {
                 interval = 0.06,
                 looping = false,
                 texture = 'character-slap'
+            },
+            ['knee-hit-left'] = {
+                frames = {4,5,6,5},
+                interval = 0.06,
+                looping = false,
+                texture = 'character-knee-hit'
+            },
+            ['knee-hit-right'] = {
+                frames = {1,2,3,2},
+                interval = 0.06,
+                looping = false,
+                texture = 'character-knee-hit'
             }
         }
     },

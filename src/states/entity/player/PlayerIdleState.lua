@@ -13,7 +13,8 @@ function PlayerIdleState:update(dt)
 
     if love.keyboard.wasPressed('space') then
         self.entity:changeState('slap')
-
+    elseif love.keyboard.wasPressed('k') then
+        self.entity:changeState('knee-hit')
         --DEJO ESTO COMO GUIA PARA AGARRAR LOS OBJETOS Y LANZARLOS
 
     -- elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
