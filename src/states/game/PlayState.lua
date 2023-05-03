@@ -210,7 +210,8 @@ function PlayState:update(dt)
             --     }
             -- })
             -- Timer.after(1.2,function() entity.fighting = false self.player.afterFigthing = false end)
-        elseif entity.x < -25 then
+        elseif (entity.x < -25 and self.player.x < VIRTUAL_WIDTH/2) or (entity.x < self.player.x - VIRTUAL_WIDTH/2 - 25 and self.player.x >= VIRTUAL_WIDTH/2 and self.player.x < VIRTUAL_WIDTH*3)  or
+                (self.player.x >= VIRTUAL_WIDTH*3 and entity.x < VIRTUAL_WIDTH*3 - 25) then
             if entity.pervert then
                 self.player.respect = self.player.respect - 10
             end
@@ -258,12 +259,12 @@ function PlayState:generateWalkingEntity()
     local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
 
-    local x_distance = 0
-    if self.player.x <= VIRTUAL_WIDTH/2 then
-        x_distance = VIRTUAL_WIDTH + 24
-    else
-        x_distance = self.player.x + VIRTUAL_WIDTH/2 + 24
-    end
+    local x_distance = self.camera.x + VIRTUAL_WIDTH + 20
+    -- if self.player.x <= VIRTUAL_WIDTH/2 then
+    --     x_distance = VIRTUAL_WIDTH + 24
+    -- else
+    --     x_distance = self.player.x + VIRTUAL_WIDTH/2 + 24
+    -- end
     local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
     --local min_x = math.max(0, self.player.x - x_distance)
     --local max_x = math.min(MAP_WIDTH, self.player.x + x_distance)
