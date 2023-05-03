@@ -10,9 +10,18 @@ function Entity:init(def)
 
     self.animations = self:createAnimations(def.animations)
 
-    self.pervert = false
+    local random = math.random(1,3)
+    if random == 1 then
+        self.pervert = false
+    else
+        self.pervert = true
+    end
     self.fighting = false
     self.punching = false
+    self.justWalking = false
+
+    self.leftLimit = 0
+    self.rightLimit = VIRTUAL_WIDTH*4
 
     -- dimensions
     self.x = def.x

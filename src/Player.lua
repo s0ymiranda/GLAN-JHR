@@ -3,6 +3,8 @@ Player = Class{__includes = Entity}
 function Player:init(def)
     Entity.init(self, def)
     self.respect = 50
+    self.afterFigthing = false
+
 end
 
 function Player:update(dt)

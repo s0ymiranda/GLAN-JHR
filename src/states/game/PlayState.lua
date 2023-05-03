@@ -2,6 +2,9 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
 
+    self.spawnCooldown = 0
+    self.spawnTimer = 0
+
     self.camera = Camera {}
 
     self.player = Player {
@@ -13,6 +16,7 @@ function PlayState:init()
         height = 73,
         health = 100,
     }
+    self.player.pervert = false
 
     self.healthBar = ProgressBar {
         x = 0 + 10,
@@ -65,7 +69,7 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('p') then
         stateMachine:change('pause')
     end
-    if self.player.health <= 0 then
+    if self.player.health <= 0 or self.player.respect <= 0 then
         stateMachine:change('game-over')
     end
     if love.keyboard.wasPressed('o') then
@@ -89,33 +93,141 @@ function PlayState:update(dt)
     end
     -- Ctrl + E: generate entity
     if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
-        self:generateEntity()
+        self:generateWalkingEntity()
+    end
+
+    if self.spawnCooldown == 0 and self.player.x < VIRTUAL_WIDTH*4 then
+        self.spawnCooldown = math.random(7)
+    end
+
+    self.spawnTimer = self.spawnTimer + dt
+
+    if self.spawnTimer >= self.spawnCooldown then
+        self:generateWalkingEntity()
+        self.spawnCooldown = 0
+        self.spawnTimer = 0
     end
 
     self.player:update(dt)
 
-    for i = #self.entities, 1, -1 do
-        local entity = self.entities[i]
+    -- for i = #self.entities, 1, -1 do
+    --     local entity = self.entities[i]
+    --     if entity.dead then
+    --         -- print(#self.entities)
+    --         -- table.remove(self.entities,i)
+    --         -- print(#self.entities)
+    --         -- i = i + 1
+    --         goto continue
+    --     end
+    --     -- if entity.x < -25 then
+    --     --     print(#self.entities)
+    --     --     table.remove(self.entities,i)
+    --     --     print(#self.entities)
+    --     --     i = i + 1
+    --     --     --goto continue
+    --     --     break
+    --     -- end
+    --     if entity.health < 3 then
+    --         entity.fighting = true
+    --     end
+    --     -- remove entity from the table if health is <= 0
+    --     if entity.health <= 0 or entity.x < -25 then
+    --         SOUNDS['dead']:play()
+    --         entity.dead = true
+    --         --table.remove(self.entities,i)
+    --         goto continue
+    --         -- AQUI ELIMINO LA ENTIDAD DE LA TABLA NO SE SI ESTEN DE ACUERDO BY GERARDO
+    --         --table.remove(self.entities,i)
+    --     end
+    --     if not entity.dead then
+    --         entity:processAI({room = self}, dt)
+    --         entity:update(dt)
+    --     end
+    --     -- TODO: check if the entity throw a punch
+    --     ::continue::
+    -- end
+
+    local enemyFighting = false
+    for k, entity in pairs(self.entities) do
+        if entity.pervert and self.player.fighting and not entity.fighting and not entity.dead then
+            local distance = math.sqrt((entity.x - self.player.x)^2 + (entity.y - self.player.y)^2)
+            if distance < 150 then
+                entity.fighting = true
+                entity:changeAnimation('idle-' .. tostring(entity.direction))
+                entity:changeState('idle')
+            end
+        end
+        if entity.fighting then
+            self.player.fighting = true
+            enemyFighting = true
+        end
+    end
+
+    if not enemyFighting and self.player.fighting then
+        self.player.afterFigthing = true
+        --self.player.fighting = false
+        Timer.tween(1.5, {
+            [self.camera] = {
+                x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))),
+                y = self.camera.y
+            }
+        })
+        Timer.after(2,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = VIRTUAL_WIDTH*4 end)
+    end
+
+    for k, entity in pairs(self.entities) do
+
         if entity.dead then
+            --if #self.entities > 3 then table.remove(self.entities,k) end
+            -- if not enemyFighting and #self.entities > 3 then
+            --     table.remove(self.entities,k)
+            --     print(#self.entities)
+            -- end
             goto continue
         end
+
         if entity.health < 3 then
             entity.fighting = true
+            self.player.fighting = true
+            self.player.leftLimit = self.camera.x
+            self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
         end
-        -- remove entity from the table if health is <= 0
+
         if entity.health <= 0 then
             SOUNDS['dead']:play()
             entity.dead = true
-            -- AQUI ELIMINO LA ENTIDAD DE LA TABLA NO SE SI ESTEN DE ACUERDO BY GERARDO
-            --table.remove(self.entities,i)
+            entity.fighting = false
+            if entity.pervert then
+                self.player.respect = self.player.respect + 5
+            else
+                self.player.respect = self.player.respect - 5
+            end
+            -- self.player.afterFigthing = true
+            -- Timer.tween(1, {
+            --     [self.camera] = {
+            --         x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))),
+            --         y = self.camera.y
+            --     }
+            -- })
+            -- Timer.after(1.2,function() entity.fighting = false self.player.afterFigthing = false end)
+        elseif entity.x < -25 then
+            if entity.pervert then
+                self.player.respect = self.player.respect - 10
+            end
+            entity.dead = true
         end
-        entity:processAI({room = self}, dt)
-        entity:update(dt)
-        -- TODO: check if the entity throw a punch
+
+        if not entity.dead then
+            entity:processAI({room = self}, dt)
+            entity:update(dt)
+        end
         ::continue::
     end
 
-    if self.player.stateMachine.currentStateName ~= 'slap' then self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))) end
+
+    if self.player.stateMachine.currentStateName ~= 'slap' and not self.player.fighting and not self.player.afterFighting then
+        self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
+    end
     self.healthBar:setValue(self.player.health)
     self.healthBar:setPosition(self.camera.x+10, 10)
     self.healthBar:update()
@@ -142,6 +254,47 @@ function PlayState:render()
     self.camera:unset()
 end
 
+function PlayState:generateWalkingEntity()
+    local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local type = types[math.random(#types)]
+
+    local x_distance = 0
+    if self.player.x <= VIRTUAL_WIDTH/2 then
+        x_distance = VIRTUAL_WIDTH + 24
+    else
+        x_distance = self.player.x + VIRTUAL_WIDTH/2 + 24
+    end
+    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
+    --local min_x = math.max(0, self.player.x - x_distance)
+    --local max_x = math.min(MAP_WIDTH, self.player.x + x_distance)
+    local height = 75
+
+    table.insert(self.entities, #self.entities+1,Entity {
+        animations = ENTITY_DEFS[type].animations,
+        walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
+
+        -- ensure X and Y are within bounds of the map
+        --x = math.random(min_x, max_x),
+        --y = math.random(MAP_HEIGHT*0.4 - height*0.45, MAP_HEIGHT - height),
+        x = x_distance,
+        y = y_distance,
+
+        width = 24,
+        height = height,
+
+        health = 3,
+    })
+
+    local i = #self.entities
+    self.entities[i].stateMachine = StateMachine {
+        ['walk'] = function() return EntityWalkState(self.entities[i]) end,
+        ['idle'] = function() return EntityIdleState(self.entities[i]) end,
+        ['punch'] = function() return EntityPunchState(self.entities[i],self.player) end
+    }
+    self.entities[i]:changeState('walk')
+    self.entities[i].justWalking = true
+end
+
 function PlayState:generateEntity()
     local types = {'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
@@ -149,7 +302,7 @@ function PlayState:generateEntity()
     local x_distance = 20
     local min_x = math.max(0, self.player.x - x_distance)
     local max_x = math.min(MAP_WIDTH, self.player.x + x_distance)
-    local height = 73
+    local height = 75
     table.insert(self.entities, Entity {
         animations = ENTITY_DEFS[type].animations,
         walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
@@ -171,4 +324,6 @@ function PlayState:generateEntity()
         ['punch'] = function() return EntityPunchState(self.entities[i],self.player) end
     }
     self.entities[i]:changeState('idle')
+
 end
+

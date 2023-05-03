@@ -1,13 +1,13 @@
 PlayerIdleState = Class{__includes = EntityIdleState}
 
-function PlayerIdleState:enter(params)
+-- function PlayerIdleState:enter(params)
 
-end
+-- end
 
 function PlayerIdleState:update(dt)
     EntityIdleState.update(self, dt)
 
-    if love.keyboard.isDown('left','a','right','d','up','w','down','s') then
+    if love.keyboard.isDown('left','a','right','d','up','w','down','s') and not self.entity.afterFigthing then
         self.entity:changeState('walk')
     end
 

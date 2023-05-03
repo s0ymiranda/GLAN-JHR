@@ -3,6 +3,7 @@ EntityIdleState = Class{__includes = BaseState}
 function EntityIdleState:init(entity)
     self.entity = entity
 
+    --if entity ~= nil then self.entity:changeAnimation('idle-' .. self.entity.direction) end
     self.entity:changeAnimation('idle-' .. self.entity.direction)
 
     -- used for AI waiting
@@ -45,25 +46,27 @@ end
 function EntityIdleState:processAIFighting(params, dt)
     -- TODO: add punches
 
-    if not self.entity.punching then
-        self:processAI(params, dt)
-    else
-        if self.waitDuration == 0 then
-            self.waitTimer = 0
-            while self.waitDuration < 0.2 do
-                self.waitDuration = math.random()
+    if self.entity ~= nil then
+        if not self.entity.punching then
+            self:processAI(params, dt)
+        else
+            if self.waitDuration == 0 then
+                self.waitTimer = 0
+                while self.waitDuration < 0.2 do
+                    self.waitDuration = math.random()
+                end
             end
-        end
-        self.waitTimer = self.waitTimer + dt
-        if self.waitTimer > self.waitDuration then
-            self.waitTimer = 0
-            self.waitDuration = 0
-            self.entity.punching = false
-            self.entity:changeState('punch', {
-                dialogElapsedTime = self.dialogElapsedTime,
-                dialog = self.dialog,
-                displayDialog = self.displayDialog,
-            })
+            self.waitTimer = self.waitTimer + dt
+            if self.waitTimer > self.waitDuration then
+                self.waitTimer = 0
+                self.waitDuration = 0
+                self.entity.punching = false
+                self.entity:changeState('punch', {
+                    dialogElapsedTime = self.dialogElapsedTime,
+                    dialog = self.dialog,
+                    displayDialog = self.displayDialog,
+                })
+            end
         end
     end
 end
