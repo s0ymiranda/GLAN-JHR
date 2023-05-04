@@ -156,7 +156,7 @@ function PlayState:update(dt)
 
     local enemyFighting = false
     for k, entity in pairs(self.entities) do
-        if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting and not entity.dead then
+        if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting then
             local distance = math.sqrt((entity.x - self.player.x)^2 + (entity.y - self.player.y)^2)
             if distance < 150 then
                 entity.fighting = true
@@ -183,16 +183,6 @@ function PlayState:update(dt)
     end
 
     for k, entity in pairs(self.entities) do
-
-        if entity.dead then
-            --if #self.entities > 3 then table.remove(self.entities,k) end
-            -- if not enemyFighting and #self.entities > 3 then
-            --     table.remove(self.entities,k)
-            --     print(#self.entities)
-            -- end
-            goto continue
-        end
-
         if entity.health < 3 then
             entity.fighting = true
             self.player.fighting = true
@@ -217,20 +207,18 @@ function PlayState:update(dt)
             --     }
             -- })
             -- Timer.after(1.2,function() entity.fighting = false self.player.afterFigthing = false end)
+        end
         -- elseif (entity.x < -25 and self.player.x < VIRTUAL_WIDTH/2) or (entity.x < self.player.x - VIRTUAL_WIDTH/2 - 25 and self.player.x >= VIRTUAL_WIDTH/2 and self.player.x < VIRTUAL_WIDTH*3)  or
         --         (self.player.x >= VIRTUAL_WIDTH*3 and entity.x < VIRTUAL_WIDTH*3 - 25) then
-        elseif entity.x < self.camera.x - 25 then
+        if entity.x < self.camera.x - 25 then
             if entity.pervert then
                 self.player.respect = self.player.respect - 10
             end
-            entity.dead = true
             self:deleteEntity(k)
+            goto continue
         end
-
-        if not entity.dead then
-            entity:processAI({room = self}, dt)
-            entity:update(dt)
-        end
+        entity:processAI({room = self}, dt)
+        entity:update(dt)
         ::continue::
     end
 
@@ -256,7 +244,7 @@ function PlayState:render()
                 self.player:render()
             end
             for k, entity in pairs(self.entities) do
-                if not entity.dead and entity.z == i then entity:render() end
+                if entity.z == i then entity:render() end
             end
         end
         self.healthBar:render()
