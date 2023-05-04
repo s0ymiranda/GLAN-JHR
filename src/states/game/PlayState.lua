@@ -286,7 +286,7 @@ function PlayState:generateWalkingEntity()
     --local max_x = math.min(MAP_WIDTH, self.player.x + x_distance)
     local height = 75
 
-    table.insert(self.entities, #self.entities+1,Entity {
+    local new_entity = Entity {
         animations = ENTITY_DEFS[type].animations,
         walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
 
@@ -300,16 +300,17 @@ function PlayState:generateWalkingEntity()
         height = height,
 
         health = 3,
-    })
-
-    local i = #self.entities
-    self.entities[i].stateMachine = StateMachine {
-        ['walk'] = function() return EntityWalkState(self.entities[i]) end,
-        ['idle'] = function() return EntityIdleState(self.entities[i]) end,
-        ['punch'] = function() return EntityPunchState(self.entities[i],self.player) end
     }
-    self.entities[i]:changeState('walk')
-    self.entities[i].justWalking = true
+
+    new_entity.stateMachine = StateMachine {
+        ['walk'] = function() return EntityWalkState(new_entity) end,
+        ['idle'] = function() return EntityIdleState(new_entity) end,
+        ['punch'] = function() return EntityPunchState(new_entity,self.player) end
+    }
+    new_entity:changeState('walk')
+    new_entity.justWalking = true
+
+    table.insert(self.entities, new_entity)
 end
 
 function PlayState:generateEntity()
