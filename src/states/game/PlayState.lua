@@ -147,6 +147,13 @@ function PlayState:update(dt)
     --     ::continue::
     -- end
 
+    if self.deletion then
+        print("Entities:")
+        for k, entity in pairs(self.entities) do
+            print("", k, entity)
+        end
+    end
+
     local enemyFighting = false
     for k, entity in pairs(self.entities) do
         if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting and not entity.dead then
@@ -195,13 +202,13 @@ function PlayState:update(dt)
 
         if entity.health <= 0 then
             SOUNDS['dead']:play()
-            entity.dead = true
-            entity.fighting = false
+            self:deleteEntity(k)
             if entity.pervert then
                 self.player.respect = self.player.respect + 5
             else
                 self.player.respect = self.player.respect - 5
             end
+            goto continue
             -- self.player.afterFigthing = true
             -- Timer.tween(1, {
             --     [self.camera] = {
@@ -217,6 +224,7 @@ function PlayState:update(dt)
                 self.player.respect = self.player.respect - 10
             end
             entity.dead = true
+            self:deleteEntity(k)
         end
 
         if not entity.dead then
@@ -254,6 +262,12 @@ function PlayState:render()
         self.healthBar:render()
         self.respectBar:render()
     self.camera:unset()
+end
+
+function PlayState:deleteEntity(idx)
+    self.entities[idx].stateMachine.current.entity = nil
+    self.entities[idx] = nil
+
 end
 
 function PlayState:generateWalkingEntity()
