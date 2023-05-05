@@ -186,11 +186,18 @@ function PlayState:update(dt)
             goto continue
         end
 
-        if entity.health < 3 then
-            entity.fighting = true
-            self.player.fighting = true
-            self.player.leftLimit = self.camera.x
-            self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+        if entity.health < entity.prevHealth then
+            entity.prevHealth = entity.health
+            if entity.pervert then
+                entity.fighting = true
+                entity.justWalking = false
+                self.player.fighting = true
+                self.player.leftLimit = self.camera.x
+                self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+            else
+                -- entity.angry = true
+                self.player.respect = self.player.respect - 10
+            end
         end
 
         if entity.health <= 0 then
