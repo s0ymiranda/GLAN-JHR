@@ -43,3 +43,7 @@ luac.out
 
 # Visual Studio Code
 .vscode
+
+# Ignore piskel files
+.piskel
+graphics/piskel
