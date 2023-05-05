@@ -1,7 +1,6 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
-
     self.spawnCooldown = 0
     self.spawnTimer = 0
 
@@ -49,6 +48,7 @@ function PlayState:init()
     }
 
     self.entities = {}
+    self.objects = {}
 
     -- Key combinations
     self.lctrlPressed = false
@@ -60,6 +60,19 @@ end
 
 function PlayState:exit()
     SOUNDS['dungeon-music']:stop()
+end
+
+function PlayState:bottom_collision(a, b, y_diff)
+    if math.abs(a.y - b.y) > y_diff then
+        return false
+    end
+    if a.x + a.width < b.x then -- aaaaa...... b
+        return false
+    end
+    if b.x + b.width < a.x then -- bbbbb...... a
+        return false
+    end
+    return true
 end
 
 function PlayState:update(dt)
@@ -96,6 +109,11 @@ function PlayState:update(dt)
         self:generateWalkingEntity()
     end
 
+    -- Ctrl + H: generate heart
+    if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
+        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], self.player.x + self.player.width + 10, self.player.y + self.player.height - 12))
+    end
+
     if self.spawnCooldown == 0 and self.player.x < VIRTUAL_WIDTH*4 then
         self.spawnCooldown = math.random(7)
     end
@@ -106,6 +124,26 @@ function PlayState:update(dt)
         self:generateWalkingEntity()
         self.spawnCooldown = 0
         self.spawnTimer = 0
+    end
+
+    for k, object in pairs(self.objects) do
+        object:update(dt)
+        if object.type == 'heart' then
+            local player_bottom = {
+                x = self.player.x,
+                y = self.player.y + self.player.height,
+                width = self.player.width
+            }
+            local heart_bottom = {
+                x = object.x,
+                y = object.y + 3*object.height/4,
+                width = object.width
+            }
+            if self:bottom_collision(player_bottom, heart_bottom, object.height/2) then
+                self.player.health = math.min(self.player.health + 10, 100)
+                self:deleteObject(k)
+            end
+        end
     end
 
     self.player:update(dt)
@@ -192,9 +230,13 @@ function PlayState:update(dt)
 
         if entity.health <= 0 then
             SOUNDS['dead']:play()
+            -- self:deleteFromTable(self.entities, k)
             self:deleteEntity(k)
             if entity.pervert then
                 self.player.respect = self.player.respect + 5
+                if math.random() < HEARTH_DROP_PROBABILITY then
+                    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], entity.x, entity.y + entity.height - 12))
+                end
             else
                 self.player.respect = self.player.respect - 5
             end
@@ -236,17 +278,39 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-
     self.camera:set()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
-        for i=0,VIRTUAL_HEIGHT*0.45/5,1 do
-            if self.player.z == i then
-                self.player:render()
-            end
-            for k, entity in pairs(self.entities) do
-                if entity.z == i then entity:render() end
-            end
+
+        local to_render = {self.player}
+        for _, entity in pairs(self.entities) do
+            table.insert(to_render, entity)
         end
+        for _, object in pairs(self.objects) do
+            table.insert(to_render, object)
+        end
+
+        table.sort(to_render, function(a, b)
+            -- if a.z == b.z then
+            --     return a.y < b.y
+            -- end
+            -- return a.z < b.z
+            return a.y + a.height < b.y + b.height
+        end)
+
+        for _, entity in pairs(to_render) do
+            entity:render()
+        end
+
+        -- Way too slow tho
+        -- for i=0,VIRTUAL_HEIGHT*0.45/5,1 do
+        --     if self.player.z == i then
+        --         self.player:render()
+        --     end
+        --     for k, entity in pairs(self.entities) do
+        --         if entity.z == i then entity:render() end
+        --     end
+        -- end
+
         self.healthBar:render()
         self.respectBar:render()
     self.camera:unset()
@@ -255,7 +319,10 @@ end
 function PlayState:deleteEntity(idx)
     self.entities[idx].stateMachine.current.entity = nil
     self.entities[idx] = nil
+end
 
+function PlayState:deleteObject(idx)
+    self.objects[idx] = nil
 end
 
 function PlayState:generateWalkingEntity()
