@@ -205,7 +205,9 @@ function PlayState:update(dt)
             entity.dead = true
             entity.fighting = false
             if entity.pervert then
-                self.player.respect = self.player.respect + 5
+                if self.player.respect < 100 then
+                    self.player.respect = self.player.respect + 5
+                end
             else
                 self.player.respect = self.player.respect - 5
             end
