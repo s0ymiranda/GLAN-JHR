@@ -228,11 +228,18 @@ function PlayState:update(dt)
     end
 
     for k, entity in pairs(self.entities) do
-        if entity.health < 3 then
-            entity.fighting = true
-            self.player.fighting = true
-            self.player.leftLimit = self.camera.x
-            self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+        if entity.health < entity.prevHealth then
+            entity.prevHealth = entity.health
+            if entity.pervert then
+                entity.fighting = true
+                entity.justWalking = false
+                self.player.fighting = true
+                self.player.leftLimit = self.camera.x
+                self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+            else
+                -- entity.angry = true
+                self.player.respect = self.player.respect - 10
+            end
         end
 
         if entity.health <= 0 then
@@ -240,7 +247,9 @@ function PlayState:update(dt)
             -- self:deleteFromTable(self.entities, k)
             self:deleteEntity(k)
             if entity.pervert then
-                self.player.respect = self.player.respect + 5
+                if self.player.respect < 100 then
+                    self.player.respect = self.player.respect + 5
+                end
                 if math.random() < HEARTH_DROP_PROBABILITY then
                     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], entity.x, entity.y + entity.height - 12))
                 end

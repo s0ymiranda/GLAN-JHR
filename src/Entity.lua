@@ -19,6 +19,8 @@ function Entity:init(def)
     self.fighting = false
     self.punching = false
     self.justWalking = false
+    -- self.angry = false
+    self.prevHealth = 3
 
     self.leftLimit = 0
     self.rightLimit = VIRTUAL_WIDTH*4
@@ -108,7 +110,7 @@ function Entity:update(dt)
 end
 
 function Entity:processAI(params, dt)
-    if self.fighting then
+    if self.fighting and self.pervert then
         self.stateMachine:processAIFighting(params, dt)
     else
         self.stateMachine:processAI(params, dt)
