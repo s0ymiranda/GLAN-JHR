@@ -111,7 +111,14 @@ function PlayState:update(dt)
 
     -- Ctrl + H: generate heart
     if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
-        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], self.player.x + self.player.width + 10, self.player.y + self.player.height - 12))
+        local heartDefs = GAME_OBJECT_DEFS['heart']
+        table.insert(self.objects, GameObject(heartDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - heartDefs.height))
+    end
+
+    -- Ctrl + B: generate barrel
+    if love.keyboard.wasPressed('b') and (self.lctrlPressed or self.rctrlPressed) then
+        local barrelDefs = GAME_OBJECT_DEFS['barrel']
+        table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
     end
 
     if self.spawnCooldown == 0 and self.player.x < VIRTUAL_WIDTH*4 then
