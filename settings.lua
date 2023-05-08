@@ -9,8 +9,10 @@ require 'src/Entity'
 require 'src/Hitbox'
 require 'src/Player'
 require 'src/StateMachine'
+require 'src/GameObject'
 
 require 'src/definitions/entity'
+require 'src/definitions/game_objects'
 
 require 'src/states/BaseState'
 
@@ -50,6 +52,8 @@ WINDOW_HEIGHT = 720
 
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
+
+HEARTH_DROP_PROBABILITY = 0.9
 
 CATCALLING_MESSAGES = {
     "So many curves and me with no brakes",
@@ -101,7 +105,10 @@ TEXTURES = {
     ['npc0-blond-noglasses-walk'] = love.graphics.newImage('graphics/Npc0-Blond-NoGlasses/Walk-Npc0-Blond-NoGlasses.png'),
     ['npc0-blond-noglasses-punch'] = love.graphics.newImage('graphics/Npc0-Blond-NoGlasses/Punch-Npc0-Blond-NoGlasses.png'),
     ['npc0-blond-otherclothes-walk'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Walk-Npc0-Blond-OtherClothes.png'),
-    ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png')
+    ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
+
+    -- Game objects
+    ['heart'] = love.graphics.newImage('graphics/misc/heart.png'),
 }
 
 
