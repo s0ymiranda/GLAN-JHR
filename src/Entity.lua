@@ -43,7 +43,6 @@ function Entity:init(def)
     self.invulnerableTimer = 0
     self.flashTimer = 0
 
-    self.dead = false
     --  track whether entity has dropped items or not
     self.dropped = false
 end
