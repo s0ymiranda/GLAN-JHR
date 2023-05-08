@@ -2,6 +2,11 @@ WinState = Class{__includes = BaseState}
 
 function WinState:init()
     SOUNDS['win-music']:play()
+    if #joysticks > 0 then
+        self.message = "Press A"
+    else
+        self.message = "Press Enter"
+    end
 end
 
 function WinState:exit()
@@ -31,6 +36,6 @@ function WinState:render()
     love.graphics.printf('YOU WIN!', 0, VIRTUAL_HEIGHT / 2 - 48, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(FONTS['small'])
-    love.graphics.printf('Press Enter', 0, VIRTUAL_HEIGHT / 2 + 16, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 16, VIRTUAL_WIDTH, 'center')
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

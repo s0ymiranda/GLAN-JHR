@@ -3,6 +3,11 @@ StartState = Class{__includes = BaseState}
 function StartState:init()
     SOUNDS['start-music']:setLooping(true)
     SOUNDS['start-music']:play()
+    if #joysticks > 0 then
+        self.message = "Press Start"
+    else
+        self.message = "Press Enter"
+    end
 end
 
 function StartState:exit()
@@ -19,7 +24,7 @@ function StartState:update(dt)
     end
     --For Joystick
     if #joysticks > 0 then
-        if joystick:isGamepadDown('a') then
+        if joystick:isGamepadDown('start') then
             stateMachine:change('play')
         end
     end
@@ -40,5 +45,5 @@ function StartState:render()
 
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     love.graphics.setFont(FONTS['small'])
-    love.graphics.printf('Press Enter', 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
 end
