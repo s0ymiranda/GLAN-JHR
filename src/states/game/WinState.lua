@@ -13,6 +13,13 @@ function WinState:update(dt)
         stateMachine:change('start')
     end
 
+    --For Joystick
+    if #joysticks > 0 then
+        if joystick:isGamepadDown('a') then
+            stateMachine:change('start')
+        end
+    end
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end

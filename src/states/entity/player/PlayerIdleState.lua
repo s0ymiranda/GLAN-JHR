@@ -2,12 +2,31 @@ PlayerIdleState = Class{__includes = EntityIdleState}
 
 -- function PlayerIdleState:enter(params)
 
+--     self.starting = true
+--     Timer.after(1,function() self.starting = false end)
+
 -- end
 
 function PlayerIdleState:update(dt)
     EntityIdleState.update(self, dt)
 
-    if love.keyboard.isDown('left','a','right','d','up','w','down','s') and not self.entity.afterFigthing then
+    -- local joysticks = love.joystick.getJoysticks()
+    -- local joystick = joysticks[1]
+
+    --For Joystick
+    if #joysticks > 0 then
+        if (joystick:isGamepadDown('dpdown','dpup','dpleft','dpright')
+        or math.abs(joystick:getGamepadAxis("leftx")) == 1 or math.abs(joystick:getGamepadAxis("lefty")) == 1)  and not self.entity.afterFigthing  then
+            self.entity:changeState('walk')
+        end
+        if joystick:isGamepadDown('a') then
+            self.entity:changeState('slap')
+        elseif joystick:isGamepadDown('x') then
+            self.entity:changeState('knee-hit')
+        end
+    end
+
+    if (love.keyboard.isDown('left','a','right','d','up','w','down','s')) and not self.entity.afterFigthing  then
         self.entity:changeState('walk')
     end
 

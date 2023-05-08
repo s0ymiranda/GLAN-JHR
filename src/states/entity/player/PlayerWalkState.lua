@@ -3,21 +3,45 @@ PlayerWalkState = Class{__includes = EntityWalkState}
 function PlayerWalkState:init(player)
     self.entity = player
     self.prev = player.direction
+    self.joystickAction = ''
 end
 
 function PlayerWalkState:update(dt)
-    if love.keyboard.isDown('left','a') then
+
+    --For Joystick
+    if #joysticks > 0 then
+        local isJoystickMoving = true
+        if joystick:getGamepadAxis("lefty") == 0 and joystick:getGamepadAxis("leftx") == 0 then
+            isJoystickMoving = false
+        end
+        if (joystick:isGamepadDown('dpleft') or (joystick:getGamepadAxis("leftx") < 0 and isJoystickMoving)) then
+            self.joystickAction = 'left'
+        elseif (joystick:isGamepadDown('dpright') or (joystick:getGamepadAxis("leftx") > 0 and isJoystickMoving)) then
+            self.joystickAction = 'right'
+        elseif (joystick:isGamepadDown('dpup') or (joystick:getGamepadAxis("lefty") < 0 and isJoystickMoving)) then
+            self.joystickAction = 'up'
+        elseif (joystick:isGamepadDown('dpdown') or (joystick:getGamepadAxis("lefty") > 0 and isJoystickMoving)) then
+            self.joystickAction = 'down'
+        end
+        if (joystick:isGamepadDown('a')) then
+            self.joystickAction = 'slap'
+        elseif (joystick:isGamepadDown('x')) then
+            self.joystickAction = 'knee-hit'
+        end
+    end
+
+    if love.keyboard.isDown('left','a') or self.joystickAction == 'left' then
         self.entity.direction = 'left'
         self.entity:changeAnimation('walk-left')
         self.prev = 'left'
-    elseif love.keyboard.isDown('right','d') then
+    elseif love.keyboard.isDown('right','d') or self.joystickAction == 'right' then
         self.entity.direction = 'right'
         self.entity:changeAnimation('walk-right')
         self.prev = 'right'
-    elseif love.keyboard.isDown('up','w') then
+    elseif love.keyboard.isDown('up','w') or self.joystickAction == 'up' then
         self.entity.direction = 'up-' .. self.prev
         self.entity:changeAnimation('walk-' .. self.entity.direction)
-    elseif love.keyboard.isDown('down','s') then
+    elseif love.keyboard.isDown('down','s') or self.joystickAction == 'down' then
         self.entity.direction = 'down-' .. self.prev
         self.entity:changeAnimation('walk-' .. self.entity.direction)
     else
@@ -28,14 +52,14 @@ function PlayerWalkState:update(dt)
         end
         self.entity:changeState('idle')
     end
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('space') or self.joystickAction == 'slap' then
         if self.prev == 'left' then
             self.entity.direction = 'left'
         elseif self.prev == 'right' then
             self.entity.direction = 'right'
         end
         self.entity:changeState('slap')
-    elseif love.keyboard.wasPressed('k') then
+    elseif love.keyboard.wasPressed('k') or self.joystickAction == 'knee-hit' then
         if self.prev == 'left' then
             self.entity.direction = 'left'
         elseif self.prev == 'right' then
@@ -47,6 +71,7 @@ function PlayerWalkState:update(dt)
         local potIdx = 0
     end
 
+    self.joystickAction = ''
     -- perform base collision detection against walls
 
     EntityWalkState.update(self, dt)

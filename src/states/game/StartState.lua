@@ -17,6 +17,12 @@ function StartState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         stateMachine:change('play')
     end
+    --For Joystick
+    if #joysticks > 0 then
+        if joystick:isGamepadDown('a') then
+            stateMachine:change('play')
+        end
+    end
 end
 
 function StartState:render()

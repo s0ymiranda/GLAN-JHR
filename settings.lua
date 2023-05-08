@@ -34,6 +34,14 @@ require 'src/utilities/quads'
 require 'src/gui/Dialog'
 require 'src/gui/ProgressBar'
 
+joysticks = love.joystick.getJoysticks()
+if #joysticks > 0 then
+    joystick = joysticks[1]
+else
+    joystick = false
+end
+-- joystick = joysticks[1]
+
 VIRTUAL_WIDTH = 576
 VIRTUAL_HEIGHT = 324
 
