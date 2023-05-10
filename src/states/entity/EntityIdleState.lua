@@ -39,6 +39,7 @@ function EntityIdleState:processAI(params, dt)
                 dialog = self.dialog,
                 displayDialog = self.displayDialog,
             })
+            return
         end
     end
 end
@@ -66,6 +67,7 @@ function EntityIdleState:processAIFighting(params, dt)
                     dialog = self.dialog,
                     displayDialog = self.displayDialog,
                 })
+                return
             end
         end
     end
@@ -76,7 +78,7 @@ function EntityIdleState:render()
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
 
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

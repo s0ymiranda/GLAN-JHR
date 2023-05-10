@@ -62,6 +62,7 @@ function EntityPunchState:update(dt)
             self.entity.x = self.entity.x + 3
         end
         self.entity:changeState('idle')
+        return
     end
 
     if love.keyboard.wasPressed('space') then
@@ -71,6 +72,7 @@ function EntityPunchState:update(dt)
             self.entity.x = self.entity.x + 3
         end
         self.entity:changeState('punch')
+        return
     end
 end
 
@@ -81,8 +83,8 @@ function EntityPunchState:render()
 
     -- debug for player and hurtbox collision rects
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.rectangle('line', self.punchHitbox.x, self.punchHitbox.y,
+    -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    love.graphics.rectangle('line', math.floor(self.punchHitbox.x), math.floor(self.punchHitbox.y),
     self.punchHitbox.width, self.punchHitbox.height)
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

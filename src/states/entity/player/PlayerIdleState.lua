@@ -9,12 +9,26 @@ function PlayerIdleState:update(dt)
 
     if love.keyboard.isDown('left','a','right','d','up','w','down','s') and not self.entity.afterFigthing then
         self.entity:changeState('walk')
+        return
     end
 
     if love.keyboard.wasPressed('space') then
         self.entity:changeState('slap')
-    elseif love.keyboard.wasPressed('k') then
+        return
+    end
+    if love.keyboard.wasPressed('k') then
         self.entity:changeState('knee-hit')
+        return
+    end
+    if love.keyboard.wasPressed('k') then
+        if self.prev == 'left' then
+            self.entity.direction = 'left'
+        elseif self.prev == 'right' then
+            self.entity.direction = 'right'
+        end
+        self.entity:changeState('take-object')
+        return
+    end
         --DEJO ESTO COMO GUIA PARA AGARRAR LOS OBJETOS Y LANZARLOS
 
     -- elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
@@ -68,5 +82,4 @@ function PlayerIdleState:update(dt)
     --     end
     -- elseif love.keyboard.wasPressed('p') and self.entity.have_bow then
     --     self.entity:changeState('shoot-arrow')
-    end
 end

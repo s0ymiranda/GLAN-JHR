@@ -21,30 +21,24 @@ function PlayerWalkState:update(dt)
         self.entity.direction = 'down-' .. self.prev
         self.entity:changeAnimation('walk-' .. self.entity.direction)
     else
-        if self.prev == 'left' then
-            self.entity.direction = 'left'
-        elseif self.prev == 'right' then
-            self.entity.direction = 'right'
-        end
+        self.entity.direction = self.prev
         self.entity:changeState('idle')
+        return
     end
     if love.keyboard.wasPressed('space') then
-        if self.prev == 'left' then
-            self.entity.direction = 'left'
-        elseif self.prev == 'right' then
-            self.entity.direction = 'right'
-        end
+        self.entity.direction = self.prev
         self.entity:changeState('slap')
-    elseif love.keyboard.wasPressed('k') then
-        if self.prev == 'left' then
-            self.entity.direction = 'left'
-        elseif self.prev == 'right' then
-            self.entity.direction = 'right'
-        end
+        return
+    end
+    if love.keyboard.wasPressed('k') then
+        self.entity.direction = self.prev
         self.entity:changeState('knee-hit')
-    elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        local takenPot = nil
-        local potIdx = 0
+        return
+    end
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        self.entity.direction = self.prev
+        self.entity:changeState('take-object')
+        return
     end
 
     -- perform base collision detection against walls

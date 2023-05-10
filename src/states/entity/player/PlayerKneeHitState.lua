@@ -61,14 +61,8 @@ function PlayerKneeHitState:update(dt)
             self.player.x = self.player.x + 7
         end
         self.player:changeState('idle')
+        return
     end
-
-    -- if love.keyboard.wasPressed('k') then
-    --     if self.player.direction == 'left' then
-    --         self.player.x = self.player.x + 7
-    --     end
-    --     self.player:changeState('knee-hit')
-    -- end
 end
 
 function PlayerKneeHitState:render()
@@ -76,10 +70,9 @@ function PlayerKneeHitState:render()
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
         math.floor(self.player.x), math.floor(self.player.y))
 
-    -- debug for player and hurtbox collision rects
+    -- debug for hurtbox collision rects
     love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
     love.graphics.rectangle('line', self.kneeHitHitbox.x, self.kneeHitHitbox.y,
-    self.kneeHitHitbox.width, self.kneeHitHitbox.height)
+        self.kneeHitHitbox.width, self.kneeHitHitbox.height)
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

@@ -217,6 +217,7 @@ function EntityWalkState:processAIFighting(params,dt)
             dialog = self.dialog,
             displayDialog = self.displayDialog,
         })
+        return
     end
 end
 
@@ -228,12 +229,4 @@ function EntityWalkState:render()
     if self.displayDialog then
         self.dialog:render()
     end
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-
 end
