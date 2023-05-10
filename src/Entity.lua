@@ -118,13 +118,17 @@ function Entity:processAI(params, dt)
 end
 
 function Entity:render()
+    -- debug for player and hurtbox collision rects
+    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
+    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then
         self.flashTimer = 0
         love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
     end
 
-    self.x, self.y = self.x, self.y
     self.stateMachine:render()
     -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     -- self.x, self.y = self.x, self.y
