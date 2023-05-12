@@ -7,6 +7,8 @@ function PauseState:enter(def)
     self.entities = def.entities
     self.objects = def.objects
 
+    self.controllerButtoms = {a = false, x = false, start = false}
+
 end
 
 function PauseState:exit()
@@ -21,6 +23,20 @@ function PauseState:update(dt)
             entities = self.entities,
             objects = self.objects,
     })
+    end
+
+    --For Joystick
+    if #joysticks > 0 then
+        if joystick:isGamepadDown('start') then
+            self.controllerButtoms.start = true
+        elseif self.controllerButtoms.start then
+            stateMachine:change('play',{
+                player = self.player,
+                camera = self.camera,
+                entities = self.entities,
+                objects = self.objects,
+            })
+        end
     end
 
 end
