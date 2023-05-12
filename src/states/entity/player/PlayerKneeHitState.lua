@@ -42,8 +42,8 @@ function PlayerKneeHitState:update(dt)
             entity:goInvulnerable(0.5)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
-            SOUNDS['slap']:stop()
-            SOUNDS['slap']:play()
+            SOUNDS['knee-hit']:stop()
+            SOUNDS['knee-hit']:play()
             self.miss = false
         end
     end

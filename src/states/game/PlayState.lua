@@ -52,7 +52,7 @@ function PlayState:enter(def)
         height = 12,
         color = {r = 189, g = 32, b = 32},
         value = self.player.health,
-        max = self.player.health,
+        max = 100,
         showDetails = true,
         title = 'Health'
     }
@@ -134,7 +134,7 @@ function PlayState:update(dt)
     end
 
     if self.spawnCooldown == 0 and self.player.x < VIRTUAL_WIDTH*4 then
-        self.spawnCooldown = math.random(7)
+        self.spawnCooldown = math.random(8-self.dayNumber)
     end
 
     self.spawnTimer = self.spawnTimer + dt
@@ -258,13 +258,21 @@ function PlayState:update(dt)
     if self.player.x + self.player.width == MAP_WIDTH then
         self.player.x = 0
         self.player.y = VIRTUAL_HEIGHT/2
-        stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+        if self.dayNumber == 5 then
+            stateMachine:change('win')
+        else
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+        end
     end
 
     if love.keyboard.wasPressed('r') then
         self.player.x = 0
         self.player.y = VIRTUAL_HEIGHT/2
-        stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+        if self.dayNumber == 5 then
+            stateMachine:change('win')
+        else
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+        end
     end
 
 end
@@ -330,6 +338,7 @@ function PlayState:generateWalkingEntity()
         height = height,
 
         health = 3,
+        pervertFactor = self.player.respect/100,
     }
 
     new_entity.stateMachine = StateMachine {

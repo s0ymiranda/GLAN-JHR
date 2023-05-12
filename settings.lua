@@ -164,5 +164,6 @@ SOUNDS = {
     ['hero-damage'] = love.audio.newSource('sounds/hero_damage.wav', 'static'),
     ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
     ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
-    ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static')
+    ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static'),
+    ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static')
 }

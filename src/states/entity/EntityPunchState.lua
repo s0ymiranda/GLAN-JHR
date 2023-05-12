@@ -61,17 +61,13 @@ function EntityPunchState:update(dt)
         else
             self.entity.x = self.entity.x + 3
         end
-        self.entity:changeState('idle')
+        if math.random(3) == 4 then
+            self.entity:changeState('punch')
+        else
+            self.entity:changeState('idle')
+        end
     end
 
-    if love.keyboard.wasPressed('space') then
-        if self.entity.direction == 'left' then
-            self.entity.x = self.entity.x + 7
-        else
-            self.entity.x = self.entity.x + 3
-        end
-        self.entity:changeState('punch')
-    end
 end
 
 function EntityPunchState:render()
