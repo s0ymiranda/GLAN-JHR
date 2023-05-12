@@ -62,13 +62,6 @@ function PlayerKneeHitState:update(dt)
         end
         self.player:changeState('idle')
     end
-
-    -- if love.keyboard.wasPressed('k') then
-    --     if self.player.direction == 'left' then
-    --         self.player.x = self.player.x + 7
-    --     end
-    --     self.player:changeState('knee-hit')
-    -- end
 end
 
 function PlayerKneeHitState:render()

@@ -10,9 +10,6 @@ PlayerIdleState = Class{__includes = EntityIdleState}
 function PlayerIdleState:update(dt)
     EntityIdleState.update(self, dt)
 
-    -- local joysticks = love.joystick.getJoysticks()
-    -- local joystick = joysticks[1]
-
     --For Joystick
     if #joysticks > 0 then
         if (joystick:isGamepadDown('dpdown','dpup','dpleft','dpright')
