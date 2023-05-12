@@ -9,10 +9,10 @@ function PlayState:init()
     Timer.after(2, function() Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 0}}) end)
     Timer.after(3.5, function() self.textAnimations.alpha.render = false end)
 
-    self.camera = Camera {}
+    -- self.camera = Camera {}
 
-    self.entities = {}
-    self.objects = {}
+    -- self.entities = {}
+    -- self.objects = {}
 
     -- Key combinations
     self.lctrlPressed = false
@@ -36,13 +36,15 @@ function PlayState:enter(def)
         health = 100,
     }
 
-    self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player) end,
-        ['idle'] = function() return PlayerIdleState(self.player) end,
-        ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
-        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
-    }
-    self.player:changeState('idle')
+    if def.player == nil then 
+        self.player.stateMachine = StateMachine {
+            ['walk'] = function() return PlayerWalkState(self.player) end,
+            ['idle'] = function() return PlayerIdleState(self.player) end,
+            ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
+            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
+        }
+        self.player:changeState('idle')
+    end
     self.player.pervert = false
 
     self.healthBar = ProgressBar {
@@ -68,6 +70,10 @@ function PlayState:enter(def)
         title = 'Respect'
     }
 
+    self.camera = def.camera or Camera{}
+    self.entities = def.entities or {}
+    self.objects = def.objects or {}
+
 end
 
 function PlayState:exit()
@@ -92,7 +98,12 @@ function PlayState:update(dt)
         love.event.quit()
     end
     if love.keyboard.wasPressed('p') then
-        stateMachine:change('pause')
+        stateMachine:change('pause',{
+            player = self.player,
+            camera = self.camera,
+            entities = self.entities,
+            objects = self.objects,
+    })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
         stateMachine:change('game-over')
@@ -165,7 +176,7 @@ function PlayState:update(dt)
         end
     end
 
-    self.player:update(dt)
+    -- self.player:update(dt)
 
     if self.deletion then
         print("Entities:")
@@ -244,6 +255,7 @@ function PlayState:update(dt)
         ::continue::
     end
 
+    self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and not self.player.fighting and not self.player.afterFighting then
         self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
@@ -303,7 +315,7 @@ function PlayState:render()
         if self.textAnimations.alpha.render then
             love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
             love.graphics.setFont(FONTS['large'])
-            love.graphics.printf(WEEK_DAYS[self.dayNumber], 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
         end
     self.camera:unset()
 end
