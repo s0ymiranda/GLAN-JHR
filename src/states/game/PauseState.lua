@@ -6,6 +6,7 @@ function PauseState:enter(def)
     self.camera = def.camera
     self.entities = def.entities
     self.objects = def.objects
+    self.dayNumber = def.dayNumber
 
     self.controllerButtoms = {a = false, x = false, start = false}
 
@@ -22,6 +23,7 @@ function PauseState:update(dt)
             camera = self.camera,
             entities = self.entities,
             objects = self.objects,
+            dayNumber = self.dayNumber,
     })
     end
 

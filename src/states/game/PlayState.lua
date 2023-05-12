@@ -36,7 +36,7 @@ function PlayState:enter(def)
         health = 100,
     }
 
-    if def.player == nil then 
+    if def.player == nil then
         self.player.stateMachine = StateMachine {
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['idle'] = function() return PlayerIdleState(self.player) end,
@@ -46,6 +46,10 @@ function PlayState:enter(def)
         self.player:changeState('idle')
     end
     self.player.pervert = false
+
+    if self.player.x > 0 then
+        self.textAnimations.alpha.render = false
+    end
 
     self.healthBar = ProgressBar {
         x = 0 + 10,
@@ -77,7 +81,7 @@ function PlayState:enter(def)
 end
 
 function PlayState:exit()
-    SOUNDS['dungeon-music']:stop()
+    SOUNDS['dungeon-music']:pause()
 end
 
 function PlayState:bottom_collision(a, b, y_diff)
@@ -103,6 +107,7 @@ function PlayState:update(dt)
             camera = self.camera,
             entities = self.entities,
             objects = self.objects,
+            dayNumber = self.dayNumber,
     })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
