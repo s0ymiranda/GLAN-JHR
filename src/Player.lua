@@ -4,7 +4,9 @@ function Player:init(def)
     Entity.init(self, def)
     self.respect = 50
     self.afterFigthing = false
-
+    self.score = 0
+    self.perverts_defeated = 0
+    self.perverts_passed = 0
 end
 
 function Player:update(dt)

@@ -67,6 +67,14 @@ CATCALLING_MESSAGES = {
     "*Wolf whistle*",
 }
 
+WEEK_DAYS = {
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+}
+
 -- map constants
 
 MAP_WIDTH = VIRTUAL_WIDTH*4

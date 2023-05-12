@@ -3,10 +3,72 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.spawnCooldown = 0
     self.spawnTimer = 0
+    self.textAnimations = {alpha = {value = 0, render = true}}
+    Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 255}})
+    Timer.after(2, function() Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 0}}) end)
+    Timer.after(3.5, function() self.textAnimations.alpha.render = false end)
+
 
     self.camera = Camera {}
 
-    self.player = Player {
+    -- self.player = Player {
+    --     animations = ENTITY_DEFS['player'].animations,
+    --     walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+    --     x = 0 ,
+    --     y = VIRTUAL_HEIGHT / 2 ,
+    --     width = 24,
+    --     height = 73,
+    --     health = 100,
+    -- }
+
+    -- self.player.stateMachine = StateMachine {
+    --     ['walk'] = function() return PlayerWalkState(self.player) end,
+    --     ['idle'] = function() return PlayerIdleState(self.player) end,
+    --     ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
+    --     ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
+    -- }
+    -- self.player:changeState('idle')
+    -- self.player.pervert = false
+
+    -- self.healthBar = ProgressBar {
+    --     x = 0 + 10,
+    --     y = 0 + 10,
+    --     width = 64,
+    --     height = 12,
+    --     color = {r = 189, g = 32, b = 32},
+    --     value = self.player.health,
+    --     max = self.player.health,
+    --     showDetails = true,
+    --     title = 'Health'
+    -- }
+    -- self.respectBar = ProgressBar {
+    --     x = 0 + 10,
+    --     y = 0 + self.healthBar.y + self.healthBar.height + 10,
+    --     width = 64,
+    --     height = 12,
+    --     color = {r = 128, g = 128, b = 128},
+    --     value = self.player.respect,
+    --     max = 100,
+    --     showDetails = true,
+    --     title = 'Respect'
+    -- }
+
+    self.entities = {}
+    self.objects = {}
+
+    -- Key combinations
+    self.lctrlPressed = false
+    self.rctrlPressed = false
+
+    SOUNDS['dungeon-music']:setLooping(true)
+    SOUNDS['dungeon-music']:play()
+end
+
+function PlayState:enter(def)
+
+    self.dayNumber = def.dayNumber or 1
+
+    self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         x = 0 ,
@@ -15,6 +77,7 @@ function PlayState:init()
         height = 73,
         health = 100,
     }
+
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player) end,
         ['idle'] = function() return PlayerIdleState(self.player) end,
@@ -47,15 +110,6 @@ function PlayState:init()
         title = 'Respect'
     }
 
-    self.entities = {}
-    self.objects = {}
-
-    -- Key combinations
-    self.lctrlPressed = false
-    self.rctrlPressed = false
-
-    SOUNDS['dungeon-music']:setLooping(true)
-    SOUNDS['dungeon-music']:play()
 end
 
 function PlayState:exit()
@@ -239,6 +293,7 @@ function PlayState:update(dt)
             else
                 -- entity.angry = true
                 self.player.respect = self.player.respect - 10
+                self.player.perverts_passed = self.player.perverts_passed + 1
             end
         end
 
@@ -249,6 +304,7 @@ function PlayState:update(dt)
             if entity.pervert then
                 if self.player.respect < 100 then
                     self.player.respect = self.player.respect + 5
+                    self.player.perverts_defeated = self.player.perverts_defeated + 1
                 end
                 if math.random() < HEARTH_DROP_PROBABILITY then
                     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], entity.x, entity.y + entity.height - 12))
@@ -291,10 +347,23 @@ function PlayState:update(dt)
     self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
 
+    if self.player.x + self.player.width == MAP_WIDTH then
+        self.player.x = 0
+        self.player.y = VIRTUAL_HEIGHT/2
+        stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+    end
+
+    if love.keyboard.wasPressed('r') then
+        self.player.x = 0
+        self.player.y = VIRTUAL_HEIGHT/2
+        stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+    end
+
 end
 
 function PlayState:render()
     self.camera:set()
+
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
@@ -329,6 +398,11 @@ function PlayState:render()
 
         self.healthBar:render()
         self.respectBar:render()
+        if self.textAnimations.alpha.render then
+            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
+            love.graphics.setFont(FONTS['large'])
+            love.graphics.printf(WEEK_DAYS[self.dayNumber], 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+        end
     self.camera:unset()
 end
 
