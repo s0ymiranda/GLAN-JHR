@@ -6,6 +6,9 @@ function GameObject:init(def, x, y)
     self.texture = def.texture
     self.frame = def.frame or 1
 
+    self.damage = def.damage or 0
+    self.timesHit = 0
+
     -- whether it acts as an obstacle or not
     self.solid = def.solid
 
@@ -43,8 +46,8 @@ function GameObject:update(dt)
         self.ySpeed = self.ySpeed + GRAVITY*dt
         self.y = self.y + self.ySpeed*dt
     end
-    if (self.y and self.floor) and self.y >= self.floor then
-        self.y = self.floor
+    if self.floor and (self.y >= self.floor - self.height) then
+        self.y = self.floor - self.height
         self.ySpeed = 0
         self.xSpeed = 0
         self.gravity = false
@@ -61,6 +64,19 @@ end
 
 function GameObject:getCurrentState()
     return self.states[self.state]
+end
+
+function GameObject:hit(entity)
+    entity:damage(self.damage)
+    self.timesHit = self.timesHit + 1
+    if self.timesHit == 3 then
+        local previousHeight = self:getCurrentState().height
+        self.state = 'damaged'
+        self.previousState = 'damaged'
+        self.takeable = false
+        local currentHeight = self:getCurrentState().height
+        self.floor = self.floor + (currentHeight - previousHeight)
+    end
 end
 
 function GameObject:render()

@@ -36,7 +36,7 @@ function EntityPunchState:enter(params)
 end
 
 function EntityPunchState:update(dt)
-    -- check if hitbox collides with any entities in the scene
+    -- check if hitbox collides the player
     if math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
         self.player:damage(10)
         self.player:goInvulnerable(1.5)

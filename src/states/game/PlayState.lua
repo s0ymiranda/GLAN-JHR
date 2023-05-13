@@ -140,16 +140,25 @@ function PlayState:update(dt)
         end
     end
 
+    local stoppedProjectilesPositions = {}
     for k, projectile in pairs(self.projectiles) do
         projectile:update(dt)
         if projectile.xSpeed == 0 then
-            table.remove(self.projectiles, k)
+            table.insert(stoppedProjectilesPositions, 1, k)
             table.insert(self.objects, projectile)
             projectile.state = projectile.previousState
+        else
+            for _, entity in pairs(self.entities) do
+                local entityFloor = entity.y + entity.height
+                if (projectile.floor - 3 < entityFloor) and (entityFloor < projectile.floor + 3) and projectile:collides(entity) then
+                    projectile:hit(entity)
+                end
+            end
         end
-        -- if projectile.x > VIRTUAL_WIDTH then
-        --     self:deleteProjectile(k)
-        -- end
+    end
+
+    for _, v in pairs(stoppedProjectilesPositions) do
+        table.remove(self.projectiles, v)
     end
 
     self.player:update(dt, {objects = self.objects})
@@ -345,10 +354,12 @@ end
 function PlayState:deleteEntity(idx)
     self.entities[idx].stateMachine.current.entity = nil
     self.entities[idx] = nil
+    table.remove(self.entities, idx)
 end
 
 function PlayState:deleteObject(idx)
     self.objects[idx] = nil
+    table.remove(self.objects, idx)
 end
 
 function PlayState:generateWalkingEntity()

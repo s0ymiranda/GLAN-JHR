@@ -72,6 +72,7 @@ GAME_OBJECT_DEFS = {
         consumable = false,
         defaultState = 'default',
         takeable = true,
+        damage = 2,
         states = {
             ['default'] = {
                 frame = 1,

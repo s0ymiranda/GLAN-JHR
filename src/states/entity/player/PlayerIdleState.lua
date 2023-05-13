@@ -46,22 +46,21 @@ function PlayerIdleState:update(dt, params)
             self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)
             self.heldObject.ySpeed = 0
             self.heldObject.gravity = true
-            self.heldObject.floor = self.entity.y + self.entity.height - 3 - self.heldObject.height
+            self.heldObject.floor = self.entity.y + self.entity.height
             table.insert(self.projectiles, self.heldObject)
             self.heldObject = nil
             self.entity:changeAnimation('throw-' .. self.entity.direction)
             self.entity.currentAnimation:refresh()
             return
         end
-        -- look for the object
-        local takenObject = nil
-        local objectIdx = 0
 
         if #params.objects == 0 then
             goto no_object
         end
 
         local objects = params.objects
+        local entityX = self.entity.x + self.entity.width / 2
+        local entityY = self.entity.y + self.entity.height
         table.sort(objects, function(a, b)
             if not a.takeable then
                 return false
@@ -69,11 +68,11 @@ function PlayerIdleState:update(dt, params)
             if not b.takeable then
                 return true
             end
-            local a_x = a.x + a.width / 2
-            local b_x = b.x + b.width / 2
-            local a_y = a.y + a.height
-            local b_y = b.y + b.height
-            return math.sqrt(a_x^2 + a_y^2) < math.sqrt(b_x^2 + b_y^2)
+            local aXDist = math.abs(a.x + a.width / 2 - entityX)
+            local bXDist = math.abs(b.x + b.width / 2 - entityX)
+            local aYDist = math.abs(a.y + a.height - entityY)
+            local bYDist = math.abs(b.y + b.height - entityY)
+            return math.sqrt(aXDist^2 + aYDist^2) < math.sqrt(bXDist^2 + bYDist^2)
         end)
         local closestObject = objects[1]
         if not closestObject.takeable then
@@ -113,7 +112,7 @@ function PlayerIdleState:render()
         y = self.entity.y + self.entity.height - 2,
         width = self.entity.width
     }
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
-    love.graphics.line(math.floor(player_bottom.x), math.floor(player_bottom.y), math.floor(player_bottom.x + player_bottom.width), math.floor(player_bottom.y))
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
+    -- love.graphics.line(math.floor(player_bottom.x), math.floor(player_bottom.y), math.floor(player_bottom.x + player_bottom.width), math.floor(player_bottom.y))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end
