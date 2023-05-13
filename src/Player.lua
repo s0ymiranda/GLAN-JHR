@@ -13,6 +13,10 @@ function Player:update(dt)
     Entity.update(self, dt)
 end
 
+
+function Player:onlyAnimation(dt)
+    self.currentAnimation:update(dt)
+end
 -- function Player:collides(target)
 --     local selfY, selfHeight = self.y + self.height / 2, self.height - self.height / 2
 --     return not (self.x + self.width < target.x or self.x > target.x + target.width or

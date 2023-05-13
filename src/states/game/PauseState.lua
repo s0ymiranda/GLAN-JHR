@@ -50,29 +50,29 @@ function PauseState:render()
     -- VIRTUAL_HEIGHT / TEXTURES['bg-play']:getHeight())
     self.camera:set()
 
-    love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
+        love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
-    local to_render = {self.player}
-    for _, entity in pairs(self.entities) do
-        table.insert(to_render, entity)
-    end
-    for _, object in pairs(self.objects) do
-        table.insert(to_render, object)
-    end
+        local to_render = {self.player}
+        for _, entity in pairs(self.entities) do
+            table.insert(to_render, entity)
+        end
+        for _, object in pairs(self.objects) do
+            table.insert(to_render, object)
+        end
 
-    table.sort(to_render, function(a, b)
-        return a.y + a.height < b.y + b.height
-    end)
+        table.sort(to_render, function(a, b)
+            return a.y + a.height < b.y + b.height
+        end)
 
-    for _, entity in pairs(to_render) do
-        entity:render()
-    end
+        for _, entity in pairs(to_render) do
+            entity:render()
+        end
 
-    -- self.healthBar:render()
-    -- self.respectBar:render()
+        -- self.healthBar:render()
+        -- self.respectBar:render()
 
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    love.graphics.setFont(FONTS['large'])
-    love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
-self.camera:unset()
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+        love.graphics.setFont(FONTS['large'])
+        love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
+    self.camera:unset()
 end

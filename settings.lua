@@ -85,6 +85,8 @@ TEXTURES = {
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
     ['character-knee-hit'] = love.graphics.newImage('graphics/Hero/KneeHit-Hero.png'),
+    ['character-pick-up'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
+    ['character-defeated'] = love.graphics.newImage('graphics/Hero/Defeated-Hero.png'),
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -124,6 +126,8 @@ FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['character-knee-hit'] = generateQuads(TEXTURES['character-knee-hit'], 32, 73),
+    ['character-pick-up'] = generateQuads(TEXTURES['character-pick-up'], 32, 73),
+    ['character-defeated'] = generateQuads(TEXTURES['character-defeated'], 32, 57),
 
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
@@ -158,12 +162,13 @@ FONTS = {
 SOUNDS = {
     ['start-music'] = love.audio.newSource('sounds/blood_of_villain.mp3', 'static'),
     ['dungeon-music'] = love.audio.newSource('sounds/scenary_music.mp3', 'static'),
-    ['game-over-music'] = love.audio.newSource('sounds/game_over_music.mp3', 'static'),
+    ['game-over-music'] = love.audio.newSource('sounds/hollow_knight.mp3', 'static'),
     ['win-music'] = love.audio.newSource('sounds/win_music.mp3', 'static'),
     ['UOFF'] = love.audio.newSource('sounds/UOFF.mp3', 'static'),
     ['hero-damage'] = love.audio.newSource('sounds/hero_damage.wav', 'static'),
     ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
     ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
     ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static'),
-    ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static')
+    ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static'),
+    ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static')
 }

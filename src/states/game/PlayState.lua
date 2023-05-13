@@ -24,7 +24,13 @@ end
 
 function PlayState:enter(def)
 
+    local isANewDay = def.isANewDay or false
+
     self.dayNumber = def.dayNumber or 1
+
+    self.camera = def.camera or Camera{}
+    self.entities = def.entities or {}
+    self.objects = def.objects or {}
 
     self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
@@ -36,7 +42,7 @@ function PlayState:enter(def)
         health = 100,
     }
 
-    if def.player == nil then
+    if def.player == nil or isANewDay then
         self.player.stateMachine = StateMachine {
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['idle'] = function() return PlayerIdleState(self.player) end,
@@ -44,6 +50,8 @@ function PlayState:enter(def)
             ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
         }
         self.player:changeState('idle')
+        self.player.direction = 'right'
+        self.player:changeAnimation('idle-right')
     end
     self.player.pervert = false
 
@@ -73,10 +81,6 @@ function PlayState:enter(def)
         showDetails = true,
         title = 'Respect'
     }
-
-    self.camera = def.camera or Camera{}
-    self.entities = def.entities or {}
-    self.objects = def.objects or {}
 
 end
 
@@ -111,7 +115,22 @@ function PlayState:update(dt)
     })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
-        stateMachine:change('game-over')
+        for k,e in pairs(self.entities) do
+            e:changeState('idle')
+        end
+        self.player.dead = true
+        self.player:changeAnimation('falling')
+        Timer.after(0.4,function()
+            self.player.y = self.player.y + 15
+            self.player:changeAnimation('defeated')
+        end)
+        stateMachine:change('game-over',{
+            player = self.player,
+            camera = self.camera,
+            entities = self.entities,
+            objects = self.objects,
+            dayNumber = self.dayNumber,
+        })
     end
     if love.keyboard.wasPressed('o') then
         stateMachine:change('win')
@@ -181,7 +200,7 @@ function PlayState:update(dt)
         end
     end
 
-    -- self.player:update(dt)
+    self.player:update(dt)
 
     if self.deletion then
         print("Entities:")
@@ -260,7 +279,7 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    self.player:update(dt)
+    -- self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and not self.player.fighting and not self.player.afterFighting then
         self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
@@ -278,7 +297,9 @@ function PlayState:update(dt)
         if self.dayNumber == 5 then
             stateMachine:change('win')
         else
-            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+            -- self.player.afterFighting = false
+            -- self.player.fighting = false
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true})
         end
     end
 
@@ -288,7 +309,9 @@ function PlayState:update(dt)
         if self.dayNumber == 5 then
             stateMachine:change('win')
         else
-            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1})
+            -- self.player.afterFighting = false
+            -- self.player.fighting = false
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true})
         end
     end
 

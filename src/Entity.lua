@@ -13,7 +13,7 @@ function Entity:init(def)
     self.pervertFactor = def.pervertFactor or 1
 
     local random = math.random(math.floor((2/self.pervertFactor)+0.5))
-    print(random)
+    --print(random)
 
     if random == 1 then
         self.pervert = false

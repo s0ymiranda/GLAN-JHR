@@ -42,8 +42,13 @@ function EntityPunchState:update(dt)
         self.player:goInvulnerable(1.5)
         SOUNDS['hero-damage']:stop()
         SOUNDS['hero-damage']:play()
-        SOUNDS['slap']:stop()
-        SOUNDS['slap']:play()
+        if self.player.health <= 0  then
+            SOUNDS['punch-eco']:stop()
+            SOUNDS['punch-eco']:play()
+        else
+            SOUNDS['slap']:stop()
+            SOUNDS['slap']:play()
+        end
         self.miss = false
     end
 

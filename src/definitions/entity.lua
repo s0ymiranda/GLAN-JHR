@@ -65,6 +65,18 @@ ENTITY_DEFS = {
                 interval = 0.12,
                 looping = false,
                 texture = 'character-knee-hit'
+            },
+            ['falling'] = {
+                frames = {2,3},
+                interval = 0.20,
+                looping = false,
+                texture = 'character-pick-up'
+            },
+            ['defeated'] = {
+                frames = {1,2,3,4,3,2},
+                interval = 0.30,
+                looping = true,
+                texture = 'character-defeated'
             }
         }
     },
