@@ -31,6 +31,8 @@ function PlayerIdleState:update(dt)
         self.entity:changeState('slap')
     elseif love.keyboard.wasPressed('k') then
         self.entity:changeState('knee-hit')
+    elseif love.keyboard.wasPressed('l') then
+        self.entity:changeState('dodge')
         --DEJO ESTO COMO GUIA PARA AGARRAR LOS OBJETOS Y LANZARLOS
 
     -- elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then

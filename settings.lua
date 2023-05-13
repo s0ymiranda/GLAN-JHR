@@ -24,6 +24,7 @@ require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerSlapState'
 require 'src/states/entity/player/PlayerKneeHitState'
+require 'src/states/entity/player/PlayerDodgeState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
@@ -77,7 +78,7 @@ WEEK_DAYS = {
 
 -- map constants
 
-MAP_WIDTH = VIRTUAL_WIDTH*4
+MAP_WIDTH = VIRTUAL_WIDTH*8
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
@@ -87,6 +88,7 @@ TEXTURES = {
     ['character-knee-hit'] = love.graphics.newImage('graphics/Hero/KneeHit-Hero.png'),
     ['character-pick-up'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
     ['character-defeated'] = love.graphics.newImage('graphics/Hero/Defeated-Hero.png'),
+    ['character-dodge'] = love.graphics.newImage('graphics/Hero/Dodge-Hero.png'),
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -118,7 +120,11 @@ TEXTURES = {
     ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
 
     -- Game objects
-    ['heart'] = love.graphics.newImage('graphics/misc/heart.png'),
+    ['heart'] = love.graphics.newImage('graphics/Game-Objects/heart.png'),
+    ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
+    ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
+    ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
+    ['bush'] = love.graphics.newImage('graphics/Game-Objects/bush.png')
 }
 
 
@@ -128,6 +134,7 @@ FRAMES = {
     ['character-knee-hit'] = generateQuads(TEXTURES['character-knee-hit'], 32, 73),
     ['character-pick-up'] = generateQuads(TEXTURES['character-pick-up'], 32, 73),
     ['character-defeated'] = generateQuads(TEXTURES['character-defeated'], 32, 57),
+    ['character-dodge'] = generateQuads(TEXTURES['character-dodge'], 39, 73),
 
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),

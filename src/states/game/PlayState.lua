@@ -47,7 +47,8 @@ function PlayState:enter(def)
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['idle'] = function() return PlayerIdleState(self.player) end,
             ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
-            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
+            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end,
+            ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
         }
         self.player:changeState('idle')
         self.player.direction = 'right'
