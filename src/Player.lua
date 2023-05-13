@@ -7,8 +7,8 @@ function Player:init(def)
 
 end
 
-function Player:update(dt)
-    Entity.update(self, dt)
+function Player:update(dt, params)
+    Entity.update(self, dt, params)
 end
 
 -- function Player:collides(target)

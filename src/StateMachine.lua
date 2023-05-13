@@ -16,6 +16,9 @@ function StateMachine:init(states)
 end
 
 function StateMachine:change(stateName, enterParams)
+    if not self.states[stateName] then
+        print('Invalid state name: ' .. stateName)
+    end
     assert(self.states[stateName]) -- state must exist.
     self.current:exit()
     self.currentStateName = stateName
@@ -23,8 +26,8 @@ function StateMachine:change(stateName, enterParams)
     self.current:enter(enterParams)
 end
 
-function StateMachine:update(dt)
-    self.current:update(dt)
+function StateMachine:update(dt, params)
+    self.current:update(dt, params)
 end
 
 function StateMachine:render()

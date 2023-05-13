@@ -30,13 +30,28 @@ function GameObject:init(def, x, y)
     -- onConsume function an empty function if it is not specified
     self.onConsume = def.onConsume or function() end
 
+    self.getBottom = def.getBottom or function() end
+
     -- an object could be taken or not
     self.takeable = def.takeable
     self.taken = false
+    self.bottomCollisionDistance = def.bottomCollisionDistance
 end
 
 function GameObject:update(dt)
-
+    if self.gravity then
+        self.ySpeed = self.ySpeed + GRAVITY*dt
+        self.y = self.y + self.ySpeed*dt
+    end
+    if (self.y and self.floor) and self.y >= self.floor then
+        self.y = self.floor
+        self.ySpeed = 0
+        self.xSpeed = 0
+        self.gravity = false
+    end
+    if self.xSpeed and (self.xSpeed ~= 0) then
+        self.x = self.x + self.xSpeed*dt
+    end
 end
 
 function GameObject:collides(target)
@@ -44,20 +59,31 @@ function GameObject:collides(target)
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end
 
-function GameObject:render(adjacentOffsetX, adjacentOffsetY)
+function GameObject:getCurrentState()
+    return self.states[self.state]
+end
+
+function GameObject:render()
+    local currentState = self:getCurrentState()
     local frames = FRAMES[self.texture]
-    if frames then
-        love.graphics.draw(
-            TEXTURES[self.texture],
-            frames[self.states[self.state].frame or self.frame],
-            self.x + (adjacentOffsetX or 0),
-            self.y + (adjacentOffsetY or 0)
-        )
-    else
-        love.graphics.draw(
-            TEXTURES[self.texture],
-            self.x + (adjacentOffsetX or 0),
-            self.y + (adjacentOffsetY or 0)
-        )
-    end
+    local emptySpaces = currentState.emptySpaces
+    local x = math.floor(self.x - emptySpaces[4])
+    local y = math.floor(self.y - emptySpaces[1])
+    local width = currentState.width or self.width
+    local height = currentState.height or self.height
+    love.graphics.draw(
+        TEXTURES[self.texture],
+        frames[currentState.frame or self.frame],
+        x, y
+    )
+    -- debug
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), width, height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- local objectBottom = self.getBottom(self)
+    -- if objectBottom then
+    --     love.graphics.setColor(love.math.colorFromBytes(0, 255, 0, 255))
+    --     love.graphics.line(objectBottom.x, objectBottom.y, objectBottom.x + objectBottom.width, objectBottom.y)
+    --     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- end
 end

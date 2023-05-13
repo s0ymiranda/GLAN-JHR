@@ -2,7 +2,7 @@ ENTITY_DEFS = {
     ['player'] = {
         walkSpeed = 60,
         animations = {
-           ['walk-left'] = {
+            ['walk-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
                 texture = 'character-walk'
@@ -12,7 +12,6 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'character-walk'
             },
-
             ['walk-up-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
@@ -23,7 +22,6 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'character-walk'
             },
-
             ['walk-down-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
@@ -34,6 +32,38 @@ ENTITY_DEFS = {
                 interval = 0.20,
                 texture = 'character-walk'
             },
+
+            ['held-walk-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+            ['held-walk-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+            ['held-walk-up-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+            ['held-walk-up-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+            ['held-walk-down-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+            ['held-walk-down-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character-held'
+            },
+
             ['idle-left'] = {
                 frames = {1},
                 texture = 'character-walk'
@@ -42,6 +72,16 @@ ENTITY_DEFS = {
                 frames = {2},
                 texture = 'character-walk'
             },
+
+            ['held-idle-left'] = {
+                frames = {9},
+                texture = 'character-held'
+            },
+            ['held-idle-right'] = {
+                frames = {10},
+                texture = 'character-held'
+            },
+
             ['slap-left'] = {
                 frames = {4,3,2,1},
                 interval = 0.06,
@@ -65,7 +105,29 @@ ENTITY_DEFS = {
                 interval = 0.12,
                 looping = false,
                 texture = 'character-knee-hit'
-            }
+            },
+
+            ['pickup-left'] = {
+                frames = {1, 2, 3, 2, 1},
+                interval = 0.12,
+                looping = false,
+                texture = 'character-pickup'
+            },
+            ['pickup-right'] = {
+                frames = {4, 5, 6, 5, 4},
+                interval = 0.12,
+                looping = false,
+                texture = 'character-pickup'
+            },
+
+            ['throw-left'] = {
+                frames = {1},
+                texture = 'character-pickup'
+            },
+            ['throw-right'] = {
+                frames = {4},
+                texture = 'character-pickup'
+            },
         }
     },
     ['enemy'] = {

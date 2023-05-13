@@ -10,6 +10,7 @@ require 'src/Hitbox'
 require 'src/Player'
 require 'src/StateMachine'
 require 'src/GameObject'
+require 'src/utils'
 
 require 'src/definitions/entity'
 require 'src/definitions/game_objects'
@@ -24,6 +25,7 @@ require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerSlapState'
 require 'src/states/entity/player/PlayerKneeHitState'
+require 'src/states/entity/player/PlayerPickUpState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
@@ -46,6 +48,7 @@ GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
 HEARTH_DROP_PROBABILITY = 0.9
+GRAVITY = 500
 
 CATCALLING_MESSAGES = {
     "So many curves and me with no brakes",
@@ -69,6 +72,9 @@ TEXTURES = {
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
     ['character-knee-hit'] = love.graphics.newImage('graphics/Hero/KneeHit-Hero.png'),
+    ['character-pickup'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
+    ['character-held'] = love.graphics.newImage('graphics/Hero/Held-Hero.png'),
+
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -101,6 +107,7 @@ TEXTURES = {
 
     -- Game objects
     ['heart'] = love.graphics.newImage('graphics/misc/heart.png'),
+    ['barrel'] = love.graphics.newImage('graphics/Streets of Fight Assets/Stage Layers/barrel.png'),
 }
 
 
@@ -108,6 +115,8 @@ FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['character-knee-hit'] = generateQuads(TEXTURES['character-knee-hit'], 32, 73),
+    ['character-pickup'] = generateQuads(TEXTURES['character-pickup'], 32, 73),
+    ['character-held'] = generateQuads(TEXTURES['character-held'], 24, 73),
 
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
@@ -129,7 +138,11 @@ FRAMES = {
     ['npc0-blond-noglasses-walk'] = generateQuads(TEXTURES['npc0-blond-noglasses-walk'], 25, 75),
     ['npc0-blond-noglasses-punch'] = generateQuads(TEXTURES['npc0-blond-noglasses-punch'], 35, 75),
     ['npc0-blond-otherclothes-walk'] = generateQuads(TEXTURES['npc0-blond-otherclothes-walk'], 25, 75),
-    ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75)
+    ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75),
+
+    -- Game objects
+    ['heart'] = generateQuads(TEXTURES['heart'], 13, 12),
+    ['barrel'] = generateQuads(TEXTURES['barrel'], 32, 48),
 }
 
 

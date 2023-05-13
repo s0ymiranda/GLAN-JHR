@@ -85,9 +85,12 @@ end
 
 function Entity:changeAnimation(name)
     self.currentAnimation = self.animations[name]
+    if not self.currentAnimation then
+        print("Invalid animation name: " .. name)
+    end
 end
 
-function Entity:update(dt)
+function Entity:update(dt, params)
     if self.invulnerable then
         self.flashTimer = self.flashTimer + dt
         self.invulnerableTimer = self.invulnerableTimer + dt
@@ -100,7 +103,7 @@ function Entity:update(dt)
         end
     end
 
-    self.stateMachine:update(dt)
+    self.stateMachine:update(dt, params)
 
     if self.currentAnimation then
         self.currentAnimation:update(dt)
@@ -119,9 +122,9 @@ end
 
 function Entity:render()
     -- debug for player and hurtbox collision rects
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then

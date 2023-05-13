@@ -5,24 +5,33 @@ function PlayerWalkState:init(player)
     self.prev = player.direction
 end
 
+function PlayerWalkState:enter(params)
+    self.animationPrefix = 'walk-'
+    if params and params.heldObject then
+        self.heldObject = params.heldObject
+        self.animationPrefix = 'held-walk-'
+    end
+    self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
+end
+
 function PlayerWalkState:update(dt)
     if love.keyboard.isDown('left','a') then
         self.entity.direction = 'left'
-        self.entity:changeAnimation('walk-left')
+        self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
         self.prev = 'left'
     elseif love.keyboard.isDown('right','d') then
         self.entity.direction = 'right'
-        self.entity:changeAnimation('walk-right')
+        self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
         self.prev = 'right'
     elseif love.keyboard.isDown('up','w') then
         self.entity.direction = 'up-' .. self.prev
-        self.entity:changeAnimation('walk-' .. self.entity.direction)
+        self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
     elseif love.keyboard.isDown('down','s') then
         self.entity.direction = 'down-' .. self.prev
-        self.entity:changeAnimation('walk-' .. self.entity.direction)
+        self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
     else
         self.entity.direction = self.prev
-        self.entity:changeState('idle')
+        self.entity:changeState('idle', {heldObject = self.heldObject})
         return
     end
     if love.keyboard.wasPressed('space') then
@@ -36,14 +45,20 @@ function PlayerWalkState:update(dt)
         return
     end
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        self.entity.direction = self.prev
-        self.entity:changeState('take-object')
-        return
+        -- self.entity.direction = self.prev
+        -- self.entity:changeState('take-object', {heldObject = self.heldObject, playerPreviousState = 'walk'})
+        -- return
     end
 
     -- perform base collision detection against walls
 
     EntityWalkState.update(self, dt)
+
+    if self.heldObject then
+        local heldObjectState = self.heldObject:getCurrentState()
+        self.heldObject.x = self.entity.x + 12 - heldObjectState.width / 2
+        self.heldObject.y = self.entity.y - heldObjectState.height + 3
+    end
 
     -- if we bumped something when checking collision, check any object collisions
     if self.bumped then
@@ -68,5 +83,12 @@ function PlayerWalkState:update(dt)
             -- readjust position
             self.entity.y = self.entity.y - self.entity.walkSpeed * dt
         end
+    end
+end
+
+function PlayerWalkState:render()
+    EntityWalkState.render(self)
+    if self.heldObject then
+        self.heldObject:render()
     end
 end

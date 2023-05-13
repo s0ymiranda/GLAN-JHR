@@ -15,11 +15,16 @@ function PlayState:init()
         height = 73,
         health = 100,
     }
+
+    self.heldObjects = {}
+    self.projectiles = {}
+
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player) end,
-        ['idle'] = function() return PlayerIdleState(self.player) end,
+        ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
         ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
-        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end
+        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end,
+        ['pickup'] = function() return PlayerPickUpState(self.player) end,
     }
     self.player:changeState('idle')
     self.player.pervert = false
@@ -60,19 +65,6 @@ end
 
 function PlayState:exit()
     SOUNDS['dungeon-music']:stop()
-end
-
-function PlayState:bottom_collision(a, b, y_diff)
-    if math.abs(a.y - b.y) > y_diff then
-        return false
-    end
-    if a.x + a.width < b.x then -- aaaaa...... b
-        return false
-    end
-    if b.x + b.width < a.x then -- bbbbb...... a
-        return false
-    end
-    return true
 end
 
 function PlayState:update(dt)
@@ -133,27 +125,34 @@ function PlayState:update(dt)
         self.spawnTimer = 0
     end
 
-    for k, object in pairs(self.objects) do
-        object:update(dt)
-        if object.type == 'heart' then
-            local player_bottom = {
+    for k, obj in pairs(self.objects) do
+        obj:update(dt)
+        if obj.type == 'heart' then
+            local playerBottom = {
                 x = self.player.x,
-                y = self.player.y + self.player.height,
+                y = self.player.y + self.player.height - 2,
                 width = self.player.width
             }
-            local heart_bottom = {
-                x = object.x,
-                y = object.y + 3*object.height/4,
-                width = object.width
-            }
-            if self:bottom_collision(player_bottom, heart_bottom, object.height/2) then
+            if BottomCollision(playerBottom, obj.getBottom(obj), obj.bottomCollisionDistance) then
                 self.player.health = math.min(self.player.health + 10, 100)
                 self:deleteObject(k)
             end
         end
     end
 
-    self.player:update(dt)
+    for k, projectile in pairs(self.projectiles) do
+        projectile:update(dt)
+        if projectile.xSpeed == 0 then
+            table.remove(self.projectiles, k)
+            table.insert(self.objects, projectile)
+            projectile.state = projectile.previousState
+        end
+        -- if projectile.x > VIRTUAL_WIDTH then
+        --     self:deleteProjectile(k)
+        -- end
+    end
+
+    self.player:update(dt, {objects = self.objects})
 
     -- for i = #self.entities, 1, -1 do
     --     local entity = self.entities[i]
@@ -304,17 +303,28 @@ function PlayState:render()
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
         end
+        for _, object in pairs(self.heldObjects) do
+            table.insert(to_render, object)
+        end
+        for _, object in pairs(self.projectiles) do
+            table.insert(to_render, object)
+        end
 
         table.sort(to_render, function(a, b)
             -- if a.z == b.z then
             --     return a.y < b.y
             -- end
             -- return a.z < b.z
-            return a.y + a.height < b.y + b.height
+            local ay = a.floor
+            local by = b.floor
+            if not ay then ay = a.y + a.height end
+            if not by then by = b.y + b.height end
+            return ay < by
+            -- return (a.floor or (a.y + a.height)) < (b.floor or (b.y + b.height))
         end)
 
-        for _, entity in pairs(to_render) do
-            entity:render()
+        for _, renderable in pairs(to_render) do
+            renderable:render()
         end
 
         -- Way too slow tho
