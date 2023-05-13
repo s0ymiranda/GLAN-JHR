@@ -19,6 +19,34 @@ GAME_OBJECT_DEFS = {
             SOUNDS['heart-taken']:play()
         end
     },
+    ['bus'] = {
+        type = 'bus',
+        texture = 'bus',
+        width = 268,
+        height = 120,
+        solid = false,
+        consumable = false,
+        defaultState = 'default',
+        states = {
+            ['default'] = {
+                frame = 1
+            }
+        }
+    },
+    ['bus-sign'] = {
+        type = 'bus-sign',
+        texture = 'bus-sign',
+        width = 28,
+        height = 99,
+        solid = false,
+        consumable = false,
+        defaultState = 'default',
+        states = {
+            ['default'] = {
+                frame = 1
+            }
+        }
+    },
     -- definition of barrel as a solid object type
     ['barrel'] = {
         type = 'barrel',
