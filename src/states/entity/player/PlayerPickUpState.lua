@@ -2,7 +2,7 @@ PlayerPickUpState = Class{__includes = BaseState}
 
 function PlayerPickUpState:init(player)
     self.player = player
-    self.player:changeAnimation('pickup-' .. self.player.direction)
+    self.player:changeAnimation('pick-up-' .. self.player.direction)
     self.previousFrame = 0
 end
 

@@ -82,16 +82,20 @@ end
 function GameObject:render()
     local currentState = self:getCurrentState()
     local frames = FRAMES[self.texture]
-    local emptySpaces = currentState.emptySpaces
+    local emptySpaces = currentState.emptySpaces or {0, 0, 0, 0}
     local x = math.floor(self.x - emptySpaces[4])
     local y = math.floor(self.y - emptySpaces[1])
     local width = currentState.width or self.width
     local height = currentState.height or self.height
-    love.graphics.draw(
-        TEXTURES[self.texture],
-        frames[currentState.frame or self.frame],
-        x, y
-    )
+    if frames then
+        love.graphics.draw(
+            TEXTURES[self.texture],
+            frames[currentState.frame or self.frame],
+            x, y
+        )
+    else
+        love.graphics.draw(TEXTURES[self.texture], x, y)
+    end
     -- debug
     -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
     -- love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), width, height)

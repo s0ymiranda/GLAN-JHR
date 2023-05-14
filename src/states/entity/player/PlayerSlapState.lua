@@ -59,6 +59,7 @@ function PlayerSlapState:update(dt)
         SOUNDS['miss']:stop()
         SOUNDS['miss']:play()
         self.miss = false
+        --print(self.player.x)
     end
 
     if self.player.currentAnimation.timesPlayed > 0 then

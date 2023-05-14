@@ -5,6 +5,11 @@ function EntityPunchState:init(entity,player)
     self.entity = entity
     self.miss = true
 
+    self.canHit = false
+
+    Timer.after(0.3,function() self.canHit = true end)
+    Timer.after(0.6,function() self.canHit = false end)
+
     local direction = self.entity.direction
 
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
@@ -36,14 +41,19 @@ function EntityPunchState:enter(params)
 end
 
 function EntityPunchState:update(dt)
-    -- check if hitbox collides the player
-    if math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
+    -- check if hitbox collides with the player
+    if self.canHit and math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
         self.player:damage(10)
         self.player:goInvulnerable(1.5)
         SOUNDS['hero-damage']:stop()
         SOUNDS['hero-damage']:play()
-        SOUNDS['slap']:stop()
-        SOUNDS['slap']:play()
+        if self.player.health <= 0  then
+            SOUNDS['punch-eco']:stop()
+            SOUNDS['punch-eco']:play()
+        else
+            SOUNDS['slap']:stop()
+            SOUNDS['slap']:play()
+        end
         self.miss = false
     end
 
@@ -61,8 +71,11 @@ function EntityPunchState:update(dt)
         else
             self.entity.x = self.entity.x + 3
         end
+        if math.random(3) == 4 then
+            self.entity:changeState('punch')
+            return
+        end
         self.entity:changeState('idle')
-        return
     end
 
     if love.keyboard.wasPressed('space') then
@@ -71,9 +84,8 @@ function EntityPunchState:update(dt)
         else
             self.entity.x = self.entity.x + 3
         end
-        self.entity:changeState('punch')
-        return
     end
+
 end
 
 function EntityPunchState:render()

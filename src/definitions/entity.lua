@@ -106,27 +106,51 @@ ENTITY_DEFS = {
                 looping = false,
                 texture = 'character-knee-hit'
             },
+            ['falling'] = {
+                frames = {2,3},
+                interval = 0.20,
+                looping = false,
+                texture = 'character-pick-up'
+            },
+            ['defeated'] = {
+                frames = {1,2,3,4,3,2},
+                interval = 0.30,
+                looping = true,
+                texture = 'character-defeated'
+            },
+            ['dodge-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.12,
+                looping = false,
+                texture = 'character-dodge'
+            },
+            ['dodge-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'character-dodge'
+            },
 
-            ['pickup-left'] = {
+            ['pick-up-left'] = {
                 frames = {1, 2, 3, 2, 1},
                 interval = 0.12,
                 looping = false,
-                texture = 'character-pickup'
+                texture = 'character-pick-up'
             },
-            ['pickup-right'] = {
+            ['pick-up-right'] = {
                 frames = {4, 5, 6, 5, 4},
                 interval = 0.12,
                 looping = false,
-                texture = 'character-pickup'
+                texture = 'character-pick-up'
             },
 
             ['throw-left'] = {
                 frames = {1},
-                texture = 'character-pickup'
+                texture = 'character-pick-up'
             },
             ['throw-right'] = {
                 frames = {4},
-                texture = 'character-pickup'
+                texture = 'character-pick-up'
             },
         }
     },

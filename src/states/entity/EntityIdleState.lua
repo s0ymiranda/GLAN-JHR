@@ -29,7 +29,7 @@ function EntityIdleState:processAI(params, dt)
         end
     end
     if self.waitDuration == 0 then
-        self.waitDuration = math.random(5)
+        self.waitDuration = math.random(math.floor(5*self.entity.pervertFactor))
     else
         self.waitTimer = self.waitTimer + dt
 

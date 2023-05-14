@@ -26,6 +26,7 @@ require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerSlapState'
 require 'src/states/entity/player/PlayerKneeHitState'
 require 'src/states/entity/player/PlayerPickUpState'
+require 'src/states/entity/player/PlayerDodgeState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
@@ -37,6 +38,14 @@ require 'src/utilities/quads'
 
 require 'src/gui/Dialog'
 require 'src/gui/ProgressBar'
+
+joysticks = love.joystick.getJoysticks()
+if #joysticks > 0 then
+    joystick = joysticks[1]
+else
+    joystick = false
+end
+-- joystick = joysticks[1]
 
 VIRTUAL_WIDTH = 576
 VIRTUAL_HEIGHT = 324
@@ -62,9 +71,17 @@ CATCALLING_MESSAGES = {
     "*Wolf whistle*",
 }
 
+WEEK_DAYS = {
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+}
+
 -- map constants
 
-MAP_WIDTH = VIRTUAL_WIDTH*4
+MAP_WIDTH = VIRTUAL_WIDTH*8
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
@@ -72,9 +89,10 @@ TEXTURES = {
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
     ['character-knee-hit'] = love.graphics.newImage('graphics/Hero/KneeHit-Hero.png'),
-    ['character-pickup'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
     ['character-held'] = love.graphics.newImage('graphics/Hero/Held-Hero.png'),
-
+    ['character-pick-up'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
+    ['character-defeated'] = love.graphics.newImage('graphics/Hero/Defeated-Hero.png'),
+    ['character-dodge'] = love.graphics.newImage('graphics/Hero/Dodge-Hero.png'),
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -87,7 +105,7 @@ TEXTURES = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
 
     --Scenary
-    ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png'),
+    ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
@@ -106,7 +124,14 @@ TEXTURES = {
     ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
 
     -- Game objects
-    ['heart'] = love.graphics.newImage('graphics/misc/heart.png'),
+    ['heart'] = love.graphics.newImage('graphics/Game-Objects/heart.png'),
+    ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
+    ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
+    ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
+    ['bush'] = love.graphics.newImage('graphics/Game-Objects/bush.png'),
+    ['sushi'] = love.graphics.newImage('graphics/Game-Objects/Sushi.png'),
+    ['cafe'] = love.graphics.newImage('graphics/Game-Objects/Cafe.png'),
+    ['neon'] = love.graphics.newImage('graphics/Game-Objects/NeonSign.png'),
     ['barrel'] = love.graphics.newImage('graphics/Streets of Fight Assets/Stage Layers/barrel.png'),
 }
 
@@ -115,8 +140,10 @@ FRAMES = {
     ['character-walk'] = generateQuads(TEXTURES['character-walk'], 24, 73),
     ['character-slap'] = generateQuads(TEXTURES['character-slap'], 32, 73),
     ['character-knee-hit'] = generateQuads(TEXTURES['character-knee-hit'], 32, 73),
-    ['character-pickup'] = generateQuads(TEXTURES['character-pickup'], 32, 73),
     ['character-held'] = generateQuads(TEXTURES['character-held'], 24, 73),
+    ['character-pick-up'] = generateQuads(TEXTURES['character-pick-up'], 32, 73),
+    ['character-defeated'] = generateQuads(TEXTURES['character-defeated'], 32, 57),
+    ['character-dodge'] = generateQuads(TEXTURES['character-dodge'], 39, 73),
 
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
@@ -143,6 +170,9 @@ FRAMES = {
     -- Game objects
     ['heart'] = generateQuads(TEXTURES['heart'], 13, 12),
     ['barrel'] = generateQuads(TEXTURES['barrel'], 32, 48),
+    ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
+    ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
+    ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
 }
 
 
@@ -155,11 +185,14 @@ FONTS = {
 SOUNDS = {
     ['start-music'] = love.audio.newSource('sounds/blood_of_villain.mp3', 'static'),
     ['dungeon-music'] = love.audio.newSource('sounds/scenary_music.mp3', 'static'),
-    ['game-over-music'] = love.audio.newSource('sounds/game_over_music.mp3', 'static'),
+    ['game-over-music'] = love.audio.newSource('sounds/hollow_knight.mp3', 'static'),
     ['win-music'] = love.audio.newSource('sounds/win_music.mp3', 'static'),
     ['UOFF'] = love.audio.newSource('sounds/UOFF.mp3', 'static'),
     ['hero-damage'] = love.audio.newSource('sounds/hero_damage.wav', 'static'),
     ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
     ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
-    ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static')
+    ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static'),
+    ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static'),
+    ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static'),
+    ['dodge'] = love.audio.newSource('sounds/dodge.mp3', 'static')
 }

@@ -28,6 +28,19 @@ function PlayerIdleState:update(dt, params)
         end
     end
 
+    --For Joystick
+    if #joysticks > 0 then
+        if (joystick:isGamepadDown('dpdown','dpup','dpleft','dpright')
+        or math.abs(joystick:getGamepadAxis("leftx")) == 1 or math.abs(joystick:getGamepadAxis("lefty")) == 1)  and not self.entity.afterFigthing  then
+            self.entity:changeState('walk')
+        end
+        if joystick:isGamepadDown('a') then
+            self.entity:changeState('slap')
+        elseif joystick:isGamepadDown('x') then
+            self.entity:changeState('knee-hit')
+        end
+    end
+
     if love.keyboard.isDown('left','a','right','d','up','w','down','s') and not self.entity.afterFigthing then
         self.entity:changeState('walk', {heldObject = self.heldObject})
         return
@@ -38,6 +51,10 @@ function PlayerIdleState:update(dt, params)
     end
     if love.keyboard.wasPressed('k') then
         self.entity:changeState('knee-hit')
+        return
+    end
+    if love.keyboard.wasPressed('l') then
+        self.entity:changeState('dodge')
         return
     end
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
@@ -89,7 +106,7 @@ function PlayerIdleState:update(dt, params)
 
         table.remove(objects, 1)
 
-        self.entity:changeState('pickup', {heldObject = closestObject, playerPreviousState = 'idle'})
+        self.entity:changeState('pick-up', {heldObject = closestObject, playerPreviousState = 'idle'})
         -- objects[k].state = 'damaged'
         -- if takenObject ~= nil  then
         --     table.remove(params.objects, objectIdx)

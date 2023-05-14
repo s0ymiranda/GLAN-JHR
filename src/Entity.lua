@@ -10,11 +10,15 @@ function Entity:init(def)
 
     self.animations = self:createAnimations(def.animations)
 
-    local random = math.random(2)
+    self.pervertFactor = def.pervertFactor or 1
+
+    local random = math.random(math.floor((2/self.pervertFactor)+0.5))
+    --print(random)
+
     if random == 1 then
-        self.pervert = true
-    else
         self.pervert = false
+    else
+        self.pervert = true
     end
     self.fighting = false
     self.punching = false
@@ -23,7 +27,7 @@ function Entity:init(def)
     self.prevHealth = 3
 
     self.leftLimit = 0
-    self.rightLimit = VIRTUAL_WIDTH*4
+    self.rightLimit = MAP_WIDTH
 
     -- dimensions
     self.x = def.x
