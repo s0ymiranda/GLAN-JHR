@@ -101,7 +101,7 @@ TEXTURES = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
 
     --Scenary
-    ['scenary'] = love.graphics.newImage('graphics/Scenary-testing.png'),
+    ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
@@ -124,7 +124,10 @@ TEXTURES = {
     ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
     ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
     ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
-    ['bush'] = love.graphics.newImage('graphics/Game-Objects/bush.png')
+    ['bush'] = love.graphics.newImage('graphics/Game-Objects/bush.png'),
+    ['sushi'] = love.graphics.newImage('graphics/Game-Objects/Sushi.png'),
+    ['cafe'] = love.graphics.newImage('graphics/Game-Objects/Cafe.png'),
+    ['neon'] = love.graphics.newImage('graphics/Game-Objects/NeonSign.png'),
 }
 
 
@@ -156,7 +159,12 @@ FRAMES = {
     ['npc0-blond-noglasses-walk'] = generateQuads(TEXTURES['npc0-blond-noglasses-walk'], 25, 75),
     ['npc0-blond-noglasses-punch'] = generateQuads(TEXTURES['npc0-blond-noglasses-punch'], 35, 75),
     ['npc0-blond-otherclothes-walk'] = generateQuads(TEXTURES['npc0-blond-otherclothes-walk'], 25, 75),
-    ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75)
+    ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75),
+
+    --gameObjects
+    ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
+    ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
+    ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
 }
 
 

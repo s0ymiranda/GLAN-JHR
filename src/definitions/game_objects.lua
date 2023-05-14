@@ -19,13 +19,38 @@ GAME_OBJECT_DEFS = {
             SOUNDS['heart-taken']:play()
         end
     },
+    ['bush'] = {
+        type = 'bush',
+        texture = 'bush',
+        width = 67,
+        height = 68,
+        solid = true,
+        defaultState = 'default',
+        states = {
+            ['default'] = {
+                frame = 1
+            }
+        }
+    },
+    ['light'] = {
+        type = 'light',
+        texture = 'light',
+        width = 53,
+        height = 140,
+        solid = true,
+        defaultState = 'default',
+        states = {
+            ['default'] = {
+                frame = 1
+            }
+        }
+    },
     ['bus'] = {
         type = 'bus',
         texture = 'bus',
         width = 268,
         height = 120,
-        solid = false,
-        consumable = false,
+        solid = true,
         defaultState = 'default',
         states = {
             ['default'] = {
@@ -39,11 +64,58 @@ GAME_OBJECT_DEFS = {
         width = 28,
         height = 99,
         solid = false,
-        consumable = false,
         defaultState = 'default',
         states = {
             ['default'] = {
                 frame = 1
+            }
+        }
+    },
+    ['sushi'] = {
+        type = 'sushi',
+        texture = 'sushi',
+        width = 16,
+        height = 45,
+        solid = false,
+        defaultState = 'off',
+        states = {
+            ['off'] = {
+                frame = 1
+            },
+            ['on'] = {
+                frame = 2
+            }
+        }
+    },
+    ['cafe'] = {
+        type = 'cafe',
+        texture = 'cafe',
+        width = 73,
+        height = 21,
+        solid = false,
+        defaultState = 'off',
+        states = {
+            ['off'] = {
+                frame = 1
+            },
+            ['on'] = {
+                frame = 2
+            }
+        }
+    },
+    ['neon'] = {
+        type = 'neon',
+        texture = 'neon',
+        width = 76,
+        height = 21,
+        solid = false,
+        defaultState = 'off',
+        states = {
+            ['off'] = {
+                frame = 1
+            },
+            ['on'] = {
+                frame = 2
             }
         }
     },

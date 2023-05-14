@@ -31,6 +31,7 @@ function PlayState:enter(def)
     self.camera = def.camera or Camera{}
     self.entities = def.entities or {}
     self.objects = def.objects or {}
+    self.signs = def.signs or {}
 
     self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
@@ -82,7 +83,29 @@ function PlayState:enter(def)
         showDetails = true,
         title = 'Respect'
     }
-
+    --GameObjects 
+    --bus and bus sign
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus'], MAP_WIDTH - 300, 140))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus-sign'], MAP_WIDTH - 350, 120))
+    --bushes
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH-300, MAP_HEIGHT-66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*1.7, MAP_HEIGHT-66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*3, MAP_HEIGHT-66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*5+300, MAP_HEIGHT-66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*6.5, MAP_HEIGHT-66))
+    --lights
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH-200, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*1.2, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*2, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*3.5, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*5, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*6, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*7, MAP_HEIGHT-138))
+    --signs
+    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
+    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
+    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
+    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
 end
 
 function PlayState:exit()
@@ -180,9 +203,20 @@ function PlayState:update(dt)
         self.spawnCooldown = 0
         self.spawnTimer = 0
     end
+    for k, signs in pairs(self.signs) do
+        if signs.state == 'off' then
+            signs.state = 'on'
+        else
+            signs.state = 'off'
+        end
+    end
 
     for k, object in pairs(self.objects) do
         object:update(dt)
+
+        if object.type == 'bus' and self.player:collides(object) then
+                object:onCollide()
+        end
         if object.type == 'heart' then
             local player_bottom = {
                 x = self.player.x,
@@ -329,6 +363,10 @@ function PlayState:render()
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
+        end
+
+        for _, sign in pairs(self.signs) do
+            table.insert(to_render, sign)
         end
 
         table.sort(to_render, function(a, b)
