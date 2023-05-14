@@ -77,15 +77,15 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = true,
                 texture = 'character-defeated'
-            },            
+            },
             ['dodge-left'] = {
-                frames = {1,2,3},
+                frames = {1,2,3,2},
                 interval = 0.12,
                 looping = false,
                 texture = 'character-dodge'
             },
             ['dodge-right'] = {
-                frames = {4,5,6},
+                frames = {4,5,6,5},
                 interval = 0.12,
                 looping = false,
                 texture = 'character-dodge'
