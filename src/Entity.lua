@@ -27,7 +27,7 @@ function Entity:init(def)
     self.prevHealth = 3
 
     self.leftLimit = 0
-    self.rightLimit = VIRTUAL_WIDTH*4
+    self.rightLimit = MAP_WIDTH
 
     -- dimensions
     self.x = def.x

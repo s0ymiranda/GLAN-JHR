@@ -169,7 +169,7 @@ function PlayState:update(dt)
         table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
     end
 
-    if self.spawnCooldown == 0 and self.player.x < VIRTUAL_WIDTH*4 then
+    if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then
         self.spawnCooldown = math.random(8-self.dayNumber)
     end
 
@@ -230,11 +230,11 @@ function PlayState:update(dt)
         self.player.afterFigthing = true
         Timer.tween(0.5, {
             [self.camera] = {
-                x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3))),
+                x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
                 y = self.camera.y
             }
         })
-        Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = VIRTUAL_WIDTH*4 end)
+        Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = MAP_WIDTH end)
     end
 
     for k, entity in pairs(self.entities) do
@@ -283,7 +283,7 @@ function PlayState:update(dt)
     -- self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and not self.player.fighting and not self.player.afterFighting then
-        self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(VIRTUAL_WIDTH*3)))
+        self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
     end
     self.healthBar:setValue(self.player.health)
     self.healthBar:setPosition(self.camera.x+10, 10)
