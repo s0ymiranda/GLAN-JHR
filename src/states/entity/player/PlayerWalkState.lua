@@ -27,6 +27,8 @@ function PlayerWalkState:update(dt)
             self.joystickAction = 'slap'
         elseif (joystick:isGamepadDown('x')) then
             self.joystickAction = 'knee-hit'
+        elseif (joystick:isGamepadDown('rightshoulder')) then
+            self.joystickAction = 'dodge'
         end
     end
 
@@ -66,6 +68,8 @@ function PlayerWalkState:update(dt)
             self.entity.direction = 'right'
         end
         self.entity:changeState('knee-hit')
+    elseif love.keyboard.wasPressed('l') or self.joystickAction == 'dodge' then
+        self.entity:changeState('dodge')
     elseif love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         local takenPot = nil
         local potIdx = 0

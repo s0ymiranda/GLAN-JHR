@@ -83,7 +83,7 @@ function PlayState:enter(def)
         showDetails = true,
         title = 'Respect'
     }
-    --GameObjects 
+    --GameObjects
     --bus and bus sign
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus'], MAP_WIDTH - 300, 140))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus-sign'], MAP_WIDTH - 350, 120))
