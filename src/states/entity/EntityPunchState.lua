@@ -5,6 +5,11 @@ function EntityPunchState:init(entity,player)
     self.entity = entity
     self.miss = true
 
+    self.canHit = false
+
+    Timer.after(0.3,function() self.canHit = true end)
+    Timer.after(0.6,function() self.canHit = false end)
+
     local direction = self.entity.direction
 
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
@@ -37,7 +42,7 @@ end
 
 function EntityPunchState:update(dt)
     -- check if hitbox collides with any entities in the scene
-    if math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
+    if self.canHit and math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
         self.player:damage(10)
         self.player:goInvulnerable(1.5)
         SOUNDS['hero-damage']:stop()

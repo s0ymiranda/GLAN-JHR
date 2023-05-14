@@ -177,5 +177,6 @@ SOUNDS = {
     ['miss'] = love.audio.newSource('sounds/miss.mp3', 'static'),
     ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static'),
     ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static'),
-    ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static')
+    ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static'),
+    ['dodge'] = love.audio.newSource('sounds/dodge.mp3', 'static')
 }
