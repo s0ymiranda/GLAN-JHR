@@ -218,9 +218,9 @@ function PlayState:update(dt)
     for k, obj in pairs(self.objects) do
         obj:update(dt)
 
-        if obj.type == 'bus' and self.player:collides(obj) then
-                obj:onCollide()
-        end
+        -- if obj.type == 'bus' and self.player:collides(obj) then
+        --         obj:onCollide()
+        -- end
         if obj.type == 'heart' then
             local playerBottom = {
                 x = self.player.x,

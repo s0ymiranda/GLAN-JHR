@@ -94,9 +94,9 @@ function EntityPunchState:render()
         math.floor(self.entity.x), math.floor(self.entity.y))
 
     -- debug for player and hurtbox collision rects
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.rectangle('line', math.floor(self.punchHitbox.x), math.floor(self.punchHitbox.y),
-    self.punchHitbox.width, self.punchHitbox.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    -- love.graphics.rectangle('line', math.floor(self.punchHitbox.x), math.floor(self.punchHitbox.y),
+    --     self.punchHitbox.width, self.punchHitbox.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end
