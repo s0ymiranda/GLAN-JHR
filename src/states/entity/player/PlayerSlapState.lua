@@ -1,36 +1,30 @@
 PlayerSlapState = Class{__includes = BaseState}
 
 function PlayerSlapState:init(player,entities)
-    -- create hitbox based on where the player is and facing
-    local direction = player.direction
-
-    local hitboxX, hitboxY, hitboxWidth, hitboxHeight
-
-    hitboxWidth = 14
-    hitboxHeight = 12
-    hitboxY = player.y + 13
-
-    if direction == 'left' then
-        local emptySpaceFromIdleAndWalk = 4
-        local emptySpaceFromSlap = 10
-        self.xOffsetSlapTexture = -emptySpaceFromSlap + emptySpaceFromIdleAndWalk
-        hitboxX = player.x + self.xOffsetSlapTexture
-    elseif direction == 'right' then
-        local emptySpaceFromIdleAndWalk = 1
-        local emptySpaceFromSlap = 3
-        local bodyWidth = 17
-        local handToBodyDistance = 10
-        self.xOffsetSlapTexture = -emptySpaceFromSlap + emptySpaceFromIdleAndWalk
-        hitboxX = player.x + emptySpaceFromSlap + bodyWidth + handToBodyDistance - hitboxWidth
-    end
-
-    self.slapHitbox = Hitbox(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
-    player:changeAnimation('slap-' .. player.direction)
-
-    -- class members
     self.player = player
     self.entities = entities
     self.miss = true
+    -- create hitbox based on where the player is and facing
+    local direction = self.player.direction
+
+    local hitboxX, hitboxY, hitboxWidth, hitboxHeight
+
+    if direction == 'left' then
+        self.player.x = self.player.x - 7
+        hitboxWidth = 16
+        hitboxHeight = 12
+        hitboxX = self.player.x - hitboxWidth/2 + 7
+        hitboxY = self.player.y + 13
+    elseif direction == 'right' then
+        self.player.x = self.player.x - 2
+        hitboxWidth = 16
+        hitboxHeight = 12
+        hitboxX = self.player.x + hitboxWidth
+        hitboxY = self.player.y + 13
+    end
+
+    self.slapHitbox = Hitbox(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+    self.player:changeAnimation('slap-' .. self.player.direction)
 end
 
 function PlayerSlapState:enter(params)
@@ -64,19 +58,34 @@ function PlayerSlapState:update(dt)
 
     if self.player.currentAnimation.timesPlayed > 0 then
         self.player.currentAnimation.timesPlayed = 0
+
+        if self.player.direction == 'left' then
+            self.player.x = self.player.x + 7
+        else
+            self.player.x = self.player.x + 2
+        end
         self.player:changeState('idle')
-        return
+    end
+
+    if love.keyboard.wasPressed('space') then
+        if self.player.direction == 'left' then
+            self.player.x = self.player.x + 7
+        else
+            self.player.x = self.player.x + 2
+        end
+        self.player:changeState('slap')
     end
 end
 
 function PlayerSlapState:render()
     local anim = self.player.currentAnimation
     love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-    math.floor(self.player.x + self.xOffsetSlapTexture), math.floor(self.player.y))
+        math.floor(self.player.x), math.floor(self.player.y))
 
-    -- debug for hurtbox collision rects
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', math.floor(self.slapHitbox.x), math.floor(self.slapHitbox.y),
-        self.slapHitbox.width, self.slapHitbox.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- debug for player and hurtbox collision rects
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
+    -- love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
+    -- self.slapHitbox.width, self.slapHitbox.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end
