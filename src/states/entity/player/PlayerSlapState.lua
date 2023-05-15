@@ -16,6 +16,7 @@ function PlayerSlapState:init(player,entities)
         hitboxX = self.player.x - hitboxWidth/2 + 7
         hitboxY = self.player.y + 13
     elseif direction == 'right' then
+        self.player.x = self.player.x - 2
         hitboxWidth = 16
         hitboxHeight = 12
         hitboxX = self.player.x + hitboxWidth
@@ -60,6 +61,8 @@ function PlayerSlapState:update(dt)
 
         if self.player.direction == 'left' then
             self.player.x = self.player.x + 7
+        else
+            self.player.x = self.player.x + 2
         end
         self.player:changeState('idle')
     end
@@ -67,6 +70,8 @@ function PlayerSlapState:update(dt)
     if love.keyboard.wasPressed('space') then
         if self.player.direction == 'left' then
             self.player.x = self.player.x + 7
+        else
+            self.player.x = self.player.x + 2
         end
         self.player:changeState('slap')
     end
@@ -78,9 +83,9 @@ function PlayerSlapState:render()
         math.floor(self.player.x), math.floor(self.player.y))
 
     -- debug for player and hurtbox collision rects
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
-    love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
-    self.slapHitbox.width, self.slapHitbox.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+    -- love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
+    -- love.graphics.rectangle('line', self.slapHitbox.x, self.slapHitbox.y,
+    -- self.slapHitbox.width, self.slapHitbox.height)
+    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

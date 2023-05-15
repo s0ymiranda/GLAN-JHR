@@ -130,6 +130,6 @@ function Entity:render()
 
     self.x, self.y = self.x, self.y
     self.stateMachine:render()
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    -- self.x, self.y = self.x, self.y
+    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    self.x, self.y = self.x, self.y
 end

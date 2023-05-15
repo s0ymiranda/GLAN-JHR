@@ -20,6 +20,8 @@ function PlayerIdleState:update(dt)
             self.entity:changeState('slap')
         elseif joystick:isGamepadDown('x') then
             self.entity:changeState('knee-hit')
+        elseif joystick:isGamepadDown('rightshoulder') then
+            self.entity:changeState('dodge')
         end
     end
 
