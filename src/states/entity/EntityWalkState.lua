@@ -63,10 +63,10 @@ end
 
 function EntityWalkState:processAI(params, dt)
     -- TODO: add punches
-    local room = params.room
+    local playState = params.PlayState
 
     if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
+        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
         if distance < 150 and self.entity.pervert then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
@@ -88,8 +88,8 @@ end
 
 function EntityWalkState:processAIFighting(params,dt)
     -- TODO: add punches
-    local room = params.room
-    local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
+    local playState = params.PlayState
+    local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
 
     if distance < math.random(20,30) then
         self.bumped = true
@@ -113,17 +113,17 @@ function EntityWalkState:processAIFighting(params,dt)
 
         self.moveDuration = math.random(5)
 
-        if room.player.x + room.player.width < self.entity.x and math.abs(room.player.z - self.entity.z) <= 1 then
+        if playState.player.x + playState.player.width < self.entity.x and math.abs(playState.player.z - self.entity.z) <= 1 then
             self.entity.direction = "left"
-        elseif room.player.x > self.entity.x + self.entity.width and math.abs(room.player.z - self.entity.z) <= 1 then
+        elseif playState.player.x > self.entity.x + self.entity.width and math.abs(playState.player.z - self.entity.z) <= 1 then
             self.entity.direction = "right"
-        elseif room.player.x + room.player.width < self.entity.x and self.entity.z+1 < room.player.z then
+        elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z+1 < playState.player.z then
             self.entity.direction = "down-left"
-        elseif room.player.x + room.player.width < self.entity.x and self.entity.z-1 > room.player.z then
+        elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z-1 > playState.player.z then
             self.entity.direction = "up-left"
-        elseif room.player.x > self.entity.x + self.entity.width and self.entity.z+1 < room.player.z then
+        elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z+1 < playState.player.z then
             self.entity.direction = "down-right"
-        elseif room.player.x > self.entity.x + self.entity.width and self.entity.z-1 > room.player.z then
+        elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z-1 > playState.player.z then
             self.entity.direction = "up-right"
         end
 

@@ -244,7 +244,8 @@ function PlayState:update(dt)
         else
             for _, entity in pairs(self.entities) do
                 local entityFloor = entity.y + entity.height
-                if (projectile.floor - 3 < entityFloor) and (entityFloor < projectile.floor + 3) and projectile:collides(entity) then
+                -- from 3 to 10
+                if (projectile.floor - 10 < entityFloor) and (entityFloor < projectile.floor + 10) and projectile:collides(entity) then
                     projectile:hit(entity)
                 end
             end
@@ -329,7 +330,7 @@ function PlayState:update(dt)
             self:deleteEntity(k)
             goto continue
         end
-        entity:processAI({room = self}, dt)
+        entity:processAI({PlayState = self}, dt)
         entity:update(dt)
         ::continue::
     end

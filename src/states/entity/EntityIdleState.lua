@@ -13,9 +13,9 @@ end
 
 function EntityIdleState:processAI(params, dt)
     -- TODO: add punches
-    local room = params.room
+    local playState = params.PlayState
     if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - room.player.x)^2 + (self.entity.y - room.player.y)^2)
+        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
         if distance < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
