@@ -59,6 +59,8 @@ TILE_SIZE = 16
 HEARTH_DROP_PROBABILITY = 0.9
 GRAVITY = 500
 
+ENTITY_INVULNERABILITY_TIME = 1
+
 CATCALLING_MESSAGES = {
     "So many curves and me with no brakes",
     "I could stare at you all day",

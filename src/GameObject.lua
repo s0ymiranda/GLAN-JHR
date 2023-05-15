@@ -67,15 +67,18 @@ function GameObject:getCurrentState()
 end
 
 function GameObject:hit(entity)
-    entity:damage(self.damage)
-    self.timesHit = self.timesHit + 1
-    if self.timesHit == 3 then
-        local previousHeight = self:getCurrentState().height
-        self.state = 'damaged'
-        self.previousState = 'damaged'
-        self.takeable = false
-        local currentHeight = self:getCurrentState().height
-        self.floor = self.floor + (currentHeight - previousHeight)
+    if entity.invulnerable then
+        entity:damage(self.damage)
+        entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
+        self.timesHit = self.timesHit + 1
+        if self.timesHit == 3 then
+            local previousHeight = self:getCurrentState().height
+            self.state = 'damaged'
+            self.previousState = 'damaged'
+            self.takeable = false
+            local currentHeight = self:getCurrentState().height
+            self.floor = self.floor + (currentHeight - previousHeight)
+        end
     end
 end
 

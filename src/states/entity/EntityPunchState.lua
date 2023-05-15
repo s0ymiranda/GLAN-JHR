@@ -77,15 +77,6 @@ function EntityPunchState:update(dt)
         end
         self.entity:changeState('idle')
     end
-
-    if love.keyboard.wasPressed('space') then
-        if self.entity.direction == 'left' then
-            self.entity.x = self.entity.x + 7
-        else
-            self.entity.x = self.entity.x + 3
-        end
-    end
-
 end
 
 function EntityPunchState:render()

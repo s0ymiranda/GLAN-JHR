@@ -39,7 +39,7 @@ function PlayerKneeHitState:update(dt)
     for k, entity in pairs(self.entities) do
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.kneeHitHitbox) and not entity.invulnerable then
             entity:damage(1.5)
-            entity:goInvulnerable(0.5)
+            entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
             SOUNDS['knee-hit']:stop()

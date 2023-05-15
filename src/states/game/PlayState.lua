@@ -11,9 +11,6 @@ function PlayState:init()
 
     -- self.camera = Camera {}
 
-    -- self.entities = {}
-    -- self.objects = {}
-
     -- Key combinations
     self.lctrlPressed = false
     self.rctrlPressed = false
