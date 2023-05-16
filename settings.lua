@@ -147,7 +147,7 @@ TEXTURES = {
     ['sushi'] = love.graphics.newImage('graphics/Game-Objects/Sushi.png'),
     ['cafe'] = love.graphics.newImage('graphics/Game-Objects/Cafe.png'),
     ['neon'] = love.graphics.newImage('graphics/Game-Objects/NeonSign.png'),
-    ['barrel'] = love.graphics.newImage('graphics/Streets of Fight Assets/Stage Layers/barrel.png'),
+    ['barrel'] = love.graphics.newImage('graphics/Game-Objects/barrel.png'),
 }
 
 
