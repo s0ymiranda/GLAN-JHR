@@ -62,6 +62,48 @@ function PlayState:enter(def)
         self.textAnimations.alpha.render = false
     end
 
+    if def.twoPlayers then
+        self.player2 = def.player2 or Player {
+            animations = ENTITY_DEFS['player2'].animations,
+            walkSpeed = ENTITY_DEFS['player2'].walkSpeed,
+            x = 0 ,
+            y = VIRTUAL_HEIGHT / 2 + 73,
+            width = 24,
+            height = 73,
+            health = 100,
+        }
+        self.heldObjectsPlayer2 = {}
+        self.projectilesPlayer2 = {}
+        self.player2.playerNum = 2
+        self.player.numOfPlayersInGame = 2
+        self.player2.numOfPlayersInGame = 2
+        if def.player2 == nil or isANewDay then
+            self.player2.stateMachine = StateMachine {
+                ['walk'] = function() return PlayerWalkState(self.player2) end,
+                ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
+                ['slap'] = function() return PlayerSlapState(self.player2, self.entities) end,
+                ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities) end,
+                ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
+                ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end,
+            }
+            self.player2:changeState('idle')
+            self.player2.direction = 'right'
+            self.player2:changeAnimation('idle-right')
+        end
+        self.player2.pervert = false
+        self.healthBar2 = ProgressBar {
+            x = VIRTUAL_WIDTH - 10 - 64,
+            y = 0 + 10,
+            width = 64,
+            height = 12,
+            color = {r = 189, g = 32, b = 32},
+            value = self.player2.health,
+            max = 100,
+            showDetails = true,
+            title = 'Health 2'
+        }
+    end
+
     self.healthBar = ProgressBar {
         x = 0 + 10,
         y = 0 + 10,
@@ -137,6 +179,7 @@ function PlayState:update(dt)
             entities = self.entities,
             objects = self.objects,
             dayNumber = self.dayNumber,
+            player2 = self.player2,
     })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
@@ -145,9 +188,17 @@ function PlayState:update(dt)
         end
         self.player.dead = true
         self.player:changeAnimation('falling')
+        if self.player2 ~= nil then
+            self.player2.dead = true
+            self.player2:changeAnimation('falling')
+        end
         Timer.after(0.4,function()
             self.player.y = self.player.y + 15
             self.player:changeAnimation('defeated')
+            if self.player2 ~= nil then
+                self.player2.y = self.player2.y + 15
+                self.player2:changeAnimation('defeated')
+            end
         end)
         stateMachine:change('game-over',{
             player = self.player,
@@ -155,6 +206,7 @@ function PlayState:update(dt)
             entities = self.entities,
             objects = self.objects,
             dayNumber = self.dayNumber,
+            player2 = self.player2,
         })
     end
     if love.keyboard.wasPressed('o') then
@@ -254,6 +306,16 @@ function PlayState:update(dt)
     end
 
     self.player:update(dt, {objects = self.objects})
+    self.player.leftLimit = self.camera.x
+    if self.player2 ~= nil then
+        self.player2:update(dt, {objects = self.objects})
+        self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
+        self.player2.leftLimit = self.camera.x
+        self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+        -- self.healthBar2:setValue(self.player2.health)
+        -- self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 74), 10)
+        -- self.healthBar2:update()
+    end
 
     if self.deletion then
         print("Entities:")
@@ -335,7 +397,33 @@ function PlayState:update(dt)
     -- self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and self.player.stateMachine.currentStateName ~= 'dodge' and not self.player.fighting and not self.player.afterFighting then
-        self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        -- LO MAS PARECIDO A LA IDEA ORIGINAL PERO NO FUNCIONA BIEN
+        -- if self.player2 ~= nil then
+        --     -- if self.camera.x + VIRTUAL_WIDTH/2 <= self.player2.x and self.camera.x + VIRTUAL_WIDTH/2 <= self.player.x then
+        --     if  math.floor(self.camera.x + VIRTUAL_WIDTH/2) < math.floor(self.player2.x) and math.floor(self.camera.x + VIRTUAL_WIDTH/2) < math.floor(self.player.x) then
+        --         if self.player.x <= self.player2.x then
+        --             self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        --         else
+        --             self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        --         end
+        --     end
+        -- else
+        --     self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        -- end
+        -- OPCION ARRASTRAR AL PLAYER 2:
+        -- self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        -- if self.player2 ~= nil then
+        --     if self.player2.x < self.camera.x then
+        --         self.player2.x = self.camera.x
+        --     end
+        -- end
+        --OPCIONA PREFERIDA, LA CAMARA SE MUEVE EN UN PUNTO MEDIO DE AMBOS JUGADORES
+        if self.player2 ~= nil then
+            self.camera.x = math.floor(math.min(math.floor(math.max(self.camera.x,math.floor((self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2 + self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)/2))),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        else
+            self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+        end
+
     end
     self.healthBar:setValue(self.player.health)
     self.healthBar:setPosition(self.camera.x+10, 10)
@@ -343,6 +431,12 @@ function PlayState:update(dt)
     self.respectBar:setValue(self.player.respect)
     self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
+
+    if self.player2 ~= nil then
+        self.healthBar2:setValue(self.player2.health)
+        self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 74), 10)
+        self.healthBar2:update()
+    end
 
     if self.player.x + self.player.width == MAP_WIDTH then
         self.player.x = 0
@@ -376,6 +470,9 @@ function PlayState:render()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
+        if self.player2 ~= nil then
+            table.insert(to_render, self.player2)
+        end
         for _, entity in pairs(self.entities) do
             table.insert(to_render, entity)
         end
@@ -408,6 +505,9 @@ function PlayState:render()
 
         self.healthBar:render()
         self.respectBar:render()
+        if self.player2 ~= nil then
+            self.healthBar2:render()
+        end
         if self.textAnimations.alpha.render then
             love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
             love.graphics.setFont(FONTS['large'])

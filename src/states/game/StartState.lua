@@ -3,33 +3,60 @@ StartState = Class{__includes = BaseState}
 function StartState:init()
     SOUNDS['start-music']:setLooping(true)
     SOUNDS['start-music']:play()
-    if #joysticks > 0 then
-        self.message = "Press Start"
-    else
-        self.message = "Press Enter"
-    end
     self.last_selection = 1
-    self.startMenu = Menu {
-        x = VIRTUAL_WIDTH/2 - 64,
-        y = VIRTUAL_HEIGHT/2 + 50,
-        width = 128,
-        height = 60,
-        current_selection = last_selection,
-        items = {
-            {
-                text = 'One Player',
-                onSelect = function()
-                    stateMachine:change('play',{})
-                end
-            },
-            {
-                text = 'Exit Game',
-                onSelect = function()
-                    love.event.quit()
-                end
+    if #joysticks > 0 then
+        -- self.message = "Press Start"
+        self.startMenu = Menu {
+            x = VIRTUAL_WIDTH/2 - 64,
+            y = VIRTUAL_HEIGHT/2 + 50,
+            width = 128,
+            height = 60,
+            current_selection = last_selection,
+            items = {
+                {
+                    text = 'One Player',
+                    onSelect = function()
+                        stateMachine:change('play',{})
+                    end
+                },
+                {
+                    text = 'Two Players',
+                    onSelect = function()
+                        stateMachine:change('play',{twoPlayers = true})
+                    end
+                },
+                {
+                    text = 'Exit Game',
+                    onSelect = function()
+                        love.event.quit()
+                    end
+                }
             }
         }
-    }
+    else
+        -- self.message = "Press Enter"
+        self.startMenu = Menu {
+            x = VIRTUAL_WIDTH/2 - 64,
+            y = VIRTUAL_HEIGHT/2 + 50,
+            width = 128,
+            height = 60,
+            current_selection = last_selection,
+            items = {
+                {
+                    text = 'One Player',
+                    onSelect = function()
+                        stateMachine:change('play',{})
+                    end
+                },
+                {
+                    text = 'Exit Game',
+                    onSelect = function()
+                        love.event.quit()
+                    end
+                }
+            }
+        }
+    end
     self.startMenu.panel:toggle()
 end
 
@@ -64,7 +91,7 @@ function StartState:update(dt)
                 {
                     text = 'Two Players',
                     onSelect = function()
-                        stateMachine:change('play',{twoplayers = true})
+                        stateMachine:change('play',{twoPlayers = true})
                     end
                 },
                 {

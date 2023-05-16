@@ -7,6 +7,7 @@ function PauseState:enter(def)
     self.entities = def.entities
     self.objects = def.objects
     self.dayNumber = def.dayNumber
+    self.player2 = def.player2
 
     self.controllerButtoms = {a = false, x = false, start = false}
 
@@ -53,6 +54,9 @@ function PauseState:render()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
+        if self.player2 ~= nil then
+            table.insert(to_render, self.player2)
+        end
         for _, entity in pairs(self.entities) do
             table.insert(to_render, entity)
         end

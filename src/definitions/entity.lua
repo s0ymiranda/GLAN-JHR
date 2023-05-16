@@ -1,6 +1,6 @@
 ENTITY_DEFS = {
     ['player'] = {
-        walkSpeed = 60,
+        walkSpeed = 70,
         animations = {
             ['walk-left'] = {
                 frames = {5,7,8,7},
@@ -155,7 +155,7 @@ ENTITY_DEFS = {
         }
     },
     ['player2'] = {
-        walkSpeed = 60,
+        walkSpeed = 70,
         animations = {
             ['walk-left'] = {
                 frames = {5,7,8,7},
