@@ -69,9 +69,6 @@ function StartState:update(dt)
         love.event.quit()
     end
 
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        -- stateMachine:change('play',{})
-    end
     --For Joystick
     if #joysticks > 0 then
         if joystick:isGamepadDown('start') then

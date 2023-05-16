@@ -431,6 +431,8 @@ function PlayState:update(dt)
 
         if entity.health <= 0 then
             SOUNDS['dead']:play()
+            -- entity:changeAnimation('dead-' .. entity.direction)
+            -- entity.dead = true
             self:deleteEntity(k)
             if entity.pervert then
                 if self.player.respect < 100 then
@@ -604,7 +606,7 @@ end
 
 function PlayState:generateWalkingEntity()
     local types = {'npc1','enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
-
+    -- local types = {'enemy'}
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20

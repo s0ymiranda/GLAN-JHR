@@ -17,6 +17,8 @@ function Selection:init(def)
     self.currentSelection = def.current_selection or 1
 
     self.alpha = def.alpha or 255
+
+    self.controllerButtoms = {a = false, x = false, start = false, up = false, down = false}
 end
 
 function Selection:update(dt)
@@ -43,6 +45,37 @@ function Selection:update(dt)
 
         SOUNDS['blip']:stop()
         SOUNDS['blip']:play()
+    elseif #joysticks > 0 then
+        if joystick:isGamepadDown('dpup') then
+            self.controllerButtoms.up = true
+        elseif self.controllerButtoms.up then
+            if self.currentSelection == 1 then
+                self.currentSelection = #self.items
+            else
+                self.currentSelection = self.currentSelection - 1
+            end
+            SOUNDS['blip']:stop()
+            SOUNDS['blip']:play()
+            self.controllerButtoms.up = false
+        elseif joystick:isGamepadDown('dpdown') then
+            self.controllerButtoms.down = true
+        elseif self.controllerButtoms.down then
+            if self.currentSelection == #self.items then
+                self.currentSelection = 1
+            else
+                self.currentSelection = self.currentSelection + 1
+            end
+            SOUNDS['blip']:stop()
+            SOUNDS['blip']:play()
+            self.controllerButtoms.down = false
+        elseif joystick:isGamepadDown('a') then
+            self.controllerButtoms.a = true
+        elseif self.controllerButtoms.a then
+            self.items[self.currentSelection].onSelect()
+            SOUNDS['blip']:stop()
+            SOUNDS['blip']:play()
+            self.controllerButtoms.a = false
+        end
     end
 end
 

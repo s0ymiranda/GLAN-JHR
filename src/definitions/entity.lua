@@ -370,6 +370,18 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'Npc0-punch'
+            },
+            ['dead-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'Npc0-dead'
+            },
+            ['dead-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'Npc0-dead'
             }
         }
     },
