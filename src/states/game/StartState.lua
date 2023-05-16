@@ -8,6 +8,29 @@ function StartState:init()
     else
         self.message = "Press Enter"
     end
+    self.last_selection = 1
+    self.startMenu = Menu {
+        x = VIRTUAL_WIDTH/2 - 64,
+        y = VIRTUAL_HEIGHT/2 + 50,
+        width = 128,
+        height = 60,
+        current_selection = last_selection,
+        items = {
+            {
+                text = 'One Player',
+                onSelect = function()
+                    stateMachine:change('play',{})
+                end
+            },
+            {
+                text = 'Exit Game',
+                onSelect = function()
+                    love.event.quit()
+                end
+            }
+        }
+    }
+    self.startMenu.panel:toggle()
 end
 
 function StartState:exit()
@@ -20,14 +43,42 @@ function StartState:update(dt)
     end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        stateMachine:change('play',{})
+        -- stateMachine:change('play',{})
     end
     --For Joystick
     if #joysticks > 0 then
         if joystick:isGamepadDown('start') then
-            stateMachine:change('play',{})
+            -- stateMachine:change('play',{})
+        end
+    else
+        joysticks = love.joystick.getJoysticks()
+        if #joysticks > 0 then
+            joystick = joysticks[1]
+            self.startMenu.selection.items ={
+                {
+                    text = 'One Player',
+                    onSelect = function()
+                        stateMachine:change('play',{})
+                    end
+                },
+                {
+                    text = 'Two Players',
+                    onSelect = function()
+                        stateMachine:change('play',{twoplayers = true})
+                    end
+                },
+                {
+                    text = 'Exit Game',
+                    onSelect = function()
+                        love.event.quit()
+                    end
+                }
+            }
+        else
+            joystick = false
         end
     end
+    self.startMenu:update(dt)
 end
 
 function StartState:render()
@@ -44,6 +95,8 @@ function StartState:render()
     love.graphics.printf(GAME_TITLE, 0, VIRTUAL_HEIGHT / 2 - 32, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    love.graphics.setFont(FONTS['small'])
-    love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
+    -- love.graphics.setFont(FONTS['small'])
+    -- love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
+
+    self.startMenu:render()
 end

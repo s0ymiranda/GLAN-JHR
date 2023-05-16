@@ -37,7 +37,10 @@ require 'src/states/game/StartState'
 require 'src/utilities/quads'
 
 require 'src/gui/Dialog'
+require 'src/gui/Menu'
+require 'src/gui/Panel'
 require 'src/gui/ProgressBar'
+require 'src/gui/Selection'
 
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then
@@ -87,6 +90,8 @@ MAP_WIDTH = VIRTUAL_WIDTH*8
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
+    --Cursor
+    ['cursor-right'] = love.graphics.newImage('graphics/cursor_right.png'),
     --Hero
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),
@@ -95,6 +100,14 @@ TEXTURES = {
     ['character-pick-up'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
     ['character-defeated'] = love.graphics.newImage('graphics/Hero/Defeated-Hero.png'),
     ['character-dodge'] = love.graphics.newImage('graphics/Hero/Dodge-Hero.png'),
+    --Hero2
+    ['character2-walk'] = love.graphics.newImage('graphics/Hero2/Walk-Hero2.png'),
+    ['character2-slap'] = love.graphics.newImage('graphics/Hero2/Slap-Hero2.png'),
+    ['character2-knee-hit'] = love.graphics.newImage('graphics/Hero2/KneeHit-Hero2.png'),
+    ['character2-held'] = love.graphics.newImage('graphics/Hero2/Held-Hero2.png'),
+    ['character2-pick-up'] = love.graphics.newImage('graphics/Hero2/PickUp-Hero2.png'),
+    ['character2-defeated'] = love.graphics.newImage('graphics/Hero2/Defeated-Hero2.png'),
+    ['character2-dodge'] = love.graphics.newImage('graphics/Hero2/Dodge-Hero2.png'),
     --Npc0
     ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -147,6 +160,14 @@ FRAMES = {
     ['character-defeated'] = generateQuads(TEXTURES['character-defeated'], 32, 57),
     ['character-dodge'] = generateQuads(TEXTURES['character-dodge'], 39, 73),
 
+    ['character2-walk'] = generateQuads(TEXTURES['character2-walk'], 24, 73),
+    ['character2-slap'] = generateQuads(TEXTURES['character2-slap'], 32, 73),
+    ['character2-knee-hit'] = generateQuads(TEXTURES['character2-knee-hit'], 32, 73),
+    ['character2-held'] = generateQuads(TEXTURES['character2-held'], 24, 73),
+    ['character2-pick-up'] = generateQuads(TEXTURES['character2-pick-up'], 32, 73),
+    ['character2-defeated'] = generateQuads(TEXTURES['character2-defeated'], 32, 57),
+    ['character2-dodge'] = generateQuads(TEXTURES['character2-dodge'], 39, 73),
+
     ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
 
@@ -196,5 +217,6 @@ SOUNDS = {
     ['slap'] = love.audio.newSource('sounds/slap.mp3', 'static'),
     ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static'),
     ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static'),
-    ['dodge'] = love.audio.newSource('sounds/dodge.mp3', 'static')
+    ['dodge'] = love.audio.newSource('sounds/dodge.mp3', 'static'),
+    ['blip'] = love.audio.newSource('sounds/blip.wav', 'static')
 }

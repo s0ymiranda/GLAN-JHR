@@ -154,6 +154,161 @@ ENTITY_DEFS = {
             },
         }
     },
+    ['player2'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+            ['walk-right'] = {
+                frames = {9,11,12,11},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {9,11,12,11},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {9,11,12,11},
+                interval = 0.20,
+                texture = 'character2-walk'
+            },
+
+            ['held-walk-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+            ['held-walk-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+            ['held-walk-up-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+            ['held-walk-up-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+            ['held-walk-down-left'] = {
+                frames = {1,3,4,3},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+            ['held-walk-down-right'] = {
+                frames = {5,7,8,7},
+                interval = 0.20,
+                texture = 'character2-held'
+            },
+
+            ['idle-left'] = {
+                frames = {1},
+                texture = 'character2-walk'
+            },
+            ['idle-right'] = {
+                frames = {2},
+                texture = 'character2-walk'
+            },
+
+            ['held-idle-left'] = {
+                frames = {9},
+                texture = 'character2-held'
+            },
+            ['held-idle-right'] = {
+                frames = {10},
+                texture = 'character2-held'
+            },
+
+            ['slap-left'] = {
+                frames = {4,3,2,1},
+                interval = 0.06,
+                looping = false,
+                texture = 'character2-slap'
+            },
+            ['slap-right'] = {
+                frames = {5,6,7,8},
+                interval = 0.06,
+                looping = false,
+                texture = 'character2-slap'
+            },
+            ['knee-hit-left'] = {
+                frames = {4,5,6,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-knee-hit'
+            },
+            ['knee-hit-right'] = {
+                frames = {1,2,3,2},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-knee-hit'
+            },
+            ['falling'] = {
+                frames = {2,3},
+                interval = 0.20,
+                looping = false,
+                texture = 'character2-pick-up'
+            },
+            ['defeated'] = {
+                frames = {1,2,3,4,3,2},
+                interval = 0.30,
+                looping = true,
+                texture = 'character2-defeated'
+            },
+            ['dodge-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-dodge'
+            },
+            ['dodge-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-dodge'
+            },
+
+            ['pick-up-left'] = {
+                frames = {1, 2, 3, 2, 1},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-pick-up'
+            },
+            ['pick-up-right'] = {
+                frames = {4, 5, 6, 5, 4},
+                interval = 0.12,
+                looping = false,
+                texture = 'character2-pick-up'
+            },
+
+            ['throw-left'] = {
+                frames = {1},
+                texture = 'character2-pick-up'
+            },
+            ['throw-right'] = {
+                frames = {4},
+                texture = 'character2-pick-up'
+            },
+        }
+    },
     ['enemy'] = {
         walkSpeed = 60,
         animations = {
