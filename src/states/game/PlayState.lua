@@ -25,12 +25,12 @@ function PlayState:enter(def)
 
     local isANewDay = def.isANewDay or false
 
-    if isANewDay then
+    self.dayNumber = def.dayNumber or 1
+    if isANewDay or self.dayNumber == 1 then
         SOUNDS['dungeon-music']:stop(true)
         SOUNDS['dungeon-music']:setLooping(true)
         SOUNDS['dungeon-music']:play()
     end
-    self.dayNumber = def.dayNumber or 1
 
     self.camera = def.camera or Camera{}
     self.entities = def.entities or {}

@@ -40,6 +40,65 @@ function PlayerIdleState:update(dt, params)
             self.entity:changeState('knee-hit')
         elseif joystick:isGamepadDown('rightshoulder') then
             self.entity:changeState('dodge')
+        elseif joystick:isGamepadDown('leftshoulder') then
+            if self.heldObject then
+                self.throwTimer = 0
+                self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)
+                self.heldObject.ySpeed = 0
+                self.heldObject.gravity = true
+                self.heldObject.floor = self.entity.y + self.entity.height
+                --self.heldObject.z = self.player.z
+                table.insert(self.projectiles, self.heldObject)
+                self.heldObject = nil
+                self.entity:changeAnimation('throw-' .. self.entity.direction)
+                self.entity.currentAnimation:refresh()
+                return
+            end
+
+            if #params.objects == 0 then
+                goto no_object
+            end
+
+            local objects = params.objects
+            local entityX = self.entity.x + self.entity.width / 2
+            local entityY = self.entity.y + self.entity.height
+            table.sort(objects, function(a, b)
+                if not a.takeable then
+                    return false
+                end
+                if not b.takeable then
+                    return true
+                end
+                local aXDist = math.abs(a.x + a.width / 2 - entityX)
+                local bXDist = math.abs(b.x + b.width / 2 - entityX)
+                local aYDist = math.abs(a.y + a.height - entityY)
+                local bYDist = math.abs(b.y + b.height - entityY)
+                return math.sqrt(aXDist^2 + aYDist^2) < math.sqrt(bXDist^2 + bYDist^2)
+            end)
+            local closestObject = objects[1]
+            if not closestObject.takeable then
+                goto no_object
+            end
+            local player_bottom = {
+                x = self.entity.x,
+                y = self.entity.y + self.entity.height - 2,
+                width = self.entity.width
+            }
+            if not BottomCollision(player_bottom, closestObject.getBottom(closestObject), closestObject.bottomCollisionDistance) then
+                goto no_object
+            end
+
+            table.remove(objects, 1)
+
+            self.entity:changeState('pick-up', {heldObject = closestObject, playerPreviousState = 'idle'})
+            -- objects[k].state = 'damaged'
+            -- if takenObject ~= nil  then
+            --     table.remove(params.objects, objectIdx)
+            --     self.entity:changeState('pot-lift', {
+            --         pot = takenObject
+            --     })
+            -- end
+            return
         end
     end
     if self.entity.playerNum == 1 then
