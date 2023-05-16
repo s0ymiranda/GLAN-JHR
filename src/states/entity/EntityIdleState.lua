@@ -13,9 +13,6 @@ end
 
 function EntityIdleState:processAI(params, dt)
     -- TODO: add punches
-    if self.entity.dead then
-        return
-    end
     local playState = params.PlayState
     if self.dialogElapsedTime == nil then
         local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
@@ -49,9 +46,6 @@ end
 
 function EntityIdleState:processAIFighting(params, dt)
     -- TODO: add punches
-    if self.entity.dead then
-        return
-    end
     if self.entity ~= nil then
         if not self.entity.punching then
             self:processAI(params, dt)

@@ -16,9 +16,6 @@ function EntityWalkState:init(entity)
 end
 
 function EntityWalkState:update(dt)
-    if self.entity.dead then
-        return
-    end
     -- assume we didn't hit a wall
     self.bumped = false
 

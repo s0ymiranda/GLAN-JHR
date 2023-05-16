@@ -34,6 +34,7 @@ function PlayState:enter(def)
 
     self.camera = def.camera or Camera{}
     self.entities = def.entities or {}
+    self.corpses = def.corpses or {}
     self.objects = def.objects or {}
     self.signs = def.signs or {}
 
@@ -199,6 +200,7 @@ function PlayState:update(dt)
                 dayNumber = self.dayNumber,
                 player2 = self.player2,
                 twoPlayers = twoPlayersMode,
+                corpses = self.corpses,
             })
         end
     end
@@ -215,6 +217,7 @@ function PlayState:update(dt)
             dayNumber = self.dayNumber,
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
+            corpses = self.corpses,
         })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
@@ -395,13 +398,13 @@ function PlayState:update(dt)
             if self.player2 ~= nil then
                 distance2 = math.sqrt((entity.x - self.player2.x)^2 + (entity.y - self.player2.y)^2)
             end
-            if distance < 150 or distance2 < 150 then
+            if (distance < 150 or distance2 < 150) and not entity.dead then
                 entity.fighting = true
                 entity:changeAnimation('idle-' .. tostring(entity.direction))
                 entity:changeState('idle')
             end
         end
-        if entity.fighting then
+        if entity.fighting and not entity.dead then
             self.player.fighting = true
             if self.player2 ~= nil then
                 self.player2.fighting = true
@@ -457,11 +460,21 @@ function PlayState:update(dt)
             end
         end
 
-        if entity.health <= 0 then
+        if entity.health <= 0 and not entity.dead then
             SOUNDS['dead']:play()
-            -- entity:changeAnimation('dead-' .. entity.direction)
-            -- entity.dead = true
-            self:deleteEntity(k)
+            -- entity.fighting = false
+            if entity.direction == 'right' then
+                entity.x = entity.x - 75/2
+            end
+            entity:changeAnimation('die-' .. entity.direction)
+            entity.dead = true
+            Timer.after(0.48,function()
+                entity:changeAnimation('dead-' .. entity.direction)
+                entity.fighting = false
+                entity.y = entity.y + 5
+                table.insert(self.corpses, entity)
+                table.remove(self.entities, k)
+            end)
             if entity.pervert then
                 if self.player.respect < 100 then
                     self.player.respect = self.player.respect + 5
@@ -476,10 +489,12 @@ function PlayState:update(dt)
             goto continue
         end
         if entity.x < self.camera.x - 25 then
-            if entity.pervert then
+            if entity.pervert and not entity.dead then
                 self.player.respect = self.player.respect - 10
             end
-            self:deleteEntity(k)
+            if not entity.dead then
+                self:deleteEntity(k)
+            end
             goto continue
         end
         entity:processAI({PlayState = self}, dt)
@@ -487,22 +502,14 @@ function PlayState:update(dt)
         ::continue::
     end
 
+    for k, corpse in pairs(self.corpses) do
+        if corpse.x + 75 < self.camera.x then
+            self:deleteCorpse(k)
+        end
+    end
     -- self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and self.player.stateMachine.currentStateName ~= 'dodge' and not self.player.fighting and not self.player.afterFighting then
-        -- LO MAS PARECIDO A LA IDEA ORIGINAL PERO NO FUNCIONA BIEN
-        -- if self.player2 ~= nil then
-        --     -- if self.camera.x + VIRTUAL_WIDTH/2 <= self.player2.x and self.camera.x + VIRTUAL_WIDTH/2 <= self.player.x then
-        --     if  math.floor(self.camera.x + VIRTUAL_WIDTH/2) < math.floor(self.player2.x) and math.floor(self.camera.x + VIRTUAL_WIDTH/2) < math.floor(self.player.x) then
-        --         if self.player.x <= self.player2.x then
-        --             self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
-        --         else
-        --             self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
-        --         end
-        --     end
-        -- else
-        --     self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
-        -- end
         -- OPCION ARRASTRAR AL PLAYER 2:
         -- self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
         -- if self.player2 ~= nil then
@@ -604,6 +611,10 @@ function PlayState:render()
             -- return (a.floor or (a.y + a.height)) < (b.floor or (b.y + b.height))
         end)
 
+        for _, corpse in pairs(self.corpses) do
+            corpse:render()
+        end
+
         for _, renderable in pairs(to_render) do
             renderable:render()
         end
@@ -627,6 +638,13 @@ function PlayState:deleteEntity(idx)
     table.remove(self.entities, idx)
 end
 
+function PlayState:deleteCorpse(idx)
+    self.corpses[idx].stateMachine.current.entity = nil
+    self.corpses[idx] = nil
+    table.remove(self.corpses, idx)
+end
+
+
 function PlayState:deleteObject(idx)
     self.objects[idx] = nil
     table.remove(self.objects, idx)
@@ -634,7 +652,8 @@ end
 
 function PlayState:generateWalkingEntity()
     local types = {'npc1','enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
-    -- local types = {'enemy'}
+    -- local types = {'npc1'}
+    -- local types = {'npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20

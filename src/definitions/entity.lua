@@ -371,18 +371,26 @@ ENTITY_DEFS = {
                 looping = false,
                 texture = 'Npc0-punch'
             },
-            ['dead-left'] = {
+            ['die-left'] = {
                 frames = {1,2,3,4,5},
                 interval = 0.12,
                 looping = false,
                 texture = 'Npc0-dead'
             },
-            ['dead-right'] = {
+            ['die-right'] = {
                 frames = {6,7,8,9,10},
                 interval = 0.12,
                 looping = false,
                 texture = 'Npc0-dead'
-            }
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'Npc0-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'Npc0-dead'
+            },
         }
     },
     ['npc0-blackskin-blond'] = {
@@ -440,7 +448,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blackskin-blond-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-blond-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-blond-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blackskin-blond-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blackskin-blond-dead'
+            },
         }
     },
     ['npc0-blackskin-blond-noglasses'] = {
@@ -498,7 +526,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blackskin-blond-noglasses-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-blond-noglasses-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-blond-noglasses-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blackskin-blond-noglasses-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blackskin-blond-noglasses-dead'
+            },
         }
     },
     ['npc0-blackskin-whiteclothes'] = {
@@ -556,7 +604,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blackskin-whiteclothes-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-whiteclothes-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blackskin-whiteclothes-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blackskin-whiteclothes-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blackskin-whiteclothes-dead'
+            },
         }
     },
     ['npc0-blond'] = {
@@ -614,7 +682,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blond-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blond-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blond-dead'
+            },
         }
     },
     ['npc0-blond-chinese'] = {
@@ -672,7 +760,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blond-chinese-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-chinese-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-chinese-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blond-chinese-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blond-chinese-dead'
+            },
         }
     },
     ['npc0-blond-noglasses'] = {
@@ -730,7 +838,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blond-noglasses-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-noglasses-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-noglasses-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blond-noglasses-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blond-noglasses-dead'
+            },
         }
     },
     ['npc0-blond-otherclothes'] = {
@@ -788,7 +916,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc0-blond-otherclothes-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-otherclothes-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc0-blond-otherclothes-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc0-blond-otherclothes-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc0-blond-otherclothes-dead'
+            },
         }
     },
     ['npc1'] = {
@@ -846,7 +994,27 @@ ENTITY_DEFS = {
                 interval = 0.30,
                 looping = false,
                 texture = 'npc1-punch'
-            }
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-dead'
+            },
         }
     }
 

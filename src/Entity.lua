@@ -49,6 +49,7 @@ function Entity:init(def)
 
     --  track whether entity has dropped items or not
     self.dropped = false
+    self.dead = false
 end
 
 function Entity:createAnimations(animations)
@@ -117,10 +118,12 @@ function Entity:update(dt, params)
 end
 
 function Entity:processAI(params, dt)
-    if self.fighting and self.pervert then
-        self.stateMachine:processAIFighting(params, dt)
-    else
-        self.stateMachine:processAI(params, dt)
+    if not self.dead then
+        if self.fighting and self.pervert then
+            self.stateMachine:processAIFighting(params, dt)
+        else
+            self.stateMachine:processAI(params, dt)
+        end
     end
 end
 

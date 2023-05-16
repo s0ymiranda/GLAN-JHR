@@ -9,10 +9,11 @@ function PauseState:enter(def)
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.twoPlayers = def.twoPlayers
+    self.corpses = def.corpses
 
     self.controllerButtoms = {a = false, x = false, start = false}
     self.pauseMenu = Menu {
-        x = VIRTUAL_WIDTH/2 - 64 -32,
+        x = VIRTUAL_WIDTH/2 - 64 -32 + self.camera.x,
         y = VIRTUAL_HEIGHT/2 + 50,
         width = 128+64,
         height = 60,
@@ -29,6 +30,7 @@ function PauseState:enter(def)
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
+                        corpses = self.corpses,
                 })
                 end
             },
@@ -108,6 +110,10 @@ function PauseState:render()
         table.sort(to_render, function(a, b)
             return a.y + a.height < b.y + b.height
         end)
+
+        for _, corpse in pairs(self.corpses) do
+            corpse:render()
+        end
 
         for _, entity in pairs(to_render) do
             entity:render()
