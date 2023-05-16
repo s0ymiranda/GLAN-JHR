@@ -43,6 +43,8 @@ function PlayState:enter(def)
     self.heldObjects = {}
     self.projectiles = {}
 
+    self.players = {self.player}
+
     if def.player == nil or isANewDay then
         self.player.stateMachine = StateMachine {
             ['walk'] = function() return PlayerWalkState(self.player) end,
@@ -67,7 +69,7 @@ function PlayState:enter(def)
             animations = ENTITY_DEFS['player2'].animations,
             walkSpeed = ENTITY_DEFS['player2'].walkSpeed,
             x = 0 ,
-            y = VIRTUAL_HEIGHT / 2 + 73,
+            y = VIRTUAL_HEIGHT / 2 + 55,
             width = 24,
             height = 73,
             health = 100,
@@ -102,6 +104,7 @@ function PlayState:enter(def)
             showDetails = true,
             title = 'Health 2'
         }
+        table.insert(self.players,self.player2)
     end
 
     self.healthBar = ProgressBar {
@@ -328,7 +331,11 @@ function PlayState:update(dt)
     for k, entity in pairs(self.entities) do
         if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting then
             local distance = math.sqrt((entity.x - self.player.x)^2 + (entity.y - self.player.y)^2)
-            if distance < 150 then
+            local distance2 = 160
+            if self.player2 ~= nil then
+                distance2 = math.sqrt((entity.x - self.player2.x)^2 + (entity.y - self.player2.y)^2)
+            end
+            if distance < 150 or distance2 < 150 then
                 entity.fighting = true
                 entity:changeAnimation('idle-' .. tostring(entity.direction))
                 entity:changeState('idle')
@@ -336,19 +343,43 @@ function PlayState:update(dt)
         end
         if entity.fighting then
             self.player.fighting = true
+            if self.player2 ~= nil then
+                self.player2.fighting = true
+            end
             enemyFighting = true
         end
     end
 
     if not enemyFighting and self.player.fighting then
         self.player.afterFigthing = true
-        Timer.tween(0.5, {
-            [self.camera] = {
-                x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
-                y = self.camera.y
-            }
-        })
-        Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = 0 self.player.rightLimit = MAP_WIDTH end)
+        if self.player2 ~= nil then
+            self.player2.afterFighting = true
+            Timer.tween(0.5, {
+                [self.camera] = {
+                    x = math.floor(math.min(math.floor(math.max(self.camera.x,(self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2 + self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
+                    y = self.camera.y
+                }
+            })
+            Timer.after(0.5,function()
+                self.player.fighting = false
+                self.player.afterFigthing = false
+                self.player.leftLimit = self.camera.x
+                self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
+
+                self.player2.fighting = false
+                self.player2.afterFigthing = false
+                self.player2.leftLimit = self.camera.x
+                self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
+            end)
+        else
+            Timer.tween(0.5, {
+                [self.camera] = {
+                    x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
+                    y = self.camera.y
+                }
+            })
+            Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = self.camera.x self.player.rightLimit = MAP_WIDTH end)
+        end
     end
 
     for k, entity in pairs(self.entities) do
@@ -446,7 +477,13 @@ function PlayState:update(dt)
         else
             -- self.player.afterFighting = false
             -- self.player.fighting = false
-            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true})
+            local twoPlayersMode = false
+            if self.player2 ~= nil then
+                twoPlayersMode = true
+                self.player2.x = 0
+                self.player2.y = VIRTUAL_HEIGHT/2 + 55
+            end
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
         end
     end
 
@@ -458,7 +495,13 @@ function PlayState:update(dt)
         else
             -- self.player.afterFighting = false
             -- self.player.fighting = false
-            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true})
+            local twoPlayersMode = false
+            if self.player2 ~= nil then
+                twoPlayersMode = true
+                self.player2.x = 0
+                self.player2.y = VIRTUAL_HEIGHT/2 + 55
+            end
+            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
         end
     end
 
@@ -554,7 +597,7 @@ function PlayState:generateWalkingEntity()
     new_entity.stateMachine = StateMachine {
         ['walk'] = function() return EntityWalkState(new_entity) end,
         ['idle'] = function() return EntityIdleState(new_entity) end,
-        ['punch'] = function() return EntityPunchState(new_entity,self.player) end
+        ['punch'] = function() return EntityPunchState(new_entity,self.players) end
     }
     new_entity:changeState('walk')
     new_entity.justWalking = true

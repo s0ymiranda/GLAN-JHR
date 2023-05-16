@@ -1,7 +1,7 @@
 EntityPunchState = Class{__includes = BaseState}
 
-function EntityPunchState:init(entity,player)
-    self.player = player
+function EntityPunchState:init(entity,players)
+    self.players = players
     self.entity = entity
     self.miss = true
 
@@ -37,24 +37,27 @@ function EntityPunchState:enter(params)
     -- SOUNDS['slap']:play()
 
     -- restart slap swing animation
-    self.player.currentAnimation:refresh()
+    -- self.player.currentAnimation:refresh()
+    self.entity.currentAnimation:refresh()
 end
 
 function EntityPunchState:update(dt)
     -- check if hitbox collides with the player
-    if self.canHit and math.abs(self.entity.z - self.player.z) <= 1 and self.player:collides(self.punchHitbox) and not self.player.invulnerable then
-        self.player:damage(10)
-        self.player:goInvulnerable(1.5)
-        SOUNDS['hero-damage']:stop()
-        SOUNDS['hero-damage']:play()
-        if self.player.health <= 0  then
-            SOUNDS['punch-eco']:stop()
-            SOUNDS['punch-eco']:play()
-        else
-            SOUNDS['slap']:stop()
-            SOUNDS['slap']:play()
+    for k, player in pairs(self.players) do
+        if self.canHit and math.abs(self.entity.z - player.z) <= 1 and player:collides(self.punchHitbox) and not player.invulnerable then
+            player:damage(10)
+            player:goInvulnerable(1.5)
+            SOUNDS['hero-damage']:stop()
+            SOUNDS['hero-damage']:play()
+            if player.health <= 0  then
+                SOUNDS['punch-eco']:stop()
+                SOUNDS['punch-eco']:play()
+            else
+                SOUNDS['slap']:stop()
+                SOUNDS['slap']:play()
+            end
+            self.miss = false
         end
-        self.miss = false
     end
 
     if self.miss then

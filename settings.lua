@@ -91,7 +91,7 @@ MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
     --Cursor
-    ['cursor-right'] = love.graphics.newImage('graphics/cursor_right.png'),
+    ['cursor-right'] = love.graphics.newImage('graphics/cursor.png'),
     --Hero
     ['character-walk'] = love.graphics.newImage('graphics/Hero/Walk-Hero.png'),
     ['character-slap'] = love.graphics.newImage('graphics/Hero/Slap-Hero.png'),

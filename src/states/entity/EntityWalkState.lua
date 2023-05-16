@@ -3,6 +3,9 @@ EntityWalkState = Class{__includes = BaseState}
 function EntityWalkState:init(entity)
     self.entity = entity
 
+    self.objetive = nil
+    self.objectiveAlreadyChosen = false
+
     -- used for AI control
     self.moveDuration = 0
     self.movementTimer = 0
@@ -67,7 +70,11 @@ function EntityWalkState:processAI(params, dt)
 
     if self.dialogElapsedTime == nil then
         local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
-        if distance < 150 and self.entity.pervert then
+        local distance2 = distance
+        if playState.player2 ~= nil then
+            distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+        end
+        if (distance < 150 or distance2 < 150) and self.entity.pervert then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
             self.displayDialog = true
@@ -90,13 +97,30 @@ function EntityWalkState:processAIFighting(params,dt)
     -- TODO: add punches
     local playState = params.PlayState
     local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+    local distance2 = distance
 
-    if distance < math.random(20,30) then
+    if playState.player2 ~= nil then
+        distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+    end
+
+    if distance < math.random(20,30) or distance2 < math.random(20,30) then
         self.bumped = true
     end
 
+    if not self.objectiveAlreadyChosen then
+        if distance < distance2 then
+            self.objetive = playState.player
+        else
+            self.objetive = playState.player2
+        end
+        self.objectiveAlreadyChosen = true
+    end
+    if self.objetive == nil then
+        self.objetive = playState.player
+    end
+
     if self.dialogElapsedTime == nil then
-        if distance < 500 then
+        if distance < 500 or distance2 < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
             self.displayDialog = true
@@ -113,17 +137,31 @@ function EntityWalkState:processAIFighting(params,dt)
 
         self.moveDuration = math.random(5)
 
-        if playState.player.x + playState.player.width < self.entity.x and math.abs(playState.player.z - self.entity.z) <= 1 then
+        -- if playState.player.x + playState.player.width < self.entity.x and math.abs(playState.player.z - self.entity.z) <= 1 then
+        --     self.entity.direction = "left"
+        -- elseif playState.player.x > self.entity.x + self.entity.width and math.abs(playState.player.z - self.entity.z) <= 1 then
+        --     self.entity.direction = "right"
+        -- elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z+1 < playState.player.z then
+        --     self.entity.direction = "down-left"
+        -- elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z-1 > playState.player.z then
+        --     self.entity.direction = "up-left"
+        -- elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z+1 < playState.player.z then
+        --     self.entity.direction = "down-right"
+        -- elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z-1 > playState.player.z then
+        --     self.entity.direction = "up-right"
+        -- end
+
+        if self.objetive.x + self.objetive.width < self.entity.x and math.abs(self.objetive.z - self.entity.z) <= 1 then
             self.entity.direction = "left"
-        elseif playState.player.x > self.entity.x + self.entity.width and math.abs(playState.player.z - self.entity.z) <= 1 then
+        elseif self.objetive.x > self.entity.x + self.entity.width and math.abs(self.objetive.z - self.entity.z) <= 1 then
             self.entity.direction = "right"
-        elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z+1 < playState.player.z then
+        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z+1 < self.objetive.z then
             self.entity.direction = "down-left"
-        elseif playState.player.x + playState.player.width < self.entity.x and self.entity.z-1 > playState.player.z then
+        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z-1 > self.objetive.z then
             self.entity.direction = "up-left"
-        elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z+1 < playState.player.z then
+        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z+1 < self.objetive.z then
             self.entity.direction = "down-right"
-        elseif playState.player.x > self.entity.x + self.entity.width and self.entity.z-1 > playState.player.z then
+        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z-1 > self.objetive.z then
             self.entity.direction = "up-right"
         end
 
@@ -145,6 +183,8 @@ function EntityWalkState:processAIFighting(params,dt)
         end
         self.entity.punching = true
         self.entity.direction = self.prevDirection
+        self.objetive = nil
+        self.objectiveAlreadyChosen = false
         self.entity:changeState('idle', {
             dialogElapsedTime = self.dialogElapsedTime,
             dialog = self.dialog,
