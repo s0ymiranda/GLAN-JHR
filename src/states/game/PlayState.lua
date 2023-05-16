@@ -15,6 +15,8 @@ function PlayState:init()
     self.lctrlPressed = false
     self.rctrlPressed = false
 
+    self.controllerButtoms = {a = false, x = false, start = false}
+
     SOUNDS['dungeon-music']:setLooping(true)
     SOUNDS['dungeon-music']:play()
 end
@@ -23,6 +25,11 @@ function PlayState:enter(def)
 
     local isANewDay = def.isANewDay or false
 
+    if isANewDay then
+        SOUNDS['dungeon-music']:stop(true)
+        SOUNDS['dungeon-music']:setLooping(true)
+        SOUNDS['dungeon-music']:play()
+    end
     self.dayNumber = def.dayNumber or 1
 
     self.camera = def.camera or Camera{}
@@ -155,7 +162,8 @@ function PlayState:enter(def)
 end
 
 function PlayState:exit()
-    SOUNDS['dungeon-music']:stop()
+    -- SOUNDS['dungeon-music']:stop()
+    SOUNDS['dungeon-music']:pause()
 end
 
 function PlayState:bottom_collision(a, b, y_diff)
@@ -175,7 +183,30 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
+    if #joysticks > 0 then
+        if joystick:isGamepadDown('start') then
+            self.controllerButtoms.start = true
+        elseif self.controllerButtoms.start then
+            local twoPlayersMode = false
+            if self.player2 ~= nil then
+                twoPlayersMode = true
+            end
+            stateMachine:change('pause',{
+                player = self.player,
+                camera = self.camera,
+                entities = self.entities,
+                objects = self.objects,
+                dayNumber = self.dayNumber,
+                player2 = self.player2,
+                twoPlayers = twoPlayersMode,
+            })
+        end
+    end
     if love.keyboard.wasPressed('p') then
+        local twoPlayersMode = false
+        if self.player2 ~= nil then
+            twoPlayersMode = true
+        end
         stateMachine:change('pause',{
             player = self.player,
             camera = self.camera,
@@ -183,7 +214,8 @@ function PlayState:update(dt)
             objects = self.objects,
             dayNumber = self.dayNumber,
             player2 = self.player2,
-    })
+            twoPlayers = twoPlayersMode,
+        })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
         for k,e in pairs(self.entities) do
@@ -452,7 +484,7 @@ function PlayState:update(dt)
         if self.player2 ~= nil then
             self.camera.x = math.floor(math.min(math.floor(math.max(self.camera.x,math.floor((self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2 + self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)/2))),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
         else
-            self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+            self.camera.x = math.floor(math.min(math.floor(math.max(self.camera.x,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
         end
 
     end
