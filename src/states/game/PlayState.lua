@@ -243,6 +243,34 @@ function PlayState:update(dt)
             dayNumber = self.dayNumber,
             player2 = self.player2,
         })
+    elseif self.player2 ~= nil then
+        if self.player2.health <= 0 then
+            for k,e in pairs(self.entities) do
+                e:changeState('idle')
+            end
+            self.player.dead = true
+            self.player:changeAnimation('falling')
+
+            self.player2.dead = true
+            self.player2:changeAnimation('falling')
+
+            Timer.after(0.4,function()
+                self.player.y = self.player.y + 15
+                self.player:changeAnimation('defeated')
+
+                self.player2.y = self.player2.y + 15
+                self.player2:changeAnimation('defeated')
+
+            end)
+            stateMachine:change('game-over',{
+                player = self.player,
+                camera = self.camera,
+                entities = self.entities,
+                objects = self.objects,
+                dayNumber = self.dayNumber,
+                player2 = self.player2,
+            })
+        end
     end
     if love.keyboard.wasPressed('o') then
         stateMachine:change('win')

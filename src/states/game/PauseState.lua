@@ -11,7 +11,43 @@ function PauseState:enter(def)
     self.twoPlayers = def.twoPlayers
 
     self.controllerButtoms = {a = false, x = false, start = false}
+    self.pauseMenu = Menu {
+        x = VIRTUAL_WIDTH/2 - 64 -32,
+        y = VIRTUAL_HEIGHT/2 + 50,
+        width = 128+64,
+        height = 60,
+        current_selection = last_selection,
+        items = {
+            {
+                text = 'Resumen Game',
+                onSelect = function()
+                    stateMachine:change('play',{
+                        player = self.player,
+                        camera = self.camera,
+                        entities = self.entities,
+                        objects = self.objects,
+                        dayNumber = self.dayNumber,
+                        twoPlayers = self.twoPlayers,
+                        player2 = self.player2,
+                })
+                end
+            },
+            {
+                text = 'Go to Title Screen',
+                onSelect = function()
+                    stateMachine:change('start')
+                end
+            },
+            {
+                text = 'Exit Game',
+                onSelect = function()
+                    love.event.quit()
+                end
+            }
+        }
+    }
 
+    self.pauseMenu.panel:toggle()
 end
 
 function PauseState:exit()
@@ -19,33 +55,33 @@ function PauseState:exit()
 end
 
 function PauseState:update(dt)
-    if love.keyboard.wasPressed('p') then
-        stateMachine:change('play',{
-            player = self.player,
-            camera = self.camera,
-            entities = self.entities,
-            objects = self.objects,
-            dayNumber = self.dayNumber,
-            twoPlayers = self.twoPlayers,
-            player2 = self.player2,
-    })
-    end
-
+    -- if love.keyboard.wasPressed('p') then
+    --     stateMachine:change('play',{
+    --         player = self.player,
+    --         camera = self.camera,
+    --         entities = self.entities,
+    --         objects = self.objects,
+    --         dayNumber = self.dayNumber,
+    --         twoPlayers = self.twoPlayers,
+    --         player2 = self.player2,
+    -- })
+    -- end
+    self.pauseMenu:update(dt)
     --For Joystick
-    if #joysticks > 0 then
-        if joystick:isGamepadDown('start') then
-            self.controllerButtoms.start = true
-        elseif self.controllerButtoms.start then
-            stateMachine:change('play',{
-                player = self.player,
-                camera = self.camera,
-                entities = self.entities,
-                objects = self.objects,
-                twoPlayers = self.twoPlayers,
-                player2 = self.player2,
-            })
-        end
-    end
+    -- if #joysticks > 0 then
+    --     if joystick:isGamepadDown('start') then
+    --         self.controllerButtoms.start = true
+    --     elseif self.controllerButtoms.start then
+    --         stateMachine:change('play',{
+    --             player = self.player,
+    --             camera = self.camera,
+    --             entities = self.entities,
+    --             objects = self.objects,
+    --             twoPlayers = self.twoPlayers,
+    --             player2 = self.player2,
+    --         })
+    --     end
+    -- end
 
 end
 
@@ -83,5 +119,6 @@ function PauseState:render()
         love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
         love.graphics.setFont(FONTS['large'])
         love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
+        self.pauseMenu:render(dt)
     self.camera:unset()
 end
