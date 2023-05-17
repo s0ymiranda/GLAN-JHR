@@ -17,8 +17,11 @@ function PlayState:init()
 
     self.controllerButtoms = {a = false, x = false, start = false}
 
+    SOUNDS['boss_music']:stop()
+    SOUNDS['end_day_music']:stop()
     SOUNDS['dungeon-music']:setLooping(true)
     SOUNDS['dungeon-music']:play()
+
 end
 
 function PlayState:enter(def)
@@ -42,7 +45,7 @@ function PlayState:enter(def)
     self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-        x = 0,
+        x = VIRTUAL_WIDTH*6.5,
         y = VIRTUAL_HEIGHT / 2 ,
         width = 24,
         height = 73,
@@ -426,7 +429,14 @@ function PlayState:update(dt)
         end
     end
 
-    if not enemyFighting and self.player.fighting and not self.boss.fighting then
+    local bossFighting = false
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            bossFighting = true
+        end
+    end
+
+    if not enemyFighting and self.player.fighting and not bossFighting then
         self.player.afterFigthing = true
         if self.player2 ~= nil then
             self.player2.afterFighting = true

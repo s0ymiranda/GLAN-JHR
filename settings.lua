@@ -254,7 +254,7 @@ FRAMES = {
     ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
     ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
     ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
-    
+
 }
 
 
@@ -277,5 +277,9 @@ SOUNDS = {
     ['knee-hit'] = love.audio.newSource('sounds/knee_hit.mp3', 'static'),
     ['punch-eco'] = love.audio.newSource('sounds/punch_eco.mp3', 'static'),
     ['dodge'] = love.audio.newSource('sounds/dodge.mp3', 'static'),
-    ['blip'] = love.audio.newSource('sounds/blip.wav', 'static')
+    ['blip'] = love.audio.newSource('sounds/blip.wav', 'static'),
+    ['boss_music'] = love.audio.newSource('sounds/the_dark_one.mp3', 'static'),
+    ['end_day_music'] = love.audio.newSource('sounds/end_day_music.mp3', 'static'),
+    ['bus'] = love.audio.newSource('sounds/bus.mp3', 'static'),
+    ['spank'] = love.audio.newSource('sounds/spank.mp3', 'static')
 }

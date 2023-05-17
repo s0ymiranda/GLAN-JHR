@@ -1,7 +1,11 @@
 CinematicState = Class{__includes = BaseState}
 
 function CinematicState:init(params)
+    SOUNDS['end_day_music']:play()
+end
 
+function CinematicState:exit()
+    SOUNDS['bus']:stop()
 end
 
 function CinematicState:enter(params)
@@ -30,6 +34,7 @@ function CinematicState:enter(params)
                 x = x_destiny
             }})
         Timer.after(3, function()
+            SOUNDS['bus']:play()
             player:changeAnimation('win')
         end)
     end

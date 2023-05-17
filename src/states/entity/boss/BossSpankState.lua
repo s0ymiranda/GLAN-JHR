@@ -4,6 +4,11 @@ function BossSpankState:init(entity,players)
     self.entity = entity
     self.players = players
     self.miss = true
+
+    self.canHit = false
+
+    Timer.after(0.3,function() self.canHit = true end)
+    Timer.after(0.6,function() self.canHit = false end)
     -- create hitbox based on where the entity is and facing
     local direction = self.entity.direction
 
@@ -37,13 +42,13 @@ end
 function BossSpankState:update(dt)
     -- check if hitbox collides with any.players in the scene
     for k, entity in pairs(self.players) do
-        if math.abs(self.entity.z - entity.z) <= 1 and entity:collides(self.HandHitbox) and not entity.invulnerable then
+        if self.canHit and math.abs(self.entity.z - entity.z) <= 1 and entity:collides(self.HandHitbox) and not entity.invulnerable then
             entity:damage(1.5)
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
-            SOUNDS['knee-hit']:stop()
-            SOUNDS['knee-hit']:play()
+            SOUNDS['spank']:stop()
+            SOUNDS['spank']:play()
             self.miss = false
         end
     end

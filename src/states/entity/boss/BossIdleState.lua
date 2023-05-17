@@ -23,12 +23,15 @@ function BossIdleState:processAI(params, dt)
         distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
     end
 
-    if distance < 150 or distance2 < 150 then
+    if distance < 200 or distance2 < 200 then
         self.entity.fighting = true
         playState.player.fighting = true
         if playState.player2 ~= nil then
             playState.player2.fighting = true
         end
+        SOUNDS['dungeon-music']:pause(true)
+        SOUNDS['boss_music']:setLooping(true)
+        SOUNDS['boss_music']:play()
     end
 end
 
