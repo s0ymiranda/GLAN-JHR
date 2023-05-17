@@ -122,8 +122,12 @@ TEXTURES = {
     ['character2-dodge'] = love.graphics.newImage('graphics/Hero2/Dodge-Hero2.png'),
     ['character2-win'] = love.graphics.newImage('graphics/Hero2/Win-Hero2.png'),
 
-    --Background1
-    ['background'] = love.graphics.newImage('graphics/background.png'),
+    --Background
+    ['background'] = love.graphics.newImage('graphics/Background/background.png'),
+    ['cloud1'] = love.graphics.newImage('graphics/Background/cloud1.png'),
+    ['estructure1'] = love.graphics.newImage('graphics/Background/edificio1.png'),
+    ['cloud2'] = love.graphics.newImage('graphics/Background/cloud2.png'),
+    ['estructure2'] = love.graphics.newImage('graphics/Background/edificio2.png'),
 
     --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
