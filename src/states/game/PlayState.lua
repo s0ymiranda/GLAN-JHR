@@ -36,11 +36,13 @@ function PlayState:enter(def)
     self.entities = def.entities or {}
     self.objects = def.objects or {}
     self.signs = def.signs or {}
-
+    self.boss = def.boss or nil
+    
+    -- Creating Player 1
     self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-        x = 0 ,
+        x = 0,
         y = VIRTUAL_HEIGHT / 2 ,
         width = 24,
         height = 73,
@@ -51,26 +53,29 @@ function PlayState:enter(def)
     self.projectiles = {}
 
     self.players = {self.player}
-
+    
+    
     if def.player == nil or isANewDay then
         self.player.stateMachine = StateMachine {
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
-            ['slap'] = function() return PlayerSlapState(self.player, self.entities) end,
-            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities) end,
+            ['slap'] = function() return PlayerSlapState(self.player, self.entities,self.boss) end,
+            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities,self.boss) end,
             ['pick-up'] = function() return PlayerPickUpState(self.player) end,
             ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end,
+            ['cinematic'] = function() return PlayerCinematicState(self.player, self.entities) end
         }
         self.player:changeState('idle')
         self.player.direction = 'right'
         self.player:changeAnimation('idle-right')
     end
+    
     self.player.pervert = false
-
+    
     if self.player.x > 0 then
         self.textAnimations.alpha.render = false
     end
-
+    -- Creating Player 2
     if def.twoPlayers then
         self.player2 = def.player2 or Player {
             animations = ENTITY_DEFS['player2'].animations,
@@ -90,10 +95,11 @@ function PlayState:enter(def)
             self.player2.stateMachine = StateMachine {
                 ['walk'] = function() return PlayerWalkState(self.player2) end,
                 ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
-                ['slap'] = function() return PlayerSlapState(self.player2, self.entities) end,
-                ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities) end,
+                ['slap'] = function() return PlayerSlapState(self.player2, self.entities,self.boss) end,
+                ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities, self.boss) end,
                 ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
                 ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end,
+                ['cinematic'] = function() return PlayerCinematicState(self.player, self.entities) end
             }
             self.player2:changeState('idle')
             self.player2.direction = 'right'
@@ -113,7 +119,7 @@ function PlayState:enter(def)
         }
         table.insert(self.players,self.player2)
     end
-
+    
     self.healthBar = ProgressBar {
         x = 0 + 10,
         y = 0 + 10,
@@ -125,6 +131,7 @@ function PlayState:enter(def)
         showDetails = true,
         title = 'Health'
     }
+    -- Respect Bar is shared between the 2 player, health its separated 
     self.respectBar = ProgressBar {
         x = 0 + 10,
         y = 0 + self.healthBar.y + self.healthBar.height + 10,
@@ -136,7 +143,12 @@ function PlayState:enter(def)
         showDetails = true,
         title = 'Respect'
     }
+    if self.dayNumber == 5 then
+        self:generateBoss()
+    end
+
     --GameObjects
+
     --bus and bus sign
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus'], MAP_WIDTH - 300, 140))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus-sign'], MAP_WIDTH - 350, 120))
@@ -159,6 +171,12 @@ function PlayState:enter(def)
     table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
     table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
     table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+    --barrels
+    for i = 1, NUMBER_OF_BARRELS, 1 do
+        local barrel_x = math.random(10,VIRTUAL_WIDTH*6.5)
+        local barrel_y_variation = math.random(0,45)
+        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
+    end
 end
 
 function PlayState:exit()
@@ -318,7 +336,7 @@ function PlayState:update(dt)
 
     self.spawnTimer = self.spawnTimer + dt
 
-    if self.spawnTimer >= self.spawnCooldown then
+    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) then
         self:generateWalkingEntity()
         self.spawnCooldown = 0
         self.spawnTimer = 0
@@ -371,7 +389,7 @@ function PlayState:update(dt)
     for _, v in pairs(stoppedProjectilesPositions) do
         table.remove(self.projectiles, v)
     end
-
+ 
     self.player:update(dt, {objects = self.objects})
     self.player.leftLimit = self.camera.x
     if self.player2 ~= nil then
@@ -490,8 +508,10 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    -- self.player:update(dt)
-
+    if self.boss ~= nil then
+        self.boss:processAI({PlayState =self},dt)
+        self.boss:update(dt)
+    end
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and self.player.stateMachine.currentStateName ~= 'dodge' and not self.player.fighting and not self.player.afterFighting then
         -- OPCION ARRASTRAR AL PLAYER 2:
         -- self.camera.x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
@@ -521,7 +541,15 @@ function PlayState:update(dt)
         self.healthBar2:update()
     end
 
-    if self.player.x + self.player.width == MAP_WIDTH then
+    if (self.camera.x + VIRTUAL_WIDTH) >= MAP_WIDTH - 250 and (self.camera.x + VIRTUAL_WIDTH) <= MAP_WIDTH - 200 and not self.player.fighting then
+        self.player:changeState('cinematic')
+        if self.player2 ~= nil then
+            self.player2:changeState('cinematic')
+        end
+    end
+
+    if self.player.x >=  MAP_WIDTH - 200  then
+        self.player:changeState('idle')
         self.player.x = 0
         self.player.y = VIRTUAL_HEIGHT/2
         if self.dayNumber == 5 then
@@ -531,6 +559,7 @@ function PlayState:update(dt)
             -- self.player.fighting = false
             local twoPlayersMode = false
             if self.player2 ~= nil then
+                self.player2:changeState('idle')
                 twoPlayersMode = true
                 self.player2.x = 0
                 self.player2.y = VIRTUAL_HEIGHT/2 + 55
@@ -589,7 +618,9 @@ function PlayState:render()
         for _, sign in pairs(self.signs) do
             table.insert(to_render, sign)
         end
-
+        if self.boss ~= nil then
+            table.insert(to_render, self.boss)
+        end
         table.sort(to_render, function(a, b)
             local ay = a.floor
             local by = b.floor
@@ -640,7 +671,6 @@ function PlayState:generateWalkingEntity()
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20
 
     local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
-    local height = 75
 
     local new_entity = Entity {
         animations = ENTITY_DEFS[type].animations,
@@ -650,7 +680,7 @@ function PlayState:generateWalkingEntity()
         y = y_distance,
 
         width = 24,
-        height = height,
+        height = 75,
 
         health = 3,
         pervertFactor = self.player.respect/100,
@@ -667,4 +697,33 @@ function PlayState:generateWalkingEntity()
 
     table.insert(self.entities, new_entity)
 end
+function PlayState:generateBoss()
 
+    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
+
+    local boss = Entity{
+        animations = ENTITY_DEFS['boss'].animations,
+        walkSpeed = ENTITY_DEFS['boss'].walkSpeed,
+
+        x = VIRTUAL_WIDTH - 100,
+        y = y_distance,
+
+        width = 37,
+        height = 84,
+
+        health = 3,
+
+    }
+
+    boss.stateMachine = StateMachine {
+        ['idle'] = function() return BossIdleState(boss) end,
+        ['walk'] = function () return BossWalkState(boss) end,
+        ['dead'] = function () return BossDeadState(boss) end,
+        ['spank'] = function () return BossSpankState(boss,self.players) end,
+        ['punch'] = function () return BossPunchState(boss,self.players) end
+    }
+    boss:changeState('idle')
+    boss:changeAnimation('idle-left')
+    boss.pervert = true
+    self.boss = boss
+end

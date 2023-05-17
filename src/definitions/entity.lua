@@ -309,6 +309,99 @@ ENTITY_DEFS = {
             },
         }
     },
+    ['boss'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+            ['walk-right'] = {
+                frames = {5,6,7},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+
+            ['walk-up-left'] = {
+                frames = {1,2,3},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {5,6,7},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {5,6,7},
+                interval = 0.25,
+                texture = 'Boss-walk'
+            },
+
+            ['idle-left'] = {
+                frames = {9,10,11,12,11,10},
+                interval = 0.5,
+                looping = true,
+                texture = 'Boss-walk'
+            },
+            ['idle-right'] = {
+                frames = {13,14,15,16,15,14},
+                looping = true,
+                interval = 0.8,
+                texture =  'Boss-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'Boss-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'Boss-punch'
+            },
+            ['spank-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'Boss-spank'
+            },
+            ['spank-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'Boss-spank'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'Boss-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'Boss-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'Boss-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'Boss-dead'
+            },
+        }
+    },
     ['enemy'] = {
         walkSpeed = 60,
         animations = {
@@ -316,48 +409,48 @@ ENTITY_DEFS = {
                 --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
             ['walk-right'] = {
                 --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
 
             ['walk-up-left'] = {
                 --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
             ['walk-up-right'] = {
                 --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
 
             ['walk-down-left'] = {
                 --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
             ['walk-down-right'] = {
                 --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
 
             ['idle-left'] = {
                 frames = {1},
-                texture = 'enemy-walk'
+                texture = 'npc0-walk'
             },
             ['idle-right'] = {
                 frames = {2},
-                texture =  'enemy-walk'
+                texture =  'npc0-walk'
             },
             ['punch-left'] = {
                 frames = {1,2,1},

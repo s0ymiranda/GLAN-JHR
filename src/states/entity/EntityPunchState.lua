@@ -16,7 +16,7 @@ function EntityPunchState:init(entity,players)
 
     if direction == 'left' then
         self.entity.x = self.entity.x - 7
-        hitboxWidth = 12
+        hitboxWidth = 18
         hitboxHeight = 12
         hitboxX = self.entity.x - hitboxWidth/2 + 7
         hitboxY = self.entity.y + 17

@@ -28,6 +28,13 @@ require 'src/states/entity/player/PlayerSlapState'
 require 'src/states/entity/player/PlayerKneeHitState'
 require 'src/states/entity/player/PlayerPickUpState'
 require 'src/states/entity/player/PlayerDodgeState'
+require 'src/states/entity/player/PlayerCinematicState'
+
+require 'src/states/entity/boss/BossIdleState'
+require 'src/states/entity/boss/BossWalkState'
+require 'src/states/entity/boss/BossDeadState'
+require 'src/states/entity/boss/BossSpankState'
+require 'src/states/entity/boss/BossPunchState'
 
 require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
@@ -49,7 +56,8 @@ if #joysticks > 0 then
 else
     joystick = false
 end
--- joystick = joysticks[1]
+
+NUMBER_OF_BARRELS = 10
 
 VIRTUAL_WIDTH = 576
 VIRTUAL_HEIGHT = 324
@@ -109,21 +117,22 @@ TEXTURES = {
     ['character2-pick-up'] = love.graphics.newImage('graphics/Hero2/PickUp-Hero2.png'),
     ['character2-defeated'] = love.graphics.newImage('graphics/Hero2/Defeated-Hero2.png'),
     ['character2-dodge'] = love.graphics.newImage('graphics/Hero2/Dodge-Hero2.png'),
-    --Npc0
-    ['enemy-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
-    ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
-    ['Npc0-dead'] = love.graphics.newImage('graphics/Npc0/Dead-Npc0.png'),
-
-    --Npc1
-    ['npc1-walk'] = love.graphics.newImage('graphics/Npc1/Walk-Npc1.png'),
-    ['npc1-punch'] = love.graphics.newImage('graphics/Npc1/Punch-Npc1.png'),
-    ['npc1-dead'] = love.graphics.newImage('graphics/Npc1/Dead-Npc1.png'),
-
+    
     --Background1
     ['background'] = love.graphics.newImage('graphics/background.png'),
 
     --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
+    
+    --Npc0
+    ['npc0-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
+    ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
+    ['Npc0-dead'] = love.graphics.newImage('graphics/Npc0/dead-Npc0.png'),
+
+    --Npc1
+    ['npc1-walk'] = love.graphics.newImage('graphics/Npc1/Walk-Npc1.png'),
+    ['npc1-punch'] = love.graphics.newImage('graphics/Npc1/Punch-Npc1.png'),
+    ['npc1-dead'] = love.graphics.newImage('graphics/Npc1/dead-npc1.png'),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
@@ -153,6 +162,12 @@ TEXTURES = {
     ['npc0-blond-otherclothes-walk'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Walk-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-dead'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Dead-Npc0-Blond-OtherClothes.png'),
+
+    --Boss
+    ['Boss-walk'] = love.graphics.newImage('graphics/Sumo-Boss/walk-Sumo.png'),
+    ['Boss-punch'] = love.graphics.newImage('graphics/Sumo-Boss/Punch-Sumo.png'),
+    ['Boss-spank'] = love.graphics.newImage('graphics/Sumo-Boss/spank-Sumo.png'),
+    ['Boss-dead'] = love.graphics.newImage('graphics/Sumo-Boss/Dead-Sumo.png'),
 
     -- Game objects
     ['heart'] = love.graphics.newImage('graphics/Game-Objects/heart.png'),
@@ -184,7 +199,7 @@ FRAMES = {
     ['character2-defeated'] = generateQuads(TEXTURES['character2-defeated'], 32, 57),
     ['character2-dodge'] = generateQuads(TEXTURES['character2-dodge'], 39, 73),
 
-    ['enemy-walk'] = generateQuads(TEXTURES['enemy-walk'], 25, 75),
+    ['npc0-walk'] = generateQuads(TEXTURES['npc0-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
     ['Npc0-dead'] = generateQuads(TEXTURES['Npc0-dead'], 75, 75),
 
@@ -221,6 +236,11 @@ FRAMES = {
     ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75),
     ['npc0-blond-otherclothes-dead'] = generateQuads(TEXTURES['npc0-blond-otherclothes-dead'], 75, 75),
 
+    --Boss 
+    ['Boss-walk'] = generateQuads(TEXTURES['Boss-walk'], 37, 84),
+    ['Boss-punch'] = generateQuads(TEXTURES['Boss-punch'], 45, 84),
+    ['Boss-spank'] = generateQuads(TEXTURES['Boss-spank'], 39, 84),
+    ['Boss-dead'] = generateQuads(TEXTURES['Boss-dead'], 84, 84),
 
     -- Game objects
     ['heart'] = generateQuads(TEXTURES['heart'], 13, 12),
@@ -228,6 +248,7 @@ FRAMES = {
     ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
     ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
     ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
+    
 }
 
 

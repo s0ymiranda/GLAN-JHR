@@ -1,8 +1,9 @@
 PlayerKneeHitState = Class{__includes = BaseState}
 
-function PlayerKneeHitState:init(player,entities)
+function PlayerKneeHitState:init(player,entities,boss)
     self.player = player
     self.entities = entities
+    self.boss = boss
     self.miss = true
     -- create hitbox based on where the player is and facing
     local direction = self.player.direction
@@ -40,6 +41,17 @@ function PlayerKneeHitState:update(dt)
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.kneeHitHitbox) and not entity.invulnerable then
             entity:damage(1.5)
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
+            SOUNDS['UOFF']:stop()
+            SOUNDS['UOFF']:play()
+            SOUNDS['knee-hit']:stop()
+            SOUNDS['knee-hit']:play()
+            self.miss = false
+        end
+    end
+    if self.boss ~=nil then
+        if math.abs(self.player.z - self.boss.z) <= 1 and self.boss:collides(self.kneeHitHitbox) and not self.boss.invulnerable then
+            self.boss:damage(1.5)
+            self.boss:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
             SOUNDS['knee-hit']:stop()
