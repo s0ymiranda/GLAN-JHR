@@ -16,13 +16,13 @@ function StartState:init()
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{})
+                        stateMachine:change('play',{isANewDay = true})
                     end
                 },
                 {
                     text = 'Two Players',
                     onSelect = function()
-                        stateMachine:change('play',{twoPlayers = true})
+                        stateMachine:change('play',{twoPlayers = true, isANewDay = true})
                     end
                 },
                 {
@@ -45,7 +45,7 @@ function StartState:init()
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{})
+                        stateMachine:change('play',{isANewDay = true})
                     end
                 },
                 {
@@ -82,13 +82,13 @@ function StartState:update(dt)
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{})
+                        stateMachine:change('play',{isANewDay = true})
                     end
                 },
                 {
                     text = 'Two Players',
                     onSelect = function()
-                        stateMachine:change('play',{twoPlayers = true})
+                        stateMachine:change('play',{twoPlayers = true, isANewDay = true})
                     end
                 },
                 {

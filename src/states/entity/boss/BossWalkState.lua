@@ -64,35 +64,6 @@ function BossWalkState:update(dt)
     end
 end
 
-function BossWalkState:processAI(params, dt)
-    -- TODO: add punches
-    local playState = params.PlayState
-
-    if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
-        local distance2 = distance
-        if playState.player2 ~= nil then
-            distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
-        end
-        if (distance < 150 or distance2 < 150) and self.entity.pervert then
-            local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
-            self.displayDialog = true
-            self.dialogElapsedTime = 0
-        end
-    elseif self.displayDialog then
-        self.dialogElapsedTime = self.dialogElapsedTime + dt
-        if self.dialogElapsedTime > 3 then
-            self.displayDialog = false
-        end
-    end
-
-    self.entity.direction = 'left'
-
-    self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-
-end
-
 function BossWalkState:processAIFighting(params,dt)
     local playState = params.PlayState
     local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)

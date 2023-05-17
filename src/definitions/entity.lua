@@ -2,6 +2,12 @@ ENTITY_DEFS = {
     ['player'] = {
         walkSpeed = 70,
         animations = {
+            ['win'] = {
+                frames = {1,2,3,4},
+                interval = 0.20,
+                looping = true,
+                texture = 'character-win'
+            },
             ['walk-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
@@ -157,6 +163,12 @@ ENTITY_DEFS = {
     ['player2'] = {
         walkSpeed = 70,
         animations = {
+            ['win'] = {
+                frames = {1,2,3,4},
+                interval = 0.20,
+                looping = true,
+                texture = 'character2-win'
+            },
             ['walk-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
@@ -310,7 +322,7 @@ ENTITY_DEFS = {
         }
     },
     ['boss'] = {
-        walkSpeed = 60,
+        walkSpeed = 80,
         animations = {
             ['walk-left'] = {
                 frames = {1,2,3},

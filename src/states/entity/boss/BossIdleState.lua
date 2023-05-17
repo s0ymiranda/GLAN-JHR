@@ -9,37 +9,25 @@ function BossIdleState:init(entity)
     -- used for AI waiting
     self.waitDuration = 0
     self.waitTimer = 0
+
+    -- self.objetive = nil
+    -- self.objectiveAlreadyChosen = false
 end
 
 function BossIdleState:processAI(params, dt)
-    
     local playState = params.PlayState
-    if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
-        if distance < 500 then
-            local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
-            self.displayDialog = true
-            self.dialogElapsedTime = 0
-        end
-    elseif self.displayDialog then
-        self.dialogElapsedTime = self.dialogElapsedTime + dt
-        if self.dialogElapsedTime > 3 then
-            self.displayDialog = false
-        end
-    end
-    if self.waitDuration == 0 then
-        self.waitDuration = math.random(math.floor(5*self.entity.pervertFactor))
-    else
-        self.waitTimer = self.waitTimer + dt
+    local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+    local distance2 = distance
 
-        if self.waitTimer > self.waitDuration then
-            self.entity:changeState('walk', {
-                dialogElapsedTime = self.dialogElapsedTime,
-                dialog = self.dialog,
-                displayDialog = self.displayDialog,
-            })
-            return
+    if playState.player2 ~= nil then
+        distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+    end
+
+    if distance < 150 or distance2 < 150 then
+        self.entity.fighting = true
+        playState.player.fighting = true
+        if playState.player2 ~= nil then
+            playState.player2.fighting = true
         end
     end
 end
@@ -48,7 +36,8 @@ function BossIdleState:processAIFighting(params, dt)
     -- TODO: add punches
     if self.entity ~= nil then
         if not self.entity.punching then
-            self:processAI(params, dt)
+            -- self:processAI(params, dt)
+            self.entity:changeState('walk')
         else
             if self.waitDuration == 0 then
                 self.waitTimer = 0
@@ -61,11 +50,19 @@ function BossIdleState:processAIFighting(params, dt)
                 self.waitTimer = 0
                 self.waitDuration = 0
                 self.entity.punching = false
-                self.entity:changeState('punch', {
-                    dialogElapsedTime = self.dialogElapsedTime,
-                    dialog = self.dialog,
-                    displayDialog = self.displayDialog,
-                })
+                if math.random() < 0.70 then
+                    self.entity:changeState('punch', {
+                        dialogElapsedTime = self.dialogElapsedTime,
+                        dialog = self.dialog,
+                        displayDialog = self.displayDialog,
+                    })
+                else
+                    self.entity:changeState('spank', {
+                        dialogElapsedTime = self.dialogElapsedTime,
+                        dialog = self.dialog,
+                        displayDialog = self.displayDialog,
+                    })
+                end
                 return
             end
         end

@@ -15,6 +15,7 @@ function love.load()
         ['play'] = function() return PlayState() end,
         ['pause'] = function() return PauseState() end,
         ['game-over'] = function() return GameOverState() end,
+        ['cinematic'] = function() return CinematicState() end,
         ['win'] = function() return WinState() end
     }
 

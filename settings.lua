@@ -40,6 +40,7 @@ require 'src/states/game/GameOverState'
 require 'src/states/game/WinState'
 require 'src/states/game/PlayState'
 require 'src/states/game/PauseState'
+require 'src/states/game/CinematicState'
 require 'src/states/game/StartState'
 
 require 'src/utilities/quads'
@@ -109,6 +110,8 @@ TEXTURES = {
     ['character-pick-up'] = love.graphics.newImage('graphics/Hero/PickUp-Hero.png'),
     ['character-defeated'] = love.graphics.newImage('graphics/Hero/Defeated-Hero.png'),
     ['character-dodge'] = love.graphics.newImage('graphics/Hero/Dodge-Hero.png'),
+    ['character-win'] = love.graphics.newImage('graphics/Hero/Win-Hero.png'),
+
     --Hero2
     ['character2-walk'] = love.graphics.newImage('graphics/Hero2/Walk-Hero2.png'),
     ['character2-slap'] = love.graphics.newImage('graphics/Hero2/Slap-Hero2.png'),
@@ -117,13 +120,14 @@ TEXTURES = {
     ['character2-pick-up'] = love.graphics.newImage('graphics/Hero2/PickUp-Hero2.png'),
     ['character2-defeated'] = love.graphics.newImage('graphics/Hero2/Defeated-Hero2.png'),
     ['character2-dodge'] = love.graphics.newImage('graphics/Hero2/Dodge-Hero2.png'),
-    
+    ['character2-win'] = love.graphics.newImage('graphics/Hero2/Win-Hero2.png'),
+
     --Background1
     ['background'] = love.graphics.newImage('graphics/background.png'),
 
     --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
-    
+
     --Npc0
     ['npc0-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
@@ -190,6 +194,7 @@ FRAMES = {
     ['character-pick-up'] = generateQuads(TEXTURES['character-pick-up'], 32, 73),
     ['character-defeated'] = generateQuads(TEXTURES['character-defeated'], 32, 57),
     ['character-dodge'] = generateQuads(TEXTURES['character-dodge'], 39, 73),
+    ['character-win'] = generateQuads(TEXTURES['character-win'], 38, 73),
 
     ['character2-walk'] = generateQuads(TEXTURES['character2-walk'], 24, 73),
     ['character2-slap'] = generateQuads(TEXTURES['character2-slap'], 32, 73),
@@ -198,6 +203,7 @@ FRAMES = {
     ['character2-pick-up'] = generateQuads(TEXTURES['character2-pick-up'], 32, 73),
     ['character2-defeated'] = generateQuads(TEXTURES['character2-defeated'], 32, 57),
     ['character2-dodge'] = generateQuads(TEXTURES['character2-dodge'], 39, 73),
+    ['character2-win'] = generateQuads(TEXTURES['character2-win'], 38, 73),
 
     ['npc0-walk'] = generateQuads(TEXTURES['npc0-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
