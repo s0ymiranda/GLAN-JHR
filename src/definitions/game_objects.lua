@@ -29,58 +29,6 @@ GAME_OBJECT_DEFS = {
             SOUNDS['first-aid-kit-taken']:play()
         end,
     },
-    ['cloud1'] = {
-        type = 'cloud1',
-        texture = 'cloud1',
-        width = 1280,
-        height = 720,
-        solid = false,
-        defaultState = 'default',
-        states = {
-            ['default'] = {
-                frame = 1
-            }
-        }
-    },
-    ['cloud2'] = {
-        type = 'cloud2',
-        texture = 'cloud2',
-        width = 1280,
-        height = 720,
-        solid = false,
-        defaultState = 'default',
-        states = {
-            ['default'] = {
-                frame = 1
-            }
-        }
-    },
-    ['estructure1'] = {
-        type = 'estructure1',
-        texture = 'estructure1',
-        width = 1280,
-        height = 720,
-        solid = false,
-        defaultState = 'default',
-        states = {
-            ['default'] = {
-                frame = 1
-            }
-        }
-    },
-    ['estructure2'] = {
-        type = 'estructure2',
-        texture = 'estructure2',
-        width = 1280,
-        height = 720,
-        solid = false,
-        defaultState = 'default',
-        states = {
-            ['default'] = {
-                frame = 1
-            }
-        }
-    },
     ['bush'] = {
         type = 'bush',
         texture = 'bush',
