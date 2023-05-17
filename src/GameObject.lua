@@ -67,7 +67,7 @@ function GameObject:getCurrentState()
 end
 
 function GameObject:hit(entity)
-    if entity.invulnerable then
+    if not entity.invulnerable then
         entity:damage(self.damage)
         entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
         self.timesHit = self.timesHit + 1
