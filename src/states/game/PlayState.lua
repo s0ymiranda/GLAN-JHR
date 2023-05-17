@@ -34,7 +34,6 @@ function PlayState:enter(def)
 
     self.camera = def.camera or Camera{}
     self.entities = def.entities or {}
-    self.corpses = def.corpses or {}
     self.objects = def.objects or {}
     self.signs = def.signs or {}
 
@@ -200,7 +199,6 @@ function PlayState:update(dt)
                 dayNumber = self.dayNumber,
                 player2 = self.player2,
                 twoPlayers = twoPlayersMode,
-                corpses = self.corpses,
             })
         end
     end
@@ -217,12 +215,13 @@ function PlayState:update(dt)
             dayNumber = self.dayNumber,
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
-            corpses = self.corpses,
         })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
         for k,e in pairs(self.entities) do
-            e:changeState('idle')
+            if not e.dead then
+                e:changeState('idle')
+            end
         end
         self.player.dead = true
         self.player:changeAnimation('falling')
@@ -249,7 +248,9 @@ function PlayState:update(dt)
     elseif self.player2 ~= nil then
         if self.player2.health <= 0 then
             for k,e in pairs(self.entities) do
-                e:changeState('idle')
+                if not e.dead then
+                    e:changeState('idle')
+                end
             end
             self.player.dead = true
             self.player:changeAnimation('falling')
@@ -435,12 +436,14 @@ function PlayState:update(dt)
                 self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
             end)
         else
-            Timer.tween(0.5, {
-                [self.camera] = {
-                    x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
-                    y = self.camera.y
-                }
-            })
+            if self.camera.x + VIRTUAL_WIDTH/2 < self.player.x then
+                Timer.tween(0.5, {
+                    [self.camera] = {
+                        x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
+                        y = self.camera.y
+                    }
+                })
+            end
             Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = self.camera.x self.player.rightLimit = MAP_WIDTH end)
         end
     end
@@ -461,20 +464,7 @@ function PlayState:update(dt)
         end
 
         if entity.health <= 0 and not entity.dead then
-            SOUNDS['dead']:play()
-            -- entity.fighting = false
-            if entity.direction == 'right' then
-                entity.x = entity.x - 75/2
-            end
-            entity:changeAnimation('die-' .. entity.direction)
-            entity.dead = true
-            Timer.after(0.48,function()
-                entity:changeAnimation('dead-' .. entity.direction)
-                entity.fighting = false
-                entity.y = entity.y + 5
-                table.insert(self.corpses, entity)
-                table.remove(self.entities, k)
-            end)
+            entity:changeState('dead')
             if entity.pervert then
                 if self.player.respect < 100 then
                     self.player.respect = self.player.respect + 5
@@ -488,13 +478,11 @@ function PlayState:update(dt)
             end
             goto continue
         end
-        if entity.x < self.camera.x - 25 then
+        if (entity.x < self.camera.x - 25 and not entity.dead) or (entity.x < self.camera.x - 75) then
             if entity.pervert and not entity.dead then
                 self.player.respect = self.player.respect - 10
             end
-            if not entity.dead then
-                self:deleteEntity(k)
-            end
+            self:deleteEntity(k)
             goto continue
         end
         entity:processAI({PlayState = self}, dt)
@@ -502,11 +490,6 @@ function PlayState:update(dt)
         ::continue::
     end
 
-    for k, corpse in pairs(self.corpses) do
-        if corpse.x + 75 < self.camera.x then
-            self:deleteCorpse(k)
-        end
-    end
     -- self.player:update(dt)
 
     if self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and self.player.stateMachine.currentStateName ~= 'dodge' and not self.player.fighting and not self.player.afterFighting then
@@ -528,7 +511,7 @@ function PlayState:update(dt)
     self.healthBar:setValue(self.player.health)
     self.healthBar:setPosition(self.camera.x+10, 10)
     self.healthBar:update()
-    self.respectBar:setValue(self.player.respect)
+    self.respectBar:setValue(math.max(0,self.player.respect))
     self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
 
@@ -582,11 +565,16 @@ function PlayState:render()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
+        local corpses = {}
         if self.player2 ~= nil then
             table.insert(to_render, self.player2)
         end
         for _, entity in pairs(self.entities) do
-            table.insert(to_render, entity)
+            if entity.dead then
+                table.insert(corpses, entity)
+            else
+                table.insert(to_render, entity)
+            end
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
@@ -611,7 +599,7 @@ function PlayState:render()
             -- return (a.floor or (a.y + a.height)) < (b.floor or (b.y + b.height))
         end)
 
-        for _, corpse in pairs(self.corpses) do
+        for _, corpse in pairs(corpses) do
             corpse:render()
         end
 
@@ -637,13 +625,6 @@ function PlayState:deleteEntity(idx)
     self.entities[idx] = nil
     table.remove(self.entities, idx)
 end
-
-function PlayState:deleteCorpse(idx)
-    self.corpses[idx].stateMachine.current.entity = nil
-    self.corpses[idx] = nil
-    table.remove(self.corpses, idx)
-end
-
 
 function PlayState:deleteObject(idx)
     self.objects[idx] = nil
@@ -678,7 +659,8 @@ function PlayState:generateWalkingEntity()
     new_entity.stateMachine = StateMachine {
         ['walk'] = function() return EntityWalkState(new_entity) end,
         ['idle'] = function() return EntityIdleState(new_entity) end,
-        ['punch'] = function() return EntityPunchState(new_entity,self.players) end
+        ['punch'] = function() return EntityPunchState(new_entity,self.players) end,
+        ['dead'] = function() return EntityDeadState(new_entity) end
     }
     new_entity:changeState('walk')
     new_entity.justWalking = true

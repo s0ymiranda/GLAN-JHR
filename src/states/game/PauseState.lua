@@ -9,7 +9,6 @@ function PauseState:enter(def)
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.twoPlayers = def.twoPlayers
-    self.corpses = def.corpses
 
     self.controllerButtoms = {a = false, x = false, start = false}
     self.pauseMenu = Menu {
@@ -30,7 +29,6 @@ function PauseState:enter(def)
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
-                        corpses = self.corpses,
                 })
                 end
             },
@@ -97,11 +95,16 @@ function PauseState:render()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
+        local corpses = {}
         if self.player2 ~= nil then
             table.insert(to_render, self.player2)
         end
         for _, entity in pairs(self.entities) do
-            table.insert(to_render, entity)
+            if entity.dead then
+                table.insert(corpses, entity)
+            else
+                table.insert(to_render, entity)
+            end
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
@@ -111,7 +114,7 @@ function PauseState:render()
             return a.y + a.height < b.y + b.height
         end)
 
-        for _, corpse in pairs(self.corpses) do
+        for _, corpse in pairs(corpses) do
             corpse:render()
         end
 

@@ -57,11 +57,16 @@ function GameOverState:render()
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
+        local corpses = {}
         if self.player2 ~= nil then
             table.insert(to_render, self.player2)
         end
         for _, entity in pairs(self.entities) do
-            table.insert(to_render, entity)
+            if entity.dead then
+                table.insert(corpses, entity)
+            else
+                table.insert(to_render, entity)
+            end
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
@@ -70,6 +75,10 @@ function GameOverState:render()
         table.sort(to_render, function(a, b)
             return a.y + a.height < b.y + b.height
         end)
+
+        for _, corpse in pairs(corpses) do
+            corpse:render()
+        end
 
         for _, entity in pairs(to_render) do
             entity:render()
