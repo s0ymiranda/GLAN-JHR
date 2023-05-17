@@ -68,7 +68,7 @@ WINDOW_HEIGHT = 720
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
-HEARTH_DROP_PROBABILITY = 0.9
+FIRST_AID_KIT_DROP_PROBABILITY = 0.9
 GRAVITY = 500
 
 ENTITY_INVULNERABILITY_TIME = 1
@@ -170,7 +170,7 @@ TEXTURES = {
     ['Boss-dead'] = love.graphics.newImage('graphics/Sumo-Boss/Dead-Sumo.png'),
 
     -- Game objects
-    ['heart'] = love.graphics.newImage('graphics/Game-Objects/heart.png'),
+    ['first-aid-kit'] = love.graphics.newImage('graphics/Game-Objects/first-aid-kit.png'),
     ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
     ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
     ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
@@ -236,19 +236,18 @@ FRAMES = {
     ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75),
     ['npc0-blond-otherclothes-dead'] = generateQuads(TEXTURES['npc0-blond-otherclothes-dead'], 75, 75),
 
-    --Boss 
+    --Boss
     ['Boss-walk'] = generateQuads(TEXTURES['Boss-walk'], 37, 84),
     ['Boss-punch'] = generateQuads(TEXTURES['Boss-punch'], 45, 84),
     ['Boss-spank'] = generateQuads(TEXTURES['Boss-spank'], 39, 84),
     ['Boss-dead'] = generateQuads(TEXTURES['Boss-dead'], 84, 84),
 
     -- Game objects
-    ['heart'] = generateQuads(TEXTURES['heart'], 13, 12),
+    ['first-aid-kit'] = generateQuads(TEXTURES['first-aid-kit'], 20, 20),
     ['barrel'] = generateQuads(TEXTURES['barrel'], 32, 48),
     ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
     ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
     ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
-    
 }
 
 
