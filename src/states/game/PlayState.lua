@@ -492,9 +492,6 @@ function PlayState:update(dt)
                     self.player.respect = self.player.respect + 5
                     self.player.perverts_defeated = self.player.perverts_defeated + 1
                 end
-                if math.random() < FIRST_AID_KIT_DROP_PROBABILITY then
-                    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['first-aid-kit'], entity.x, entity.y + entity.height - 12))
-                end
             else
                 self.player.respect = self.player.respect - 5
             end
@@ -682,7 +679,7 @@ function PlayState:generateWalkingEntity()
     }
 
     new_entity.stateMachine = StateMachine {
-        ['walk'] = function() return EntityWalkState(new_entity) end,
+        ['walk'] = function() return EntityWalkState(new_entity, self.objects) end,
         ['idle'] = function() return EntityIdleState(new_entity) end,
         ['punch'] = function() return EntityPunchState(new_entity,self.players) end,
         ['dead'] = function() return EntityDeadState(new_entity) end

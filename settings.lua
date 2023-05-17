@@ -86,6 +86,15 @@ CATCALLING_MESSAGES = {
     "*Wolf whistle*",
 }
 
+HELP_MESSAGES = {
+    "Here you are",
+    "Take! Over here!",
+    "This might help you out",
+    "I hope this helps",
+    "Try this",
+    "I'm leaving this here for ya",
+}
+
 WEEK_DAYS = {
     'Monday',
     'Tuesday',

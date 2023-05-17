@@ -1,7 +1,8 @@
 EntityWalkState = Class{__includes = BaseState}
 
-function EntityWalkState:init(entity)
+function EntityWalkState:init(entity, objects)
     self.entity = entity
+    self.objects = objects
 
     self.objetive = nil
     self.objectiveAlreadyChosen = false
@@ -67,18 +68,29 @@ end
 function EntityWalkState:processAI(params, dt)
     -- TODO: add punches
     local playState = params.PlayState
+    local entity = self.entity
 
     if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+        local distance = math.sqrt((entity.x - playState.player.x)^2 + (entity.y - playState.player.y)^2)
         local distance2 = distance
         if playState.player2 ~= nil then
-            distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+            distance2 = math.sqrt((entity.x - playState.player2.x)^2 + (entity.y - playState.player2.y)^2)
         end
-        if (distance < 150 or distance2 < 150) and self.entity.pervert then
-            local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
-            self.displayDialog = true
-            self.dialogElapsedTime = 0
+        if (distance < 150 or distance2 < 150) then
+            local message
+            if entity.pervert then
+                message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
+                self.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                self.displayDialog = true
+                self.dialogElapsedTime = 0
+            elseif math.random() < FIRST_AID_KIT_DROP_PROBABILITY then
+                message = HELP_MESSAGES[math.random(#HELP_MESSAGES)]
+                local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
+                table.insert(self.objects, GameObject(firstAidKitDefs, entity.x, entity.y + entity.height - firstAidKitDefs.height))
+                self.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                self.displayDialog = true
+                self.dialogElapsedTime = 0
+            end
         end
     elseif self.displayDialog then
         self.dialogElapsedTime = self.dialogElapsedTime + dt
@@ -87,10 +99,9 @@ function EntityWalkState:processAI(params, dt)
         end
     end
 
-    self.entity.direction = 'left'
+    entity.direction = 'left'
 
-    self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-
+    entity:changeAnimation('walk-' .. tostring(entity.direction))
 end
 
 function EntityWalkState:processAIFighting(params,dt)
