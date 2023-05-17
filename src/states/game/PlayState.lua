@@ -316,10 +316,10 @@ function PlayState:update(dt)
         self:generateWalkingEntity()
     end
 
-    -- Ctrl + H: generate heart
+    -- Ctrl + H: generate first-aid-kit
     if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
-        local heartDefs = GAME_OBJECT_DEFS['heart']
-        table.insert(self.objects, GameObject(heartDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - heartDefs.height))
+        local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
+        table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
     end
 
     -- Ctrl + B: generate barrel
@@ -349,7 +349,7 @@ function PlayState:update(dt)
 
     for k, obj in pairs(self.objects) do
         obj:update(dt)
-        if obj.type == 'heart' then
+        if obj.type == 'first-aid-kit' then
             local playerBottom = {
                 x = self.player.x,
                 y = self.player.y + self.player.height - 2,
@@ -482,8 +482,8 @@ function PlayState:update(dt)
                     self.player.respect = self.player.respect + 5
                     self.player.perverts_defeated = self.player.perverts_defeated + 1
                 end
-                if math.random() < HEARTH_DROP_PROBABILITY then
-                    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['heart'], entity.x, entity.y + entity.height - 12))
+                if math.random() < FIRST_AID_KIT_DROP_PROBABILITY then
+                    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['first-aid-kit'], entity.x, entity.y + entity.height - 12))
                 end
             else
                 self.player.respect = self.player.respect - 5

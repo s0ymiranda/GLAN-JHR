@@ -1,11 +1,10 @@
 GAME_OBJECT_DEFS = {
-   
-    -- definition of heart as a consumable object type
-    ['heart'] = {
-        type = 'heart',
-        texture = 'heart',
-        width = 13,
-        height = 12,
+    -- definition of first-aid-kit as a consumable object type
+    ['first-aid-kit'] = {
+        type = 'first-aid-kit',
+        texture = 'first-aid-kit',
+        width = 20,
+        height = 20,
         solid = false,
         consumable = true,
         defaultState = 'default',
@@ -13,7 +12,7 @@ GAME_OBJECT_DEFS = {
             ['default'] = {
                 frame = 1,
                 emptySpaces = {
-                    0, 0, 0, 0
+                    2, 0, 0, 0
                 },
             },
         },
@@ -27,7 +26,7 @@ GAME_OBJECT_DEFS = {
         end,
         onConsume = function(player)
             player:heal(2)
-            SOUNDS['heart-taken']:play()
+            SOUNDS['first-aid-kit-taken']:play()
         end,
     },
     ['cloud1'] = {
