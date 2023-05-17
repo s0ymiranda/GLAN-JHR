@@ -45,7 +45,7 @@ function PlayState:enter(def)
     self.player = def.player or Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-        x = VIRTUAL_WIDTH*6.5,
+        x = 0,
         y = VIRTUAL_HEIGHT / 2 ,
         width = 24,
         height = 73,
