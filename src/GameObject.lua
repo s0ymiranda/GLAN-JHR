@@ -99,14 +99,4 @@ function GameObject:render()
     else
         love.graphics.draw(TEXTURES[self.texture], x, y)
     end
-    -- debug
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), width, height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    -- local objectBottom = self.getBottom(self)
-    -- if objectBottom then
-    --     love.graphics.setColor(love.math.colorFromBytes(0, 255, 0, 255))
-    --     love.graphics.line(objectBottom.x, objectBottom.y, objectBottom.x + objectBottom.width, objectBottom.y)
-    --     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    -- end
 end

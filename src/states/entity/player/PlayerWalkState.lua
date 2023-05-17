@@ -83,7 +83,7 @@ function PlayerWalkState:update(dt)
             self.entity:changeState('idle', {heldObject = self.heldObject})
             return
         end
-        if love.keyboard.wasPressed('space') then
+        if love.keyboard.wasPressed('j') then
             self.entity.direction = self.prev
             self.entity:changeState('slap')
             return
@@ -98,7 +98,7 @@ function PlayerWalkState:update(dt)
             self.entity:changeState('dodge')
             return
         end
-        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        if love.keyboard.wasPressed('i') then
             -- self.entity.direction = self.prev
             -- self.entity:changeState('take-object', {heldObject = self.heldObject, playerPreviousState = 'walk'})
             -- return

@@ -2,7 +2,6 @@ PlayerIdleState = Class{__includes = EntityIdleState}
 
 function PlayerIdleState:init(player, projectiles)
     EntityIdleState.init(self, player)
-    -- self.heldObjects = heldObjects
     self.projectiles = projectiles
 end
 
@@ -106,7 +105,7 @@ function PlayerIdleState:update(dt, params)
             self.entity:changeState('walk', {heldObject = self.heldObject})
             return
         end
-        if love.keyboard.wasPressed('space') then
+        if love.keyboard.wasPressed('j') then
             self.entity:changeState('slap')
             return
         end
@@ -118,7 +117,7 @@ function PlayerIdleState:update(dt, params)
             self.entity:changeState('dodge')
             return
         end
-        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        if love.keyboard.wasPressed('i') then
             if self.heldObject then
                 self.throwTimer = 0
                 self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)

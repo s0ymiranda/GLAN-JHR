@@ -69,7 +69,7 @@ WINDOW_HEIGHT = 720
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
-HEARTH_DROP_PROBABILITY = 0.9
+FIRST_AID_KIT_DROP_PROBABILITY = 0.9
 GRAVITY = 500
 
 ENTITY_INVULNERABILITY_TIME = 1
@@ -122,8 +122,12 @@ TEXTURES = {
     ['character2-dodge'] = love.graphics.newImage('graphics/Hero2/Dodge-Hero2.png'),
     ['character2-win'] = love.graphics.newImage('graphics/Hero2/Win-Hero2.png'),
 
-    --Background1
-    ['background'] = love.graphics.newImage('graphics/background.png'),
+    --Background
+    ['background'] = love.graphics.newImage('graphics/Background/background.png'),
+    ['cloud1'] = love.graphics.newImage('graphics/Background/cloud1.png'),
+    ['estructure1'] = love.graphics.newImage('graphics/Background/edificio1.png'),
+    ['cloud2'] = love.graphics.newImage('graphics/Background/cloud2.png'),
+    ['estructure2'] = love.graphics.newImage('graphics/Background/edificio2.png'),
 
     --Scenary
     ['scenary'] = love.graphics.newImage('graphics/Scenary.png'),
@@ -174,7 +178,7 @@ TEXTURES = {
     ['Boss-dead'] = love.graphics.newImage('graphics/Sumo-Boss/Dead-Sumo.png'),
 
     -- Game objects
-    ['heart'] = love.graphics.newImage('graphics/Game-Objects/heart.png'),
+    ['first-aid-kit'] = love.graphics.newImage('graphics/Game-Objects/first-aid-kit.png'),
     ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
     ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
     ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
@@ -249,12 +253,11 @@ FRAMES = {
     ['Boss-dead'] = generateQuads(TEXTURES['Boss-dead'], 84, 84),
 
     -- Game objects
-    ['heart'] = generateQuads(TEXTURES['heart'], 13, 12),
+    ['first-aid-kit'] = generateQuads(TEXTURES['first-aid-kit'], 20, 20),
     ['barrel'] = generateQuads(TEXTURES['barrel'], 32, 48),
     ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
     ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),
     ['neon'] = generateQuads(TEXTURES['neon'], 76, 21),
-
 }
 
 
