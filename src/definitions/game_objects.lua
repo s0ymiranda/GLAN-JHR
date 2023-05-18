@@ -25,8 +25,37 @@ GAME_OBJECT_DEFS = {
             }
         end,
         onConsume = function(player)
-            player:heal(2)
-            SOUNDS['first-aid-kit-taken']:play()
+            player:heal(50)
+            -- SOUNDS['heal']:play()
+        end,
+    },
+    ['small-first-aid-kit'] = {
+        type = 'small-first-aid-kit',
+        texture = 'small-first-aid-kit',
+        width = 12,
+        height = 12,
+        solid = false,
+        consumable = true,
+        defaultState = 'default',
+        states = {
+            ['default'] = {
+                frame = 1,
+                emptySpaces = {
+                    2, 0, 0, 0
+                },
+            },
+        },
+        bottomCollisionDistance = 6,
+        getBottom = function(self)
+            return {
+                x = math.floor(self.x),
+                y = math.floor(self.y + 3*self.height/4),
+                width = self.states[self.state].width or self.width
+            }
+        end,
+        onConsume = function(player)
+            player:heal(5)
+            -- SOUNDS['heal']:play()
         end,
     },
     ['bush'] = {

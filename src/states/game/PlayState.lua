@@ -352,14 +352,14 @@ function PlayState:update(dt)
 
     for k, obj in pairs(self.objects) do
         obj:update(dt)
-        if obj.type == 'first-aid-kit' then
+        if obj.type == 'first-aid-kit' or obj.type == 'small-first-aid-kit' then
             local playerBottom = {
                 x = self.player.x,
                 y = self.player.y + self.player.height - 2,
                 width = self.player.width
             }
             if BottomCollision(playerBottom, obj.getBottom(obj), obj.bottomCollisionDistance) then
-                self.player.health = math.min(self.player.health + 10, 100)
+                obj.onConsume(self.player)
                 self:deleteObject(k)
             end
         end

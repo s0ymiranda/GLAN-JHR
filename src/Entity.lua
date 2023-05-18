@@ -25,6 +25,7 @@ function Entity:init(def)
     self.justWalking = false
     -- self.angry = false
     self.prevHealth = 3
+    self.maxHealth = def.health or 6
 
     self.leftLimit = 0
     self.rightLimit = MAP_WIDTH
@@ -76,7 +77,7 @@ function Entity:damage(dmg)
 end
 
 function Entity:heal(life)
-    self.health = math.min(self.health + life, 6)
+    self.health = math.min(self.health + life, self.maxHealth)
 end
 
 function Entity:goInvulnerable(duration)

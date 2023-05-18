@@ -69,7 +69,8 @@ WINDOW_HEIGHT = 720
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
-FIRST_AID_KIT_DROP_PROBABILITY = 0.9
+HEAL_DROP_PROBABILITY = 1
+SMALL_FIRST_AID_KIT_DROP_PROBABILITY = 0.5
 GRAVITY = 500
 
 ENTITY_INVULNERABILITY_TIME = 1
@@ -188,6 +189,7 @@ TEXTURES = {
 
     -- Game objects
     ['first-aid-kit'] = love.graphics.newImage('graphics/Game-Objects/first-aid-kit.png'),
+    ['small-first-aid-kit'] = love.graphics.newImage('graphics/Game-Objects/small-first-aid-kit.png'),
     ['bus'] = love.graphics.newImage('graphics/Game-Objects/bus.png'),
     ['bus-sign'] = love.graphics.newImage('graphics/Game-Objects/Bus-sign.png'),
     ['light'] = love.graphics.newImage('graphics/Game-Objects/light.png'),
@@ -263,6 +265,7 @@ FRAMES = {
 
     -- Game objects
     ['first-aid-kit'] = generateQuads(TEXTURES['first-aid-kit'], 20, 20),
+    ['small-first-aid-kit'] = generateQuads(TEXTURES['small-first-aid-kit'], 12, 12),
     ['barrel'] = generateQuads(TEXTURES['barrel'], 32, 48),
     ['sushi'] = generateQuads(TEXTURES['sushi'], 16, 45),
     ['cafe'] = generateQuads(TEXTURES['cafe'], 73, 21),

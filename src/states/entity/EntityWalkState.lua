@@ -83,10 +83,16 @@ function EntityWalkState:processAI(params, dt)
                 self.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
                 self.displayDialog = true
                 self.dialogElapsedTime = 0
-            elseif math.random() < FIRST_AID_KIT_DROP_PROBABILITY then
+            elseif math.random() < HEAL_DROP_PROBABILITY then
                 message = HELP_MESSAGES[math.random(#HELP_MESSAGES)]
-                local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
-                table.insert(self.objects, GameObject(firstAidKitDefs, entity.x, entity.y + entity.height - firstAidKitDefs.height))
+                local healType
+                if math.random() < SMALL_FIRST_AID_KIT_DROP_PROBABILITY then
+                    healType = 'small-first-aid-kit'
+                else
+                    healType = 'first-aid-kit'
+                end
+                local healDefs = GAME_OBJECT_DEFS[healType]
+                table.insert(self.objects, GameObject(healDefs, entity.x, entity.y + entity.height - healDefs.height))
                 self.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
                 self.displayDialog = true
                 self.dialogElapsedTime = 0

@@ -1,5 +1,6 @@
 ENTITY_DEFS = {
     ['player'] = {
+        health = 100,
         walkSpeed = 70,
         animations = {
             ['win'] = {
@@ -161,6 +162,7 @@ ENTITY_DEFS = {
         }
     },
     ['player2'] = {
+        health = 100,
         walkSpeed = 70,
         animations = {
             ['win'] = {
