@@ -176,9 +176,10 @@ function PlayState:enter(def)
         SOUNDS['dungeon-music']:play()
     end
 
-    if not self.player.fighting then
-        self.player.x = VIRTUAL_WIDTH*6
-    end
+    --Testing
+    -- if not self.player.fighting then
+    --     self.player.x = VIRTUAL_WIDTH*6
+    -- end
     --GameObjects
 
     --bus and bus sign
