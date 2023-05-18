@@ -21,6 +21,29 @@ function EntityWalkState:update(dt)
     self.bumped = false
     local entity = self.entity
 
+    for _, obj in pairs(self.objects) do
+        local entityBottom = {
+            x = entity.x,
+            y = entity.y + entity.height - 2,
+            width = entity.width,
+        }
+        local objBottom = obj.getBottom(obj)
+        if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
+            -- if entity.direction == 'right' and entityBottom.x + entityBottom.width < objBottom.x then
+            --     return
+            -- end
+            -- if entity.direction == 'left' and entityBottom.x > objBottom.x + objBottom.width then
+            --     return
+            -- end
+            if string.match(entity.direction, 'up') and entityBottom.y > objBottom.y then
+                return
+            end
+            if string.match(entity.direction, 'down') and entityBottom.y < objBottom.y then
+                return
+            end
+        end
+    end
+
     if entity.direction == 'left' then
         entity.x = entity.x - entity.walkSpeed * dt
         if entity.x <= entity.leftLimit and not entity.justWalking then
