@@ -107,15 +107,15 @@ function PlayState:enter(def)
         self.player2:changeAnimation('idle-right')
         self.player2.pervert = false
         self.healthBar2 = ProgressBar {
-            x = VIRTUAL_WIDTH - 10 - 64,
+            x = VIRTUAL_WIDTH - 10 - 100,
             y = 0 + 10,
-            width = 64,
+            width = 100,
             height = 12,
             color = {r = 189, g = 32, b = 32},
             value = self.player2.health,
             max = 100,
             showDetails = true,
-            title = 'Health 2'
+            title = "Kurohime's Health"
         }
         if def.player2 then
             self.player2.stateMachine.current.heldObject = def.player2.stateMachine.current.heldObject
@@ -126,19 +126,19 @@ function PlayState:enter(def)
     self.healthBar = ProgressBar {
         x = 0 + 10,
         y = 0 + 10,
-        width = 64,
+        width = 100,
         height = 12,
         color = {r = 189, g = 32, b = 32},
         value = self.player.health,
         max = 100,
         showDetails = true,
-        title = 'Health'
+        title = "Akira's Health"
     }
     -- Respect Bar is shared between the 2 player, health its separated
     self.respectBar = ProgressBar {
         x = 0 + 10,
         y = 0 + self.healthBar.y + self.healthBar.height + 10,
-        width = 64,
+        width = 100,
         height = 12,
         color = {r = 128, g = 128, b = 128},
         value = self.player.respect,
@@ -361,6 +361,17 @@ function PlayState:update(dt)
                 y = self.player.y + self.player.height - 2,
                 width = self.player.width
             }
+            if self.player2 ~= nil then
+                local player2Bottom = {
+                    x = self.player2.x,
+                    y = self.player2.y + self.player2.height - 2,
+                    width = self.player2.width
+                }
+                if BottomCollision(player2Bottom, obj.getBottom(obj), obj.bottomCollisionDistance) then
+                    obj.onConsume(self.player2)
+                    self:deleteObject(k)
+                end
+            end
             if BottomCollision(playerBottom, obj.getBottom(obj), obj.bottomCollisionDistance) then
                 obj.onConsume(self.player)
                 self:deleteObject(k)
@@ -551,7 +562,7 @@ function PlayState:update(dt)
 
     if self.player2 ~= nil then
         self.healthBar2:setValue(self.player2.health)
-        self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 74), 10)
+        self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 110), 10)
         self.healthBar2:update()
     end
 
