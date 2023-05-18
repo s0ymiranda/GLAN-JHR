@@ -60,8 +60,6 @@ function PlayerWalkState:update(dt)
                 self.entity.direction = self.prev
                 self.entity:changeState('dodge')
                 return
-            else
-                -- self.joystickAction = ''
             end
         end
     end

@@ -95,7 +95,7 @@ function PlayState:enter(def)
         self.player.numOfPlayersInGame = 2
         self.player2.numOfPlayersInGame = 2
         self.player2.stateMachine = StateMachine {
-            ['walk'] = function() return PlayerWalkState(self.player2) end,
+            ['walk'] = function() return PlayerWalkState(self.player2,self.objects) end,
             ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
             ['slap'] = function() return PlayerSlapState(self.player2, self.entities,self.boss) end,
             ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities, self.boss) end,
