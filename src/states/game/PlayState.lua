@@ -390,7 +390,7 @@ function PlayState:update(dt)
             for _, entity in pairs(self.entities) do
                 local entityFloor = entity.y + entity.height
                 -- from 3 to 10
-                if (projectile.floor - 10 < entityFloor) and (entityFloor < projectile.floor + 10) and projectile:collides(entity) then
+                if not entity.dead and (projectile.floor - 10 < entityFloor) and (entityFloor < projectile.floor + 10) and projectile:collides(entity) then
                     projectile:hit(entity)
                 end
             end
