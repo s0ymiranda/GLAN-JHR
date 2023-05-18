@@ -69,7 +69,7 @@ WINDOW_HEIGHT = 720
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
 
-HEAL_DROP_PROBABILITY = 1
+HEAL_DROP_PROBABILITY = 0.5
 SMALL_FIRST_AID_KIT_DROP_PROBABILITY = 0.5
 GRAVITY = 500
 
@@ -94,6 +94,22 @@ HELP_MESSAGES = {
     "I hope this helps",
     "Try this",
     "I'm leaving this here for ya",
+}
+
+REGULAR_MESSAGES = {
+    "I'm so tired of this",
+    "Good night",
+    "I'm getting late",
+    "Sup",
+}
+
+WRONG_PERSON_MESSAGES = {
+    "Hey!",
+    "What are you doing?",
+    "Stop!",
+    "Get away from me!",
+    "Help!",
+    "Leave me alone!",
 }
 
 WEEK_DAYS = {

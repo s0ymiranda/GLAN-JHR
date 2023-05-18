@@ -53,6 +53,12 @@ function PlayerSlapState:update(dt)
             SOUNDS['slap']:stop()
             SOUNDS['slap']:play()
             self.miss = false
+            if not entity.pervert then
+                local message = WRONG_PERSON_MESSAGES[math.random(#WRONG_PERSON_MESSAGES)]
+                entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                entity.displayDialog = true
+                entity.dialogElapsedTime = 0
+            end
         end
     end
     if self.boss ~= nil then

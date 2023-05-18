@@ -71,6 +71,12 @@ function GameObject:hit(entity)
         entity:damage(self.damage)
         entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
         self.timesHit = self.timesHit + 1
+        if not entity.pervert then
+            local message = WRONG_PERSON_MESSAGES[math.random(#WRONG_PERSON_MESSAGES)]
+            entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+            entity.displayDialog = true
+            entity.dialogElapsedTime = 0
+        end
         if self.timesHit == 3 then
             local previousHeight = self:getCurrentState().height
             self.state = 'damaged'
