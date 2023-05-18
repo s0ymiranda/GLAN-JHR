@@ -33,14 +33,8 @@ function PlayerIdleState:update(dt, params)
         or math.abs(joystick:getGamepadAxis("leftx")) == 1 or math.abs(joystick:getGamepadAxis("lefty")) == 1)  and not self.entity.afterFigthing  then
             self.entity:changeState('walk', {heldObject = self.heldObject})
         end
-        if joystick:isGamepadDown('a') then
-            self.entity:changeState('slap')
-        elseif joystick:isGamepadDown('x') then
-            self.entity:changeState('knee-hit')
-        elseif joystick:isGamepadDown('rightshoulder') then
-            self.entity:changeState('dodge')
-        elseif joystick:isGamepadDown('leftshoulder') then
-            if self.heldObject then
+        if self.heldObject then
+            if joystick:isGamepadDown('leftshoulder') then
                 self.throwTimer = 0
                 self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)
                 self.heldObject.ySpeed = 0
@@ -51,9 +45,16 @@ function PlayerIdleState:update(dt, params)
                 self.heldObject = nil
                 self.entity:changeAnimation('throw-' .. self.entity.direction)
                 self.entity.currentAnimation:refresh()
-                return
             end
-
+            return
+        end
+        if joystick:isGamepadDown('a') then
+            self.entity:changeState('slap')
+        elseif joystick:isGamepadDown('x') then
+            self.entity:changeState('knee-hit')
+        elseif joystick:isGamepadDown('rightshoulder') then
+            self.entity:changeState('dodge')
+        elseif joystick:isGamepadDown('leftshoulder') then
             if #params.objects == 0 then
                 goto no_object
             end
@@ -105,6 +106,21 @@ function PlayerIdleState:update(dt, params)
             self.entity:changeState('walk', {heldObject = self.heldObject})
             return
         end
+        if self.heldObject then
+            if love.keyboard.wasPressed('i') then
+                self.throwTimer = 0
+                self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)
+                self.heldObject.ySpeed = 0
+                self.heldObject.gravity = true
+                self.heldObject.floor = self.entity.y + self.entity.height
+                --self.heldObject.z = self.player.z
+                table.insert(self.projectiles, self.heldObject)
+                self.heldObject = nil
+                self.entity:changeAnimation('throw-' .. self.entity.direction)
+                self.entity.currentAnimation:refresh()
+            end
+            return
+        end
         if love.keyboard.wasPressed('j') then
             self.entity:changeState('slap')
             return
@@ -118,20 +134,6 @@ function PlayerIdleState:update(dt, params)
             return
         end
         if love.keyboard.wasPressed('i') then
-            if self.heldObject then
-                self.throwTimer = 0
-                self.heldObject.xSpeed = 200 * (self.entity.direction == 'right' and 1 or -1)
-                self.heldObject.ySpeed = 0
-                self.heldObject.gravity = true
-                self.heldObject.floor = self.entity.y + self.entity.height
-                --self.heldObject.z = self.player.z
-                table.insert(self.projectiles, self.heldObject)
-                self.heldObject = nil
-                self.entity:changeAnimation('throw-' .. self.entity.direction)
-                self.entity.currentAnimation:refresh()
-                return
-            end
-
             if #params.objects == 0 then
                 goto no_object
             end
@@ -168,13 +170,6 @@ function PlayerIdleState:update(dt, params)
             table.remove(objects, 1)
 
             self.entity:changeState('pick-up', {heldObject = closestObject, playerPreviousState = 'idle'})
-            -- objects[k].state = 'damaged'
-            -- if takenObject ~= nil  then
-            --     table.remove(params.objects, objectIdx)
-            --     self.entity:changeState('pot-lift', {
-            --         pot = takenObject
-            --     })
-            -- end
             return
         end
     end

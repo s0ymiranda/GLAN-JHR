@@ -46,20 +46,22 @@ function PlayerWalkState:update(dt)
             self.entity.direction = self.prev
             self.entity:changeState('idle',{heldObject = self.heldObject})
         end
-        if (joystick:isGamepadDown('a')) then
-            self.entity.direction = self.prev
-            self.entity:changeState('slap')
-            return
-        elseif (joystick:isGamepadDown('x')) then
-            self.entity.direction = self.prev
-            self.entity:changeState('knee-hit')
-            return
-        elseif (joystick:isGamepadDown('rightshoulder')) then
-            self.entity.direction = self.prev
-            self.entity:changeState('dodge')
-            return
-        else
-            -- self.joystickAction = ''
+        if not self.heldObject then
+            if (joystick:isGamepadDown('a')) then
+                self.entity.direction = self.prev
+                self.entity:changeState('slap')
+                return
+            elseif (joystick:isGamepadDown('x')) then
+                self.entity.direction = self.prev
+                self.entity:changeState('knee-hit')
+                return
+            elseif (joystick:isGamepadDown('rightshoulder')) then
+                self.entity.direction = self.prev
+                self.entity:changeState('dodge')
+                return
+            else
+                -- self.joystickAction = ''
+            end
         end
     end
 
@@ -83,25 +85,22 @@ function PlayerWalkState:update(dt)
             self.entity:changeState('idle', {heldObject = self.heldObject})
             return
         end
-        if love.keyboard.wasPressed('j') then
-            self.entity.direction = self.prev
-            self.entity:changeState('slap')
-            return
-        end
-        if love.keyboard.wasPressed('k') then
-            self.entity.direction = self.prev
-            self.entity:changeState('knee-hit')
-            return
-        end
-        if love.keyboard.wasPressed('l') then
-            self.entity.direction = self.prev
-            self.entity:changeState('dodge')
-            return
-        end
-        if love.keyboard.wasPressed('i') then
-            -- self.entity.direction = self.prev
-            -- self.entity:changeState('take-object', {heldObject = self.heldObject, playerPreviousState = 'walk'})
-            -- return
+        if not self.heldObject then
+            if love.keyboard.wasPressed('j') then
+                self.entity.direction = self.prev
+                self.entity:changeState('slap')
+                return
+            end
+            if love.keyboard.wasPressed('k') then
+                self.entity.direction = self.prev
+                self.entity:changeState('knee-hit')
+                return
+            end
+            if love.keyboard.wasPressed('l') then
+                self.entity.direction = self.prev
+                self.entity:changeState('dodge')
+                return
+            end
         end
     end
 
