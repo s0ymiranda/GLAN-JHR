@@ -13,6 +13,7 @@ function GameOverState:enter(def)
     self.objects = def.objects
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
+    self.boss = def.boss
 
     self.controllerButtoms = {a = false, x = false, start = false}
 end
@@ -71,7 +72,13 @@ function GameOverState:render()
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
         end
-
+        if self.boss ~= nil then
+            if self.boss.dead then
+                table.insert(corpses, self.boss)
+            else
+                table.insert(to_render, self.boss)
+            end
+        end
         table.sort(to_render, function(a, b)
             return a.y + a.height < b.y + b.height
         end)

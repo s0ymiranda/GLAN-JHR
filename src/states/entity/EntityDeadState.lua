@@ -2,6 +2,12 @@ EntityDeadState = Class{__includes = BaseState}
 
 function EntityDeadState:init(entity)
     self.entity = entity
+    local a,b = string.find(self.entity.direction,'left')
+    if a == nil or b == nil then
+        self.entity.direction = 'right'
+    else
+        self.entity.direction = 'left'
+    end
     SOUNDS['dead']:play()
     if entity.direction == 'right' then
         entity.x = entity.x - 75/2

@@ -9,6 +9,7 @@ function PauseState:enter(def)
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.twoPlayers = def.twoPlayers
+    self.boss = def.boss
 
     self.controllerButtoms = {a = false, x = false, start = false}
     self.pauseMenu = Menu {
@@ -29,6 +30,7 @@ function PauseState:enter(def)
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
+                        boss = self.boss,
                 })
                 end
             },
@@ -109,7 +111,13 @@ function PauseState:render()
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
         end
-
+        if self.boss ~= nil then
+            if self.boss.dead then
+                table.insert(corpses, self.boss)
+            else
+                table.insert(to_render, self.boss)
+            end
+        end
         table.sort(to_render, function(a, b)
             return a.y + a.height < b.y + b.height
         end)

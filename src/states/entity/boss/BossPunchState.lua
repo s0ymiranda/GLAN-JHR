@@ -44,7 +44,7 @@ function BossPunchState:update(dt)
     -- check if hitbox collides with any.players in the scene
     for k, entity in pairs(self.players) do
         if self.canHit and math.abs(self.entity.z - entity.z) <= 1 and entity:collides(self.HandHitbox) and not entity.invulnerable then
-            entity:damage(1.5)
+            entity:damage(15)
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
