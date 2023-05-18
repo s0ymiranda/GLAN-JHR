@@ -655,9 +655,7 @@ function PlayState:deleteObject(idx)
 end
 
 function PlayState:generateWalkingEntity()
-    local types = {'npc1','enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
-    -- local types = {'npc1'}
-    -- local types = {'npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local types = {'npc1-0', 'npc1-1', 'npc1-2', 'npc1-3', 'npc1-4', 'npc1-5', 'npc1-6', 'npc1-7', 'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20

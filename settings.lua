@@ -164,9 +164,9 @@ TEXTURES = {
     ['Npc0-dead'] = love.graphics.newImage('graphics/Npc0/dead-Npc0.png'),
 
     --Npc1
-    ['npc1-walk'] = love.graphics.newImage('graphics/Npc1/Walk-Npc1.png'),
-    ['npc1-punch'] = love.graphics.newImage('graphics/Npc1/Punch-Npc1.png'),
-    ['npc1-dead'] = love.graphics.newImage('graphics/Npc1/dead-npc1.png'),
+    ['npc1-0-walk'] = love.graphics.newImage('graphics/Npc1-0/Walk-Npc1-0.png'),
+    ['npc1-0-punch'] = love.graphics.newImage('graphics/Npc1-0/Punch-Npc1-0.png'),
+    ['npc1-0-dead'] = love.graphics.newImage('graphics/Npc1-0/dead-npc1-0.png'),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
@@ -196,6 +196,35 @@ TEXTURES = {
     ['npc0-blond-otherclothes-walk'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Walk-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-dead'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Dead-Npc0-Blond-OtherClothes.png'),
+
+    --NPC1 alternative versions
+    ['npc1-1-walk'] = love.graphics.newImage('graphics/Npc1-1/Walk-Npc1-1.png'),
+    ['npc1-1-punch'] = love.graphics.newImage('graphics/Npc1-1/Punch-Npc1-1.png'),
+    ['npc1-1-dead'] = love.graphics.newImage('graphics/Npc1-1/dead-npc1-1.png'),
+
+    ['npc1-2-walk'] = love.graphics.newImage('graphics/Npc1-2/Walk-Npc1-2.png'),
+    ['npc1-2-punch'] = love.graphics.newImage('graphics/Npc1-2/Punch-Npc1-2.png'),
+    ['npc1-2-dead'] = love.graphics.newImage('graphics/Npc1-2/dead-npc1-2.png'),
+
+    ['npc1-3-walk'] = love.graphics.newImage('graphics/Npc1-3/Walk-Npc1-3.png'),
+    ['npc1-3-punch'] = love.graphics.newImage('graphics/Npc1-3/Punch-Npc1-3.png'),
+    ['npc1-3-dead'] = love.graphics.newImage('graphics/Npc1-3/dead-npc1-3.png'),
+
+    ['npc1-4-walk'] = love.graphics.newImage('graphics/Npc1-4/Walk-Npc1-4.png'),
+    ['npc1-4-punch'] = love.graphics.newImage('graphics/Npc1-4/Punch-Npc1-4.png'),
+    ['npc1-4-dead'] = love.graphics.newImage('graphics/Npc1-4/dead-npc1-4.png'),
+
+    ['npc1-5-walk'] = love.graphics.newImage('graphics/Npc1-5/Walk-Npc1-5.png'),
+    ['npc1-5-punch'] = love.graphics.newImage('graphics/Npc1-5/Punch-Npc1-5.png'),
+    ['npc1-5-dead'] = love.graphics.newImage('graphics/Npc1-5/dead-npc1-5.png'),
+
+    ['npc1-6-walk'] = love.graphics.newImage('graphics/Npc1-6/Walk-Npc1-6.png'),
+    ['npc1-6-punch'] = love.graphics.newImage('graphics/Npc1-6/Punch-Npc1-6.png'),
+    ['npc1-6-dead'] = love.graphics.newImage('graphics/Npc1-6/dead-npc1-6.png'),
+
+    ['npc1-7-walk'] = love.graphics.newImage('graphics/Npc1-7/Walk-Npc1-7.png'),
+    ['npc1-7-punch'] = love.graphics.newImage('graphics/Npc1-7/Punch-Npc1-7.png'),
+    ['npc1-7-dead'] = love.graphics.newImage('graphics/Npc1-7/dead-npc1-7.png'),
 
     --Boss
     ['Boss-walk'] = love.graphics.newImage('graphics/Sumo-Boss/walk-Sumo.png'),
@@ -240,9 +269,9 @@ FRAMES = {
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
     ['Npc0-dead'] = generateQuads(TEXTURES['Npc0-dead'], 75, 75),
 
-    ['npc1-walk'] = generateQuads(TEXTURES['npc1-walk'], 25, 74),
-    ['npc1-punch'] = generateQuads(TEXTURES['npc1-punch'], 32, 74),
-    ['npc1-dead'] = generateQuads(TEXTURES['npc1-dead'], 74, 74),
+    ['npc1-0-walk'] = generateQuads(TEXTURES['npc1-0-walk'], 25, 74),
+    ['npc1-0-punch'] = generateQuads(TEXTURES['npc1-0-punch'], 32, 74),
+    ['npc1-0-dead'] = generateQuads(TEXTURES['npc1-0-dead'], 74, 74),
 
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = generateQuads(TEXTURES['npc0-blackskin-blond-walk'], 25, 75),
@@ -272,6 +301,35 @@ FRAMES = {
     ['npc0-blond-otherclothes-walk'] = generateQuads(TEXTURES['npc0-blond-otherclothes-walk'], 25, 75),
     ['npc0-blond-otherclothes-punch'] = generateQuads(TEXTURES['npc0-blond-otherclothes-punch'], 35, 75),
     ['npc0-blond-otherclothes-dead'] = generateQuads(TEXTURES['npc0-blond-otherclothes-dead'], 75, 75),
+
+    --NPC1 alternative versions
+    ['npc1-1-walk'] = generateQuads(TEXTURES['npc1-1-walk'], 25, 74),
+    ['npc1-1-punch'] = generateQuads(TEXTURES['npc1-1-punch'], 32, 74),
+    ['npc1-1-dead'] = generateQuads(TEXTURES['npc1-1-dead'], 74, 74),
+
+    ['npc1-2-walk'] = generateQuads(TEXTURES['npc1-2-walk'], 25, 74),
+    ['npc1-2-punch'] = generateQuads(TEXTURES['npc1-2-punch'], 32, 74),
+    ['npc1-2-dead'] = generateQuads(TEXTURES['npc1-2-dead'], 74, 74),
+
+    ['npc1-3-walk'] = generateQuads(TEXTURES['npc1-3-walk'], 25, 74),
+    ['npc1-3-punch'] = generateQuads(TEXTURES['npc1-3-punch'], 32, 74),
+    ['npc1-3-dead'] = generateQuads(TEXTURES['npc1-3-dead'], 74, 74),
+
+    ['npc1-4-walk'] = generateQuads(TEXTURES['npc1-4-walk'], 25, 74),
+    ['npc1-4-punch'] = generateQuads(TEXTURES['npc1-4-punch'], 32, 74),
+    ['npc1-4-dead'] = generateQuads(TEXTURES['npc1-4-dead'], 74, 74),
+
+    ['npc1-5-walk'] = generateQuads(TEXTURES['npc1-5-walk'], 25, 74),
+    ['npc1-5-punch'] = generateQuads(TEXTURES['npc1-5-punch'], 32, 74),
+    ['npc1-5-dead'] = generateQuads(TEXTURES['npc1-5-dead'], 74, 74),
+
+    ['npc1-6-walk'] = generateQuads(TEXTURES['npc1-6-walk'], 25, 74),
+    ['npc1-6-punch'] = generateQuads(TEXTURES['npc1-6-punch'], 32, 74),
+    ['npc1-6-dead'] = generateQuads(TEXTURES['npc1-6-dead'], 74, 74),
+
+    ['npc1-7-walk'] = generateQuads(TEXTURES['npc1-7-walk'], 25, 74),
+    ['npc1-7-punch'] = generateQuads(TEXTURES['npc1-7-punch'], 32, 74),
+    ['npc1-7-dead'] = generateQuads(TEXTURES['npc1-7-dead'], 74, 74),
 
     --Boss
     ['Boss-walk'] = generateQuads(TEXTURES['Boss-walk'], 37, 84),

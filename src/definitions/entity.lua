@@ -1046,83 +1046,604 @@ ENTITY_DEFS = {
             },
         }
     },
-    ['npc1'] = {
+    ['npc1-0'] = {
         walkSpeed = 60,
         animations = {
             ['walk-left'] = {
                 frames = {1,2,3,2},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
             ['walk-right'] = {
                 frames = {4,5,6,5},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
-
             ['walk-up-left'] = {
                 frames = {1,2,3,2},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
             ['walk-up-right'] = {
                 frames = {4,5,6,5},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
-
             ['walk-down-left'] = {
                 frames = {1,2,3,2},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
             ['walk-down-right'] = {
                 frames = {4,5,6,5},
                 interval = 0.20,
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
-
             ['idle-left'] = {
                 frames = {2},
-                texture = 'npc1-walk'
+                texture = 'npc1-0-walk'
             },
             ['idle-right'] = {
                 frames = {4},
-                texture =  'npc1-walk'
+                texture =  'npc1-0-walk'
             },
             ['punch-left'] = {
                 frames = {1,2,1},
                 interval = 0.30,
                 looping = false,
-                texture = 'npc1-punch'
+                texture = 'npc1-0-punch'
             },
             ['punch-right'] = {
                 frames = {3,4,3},
                 interval = 0.30,
                 looping = false,
-                texture = 'npc1-punch'
+                texture = 'npc1-0-punch'
             },
             ['die-left'] = {
                 frames = {1,2,3,4,5},
                 interval = 0.12,
                 looping = false,
-                texture = 'npc1-dead'
+                texture = 'npc1-0-dead'
             },
             ['die-right'] = {
                 frames = {6,7,8,9,10},
                 interval = 0.12,
                 looping = false,
-                texture = 'npc1-dead'
+                texture = 'npc1-0-dead'
             },
             ['dead-left'] = {
                 frames = {5},
-                texture = 'npc1-dead'
+                texture = 'npc1-0-dead'
             },
             ['dead-right'] = {
                 frames = {10},
-                texture = 'npc1-dead'
+                texture = 'npc1-0-dead'
             },
         }
-    }
-
+    },
+    ['npc1-1'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-1-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-1-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-1-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-1-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-1-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-1-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-1-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-1-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-1-dead'
+            },
+        }
+    },
+    ['npc1-2'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-2-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-2-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-2-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-2-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-2-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-2-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-2-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-2-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-2-dead'
+            },
+        }
+    },
+    ['npc1-3'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-3-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-3-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-3-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-3-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-3-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-3-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-3-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-3-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-3-dead'
+            },
+        }
+    },
+    ['npc1-4'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-4-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-4-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-4-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-4-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-4-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-4-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-4-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-4-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-4-dead'
+            },
+        }
+    },
+    ['npc1-5'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-5-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-5-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-5-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-5-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-5-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-5-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-5-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-5-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-5-dead'
+            },
+        }
+    },
+    ['npc1-6'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-6-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-6-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-6-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-6-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-6-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-6-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-6-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-6-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-6-dead'
+            },
+        }
+    },
+    ['npc1-7'] = {
+        walkSpeed = 60,
+        animations = {
+            ['walk-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['walk-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['walk-up-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['walk-up-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['walk-down-left'] = {
+                frames = {1,2,3,2},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['walk-down-right'] = {
+                frames = {4,5,6,5},
+                interval = 0.20,
+                texture = 'npc1-7-walk'
+            },
+            ['idle-left'] = {
+                frames = {2},
+                texture = 'npc1-7-walk'
+            },
+            ['idle-right'] = {
+                frames = {4},
+                texture =  'npc1-7-walk'
+            },
+            ['punch-left'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-7-punch'
+            },
+            ['punch-right'] = {
+                frames = {3,4,3},
+                interval = 0.30,
+                looping = false,
+                texture = 'npc1-7-punch'
+            },
+            ['die-left'] = {
+                frames = {1,2,3,4,5},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-7-dead'
+            },
+            ['die-right'] = {
+                frames = {6,7,8,9,10},
+                interval = 0.12,
+                looping = false,
+                texture = 'npc1-7-dead'
+            },
+            ['dead-left'] = {
+                frames = {5},
+                texture = 'npc1-7-dead'
+            },
+            ['dead-right'] = {
+                frames = {10},
+                texture = 'npc1-7-dead'
+            },
+        }
+    },
 }
