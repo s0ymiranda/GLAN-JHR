@@ -1,7 +1,8 @@
 PlayerWalkState = Class{__includes = EntityWalkState}
 
-function PlayerWalkState:init(player)
+function PlayerWalkState:init(player, objects)
     self.entity = player
+    self.objects = objects
     self.prev = player.direction
     -- self.joystickAction = ''
     self.usingJoystick = false

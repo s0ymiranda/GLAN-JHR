@@ -58,7 +58,7 @@ function PlayState:enter(def)
     self.players = {self.player}
 
     self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player) end,
+        ['walk'] = function() return PlayerWalkState(self.player, self.objects) end,
         ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
         ['slap'] = function() return PlayerSlapState(self.player, self.entities,self.boss) end,
         ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities,self.boss) end,
