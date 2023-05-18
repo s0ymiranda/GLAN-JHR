@@ -57,18 +57,20 @@ function PlayState:enter(def)
 
     self.players = {self.player}
 
-    if def.player == nil or isANewDay then
-        self.player.stateMachine = StateMachine {
-            ['walk'] = function() return PlayerWalkState(self.player) end,
-            ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
-            ['slap'] = function() return PlayerSlapState(self.player, self.entities,self.boss) end,
-            ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities,self.boss) end,
-            ['pick-up'] = function() return PlayerPickUpState(self.player) end,
-            ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
-        }
-        self.player:changeState('idle')
-        self.player.direction = 'right'
-        self.player:changeAnimation('idle-right')
+    self.player.stateMachine = StateMachine {
+        ['walk'] = function() return PlayerWalkState(self.player) end,
+        ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
+        ['slap'] = function() return PlayerSlapState(self.player, self.entities,self.boss) end,
+        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities,self.boss) end,
+        ['pick-up'] = function() return PlayerPickUpState(self.player) end,
+        ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
+    }
+    self.player:changeState('idle')
+    self.player.direction = 'right'
+    self.player:changeAnimation('idle-right')
+
+    if def.player then
+        self.player.stateMachine.current.heldObject = def.player.stateMachine.current.heldObject
     end
 
     self.player.pervert = false
@@ -92,19 +94,17 @@ function PlayState:enter(def)
         self.player2.playerNum = 2
         self.player.numOfPlayersInGame = 2
         self.player2.numOfPlayersInGame = 2
-        if def.player2 == nil or isANewDay then
-            self.player2.stateMachine = StateMachine {
-                ['walk'] = function() return PlayerWalkState(self.player2) end,
-                ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
-                ['slap'] = function() return PlayerSlapState(self.player2, self.entities,self.boss) end,
-                ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities, self.boss) end,
-                ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
-                ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end
-            }
-            self.player2:changeState('idle')
-            self.player2.direction = 'right'
-            self.player2:changeAnimation('idle-right')
-        end
+        self.player2.stateMachine = StateMachine {
+            ['walk'] = function() return PlayerWalkState(self.player2) end,
+            ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
+            ['slap'] = function() return PlayerSlapState(self.player2, self.entities,self.boss) end,
+            ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities, self.boss) end,
+            ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
+            ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end
+        }
+        self.player2:changeState('idle')
+        self.player2.direction = 'right'
+        self.player2:changeAnimation('idle-right')
         self.player2.pervert = false
         self.healthBar2 = ProgressBar {
             x = VIRTUAL_WIDTH - 10 - 64,
@@ -117,6 +117,9 @@ function PlayState:enter(def)
             showDetails = true,
             title = 'Health 2'
         }
+        if def.player2 then
+            self.player2.stateMachine.current.heldObject = def.player2.stateMachine.current.heldObject
+        end
         table.insert(self.players,self.player2)
     end
 
@@ -172,7 +175,7 @@ function PlayState:enter(def)
     table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
     table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
     --barrels
-    if isANewDay then
+    if isANewDay and not def.objects then
         for i = 1, NUMBER_OF_BARRELS, 1 do
             local barrel_x = math.random(10,VIRTUAL_WIDTH*6.5)
             local barrel_y_variation = math.random(0,45)
