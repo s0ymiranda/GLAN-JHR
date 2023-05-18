@@ -601,7 +601,7 @@ function PlayState:render()
             table.insert(to_render, self.player2)
         end
         for _, entity in pairs(self.entities) do
-            if entity.dead then
+            if entity.dead and not entity.stillFalling then
                 table.insert(corpses, entity)
             else
                 table.insert(to_render, entity)

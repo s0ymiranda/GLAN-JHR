@@ -8,10 +8,12 @@ function EntityDeadState:init(entity)
     end
     entity:changeAnimation('die-' .. entity.direction)
     entity.dead = true
+    entity.stillFalling = true
     Timer.after(0.48,function()
         entity.fighting = false
         entity.y = entity.y + 5
         self.entity:changeAnimation('dead-' .. self.entity.direction)
+        entity.stillFalling = false
     end)
 end
 
