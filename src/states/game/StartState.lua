@@ -178,16 +178,16 @@ function StartState:render()
     love.graphics.draw(TEXTURES['estructure2'], 0, 0, 0,
     VIRTUAL_WIDTH / TEXTURES['estructure2']:getWidth(),
     VIRTUAL_HEIGHT / TEXTURES['estructure2']:getHeight())
-    
-    
+
+
     love.graphics.setFont(FONTS['medium'])
-    
+
     love.graphics.setColor(love.math.colorFromBytes(34, 34, 34, 255))
     love.graphics.printf(GAME_TITLE, 2, VIRTUAL_HEIGHT / 2 - 30, VIRTUAL_WIDTH, 'center')
-    
-    love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, 255))
+
+    love.graphics.setColor(love.math.colorFromBytes(255, 127, 0, 255))
     love.graphics.printf(GAME_TITLE, 0, VIRTUAL_HEIGHT / 2 - 32, VIRTUAL_WIDTH, 'center')
-    
+
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     -- love.graphics.setFont(FONTS['small'])
     -- love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
