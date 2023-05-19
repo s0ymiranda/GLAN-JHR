@@ -185,13 +185,6 @@ function PlayState:enter(def)
         SOUNDS['scenary-music']:play()
     end
 
-    --Testing
-    -- self.player.x = VIRTUAL_WIDTH*6
-    -- self.boss = nil
-    -- if not self.player.fighting then
-    --     self.player.x = VIRTUAL_WIDTH*6
-    --     self.player2.x = VIRTUAL_WIDTH*6
-    -- end
     --GameObjects
 
     --bus and bus sign
@@ -211,11 +204,14 @@ function PlayState:enter(def)
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*5, MAP_HEIGHT-138))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*6, MAP_HEIGHT-138))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*7, MAP_HEIGHT-138))
+
     --signs
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+    if not def.signs then
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+    end
     --barrels
     if isANewDay and not def.objects then
         for i = 1, NUMBER_OF_BARRELS, 1 do
@@ -306,6 +302,7 @@ function PlayState:update(dt)
             entities = self.entities,
             objects = self.objects,
             projectiles = self.projectiles,
+            signs = self.signs,
             dayNumber = self.dayNumber,
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
