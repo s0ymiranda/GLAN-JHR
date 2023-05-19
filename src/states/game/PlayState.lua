@@ -480,6 +480,8 @@ function PlayState:update(dt)
             table.insert(stoppedProjectilesPositions, 1, k)
             table.insert(self.objects, projectile)
             projectile.state = projectile.previousState
+            SOUNDS['barrel_fall']:stop()
+            SOUNDS['barrel_fall']:play()
         else
             for _, entity in pairs(enemies) do
                 local entityFloor = entity.y + entity.height

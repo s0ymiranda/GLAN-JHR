@@ -89,25 +89,22 @@ function StartState:update(dt)
 
     --For Joystick
     if #joysticks > 0 then
-        -- if joystick:isGamepadDown('start') then
-        --     -- stateMachine:change('play',{})
-        -- end
-        if not joystick:isConnected() then
-            self.startMenu.selection.items ={
-                {
-                    text = 'One Player',
-                    onSelect = function()
-                        stateMachine:change('play',{isANewDay = true})
-                    end
-                },
-                {
-                    text = 'Exit Game',
-                    onSelect = function()
-                        love.event.quit()
-                    end
-                }
-            }
-        else
+        -- if not joystick:isConnected() then
+        --     self.startMenu.selection.items ={
+        --         {
+        --             text = 'One Player',
+        --             onSelect = function()
+        --                 stateMachine:change('play',{isANewDay = true})
+        --             end
+        --         },
+        --         {
+        --             text = 'Exit Game',
+        --             onSelect = function()
+        --                 love.event.quit()
+        --             end
+        --         }
+        --     }
+        -- else
             self.startMenu.selection.items ={
                 {
                     text = 'One Player',
@@ -128,7 +125,7 @@ function StartState:update(dt)
                     end
                 }
             }
-        end
+        -- end
     else
         joysticks = love.joystick.getJoysticks()
         if #joysticks > 0 then

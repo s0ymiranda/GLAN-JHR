@@ -151,9 +151,10 @@ end
 
 function BossWalkState:render()
     local anim = self.entity.currentAnimation
-    love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x), math.floor(self.entity.y))
-
+    if anim ~= nil then
+        love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
+            math.floor(self.entity.x), math.floor(self.entity.y))
+    end
     if self.displayDialog then
         self.dialog:render()
     end

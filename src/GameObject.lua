@@ -69,6 +69,10 @@ end
 function GameObject:hit(entity)
     if not entity.invulnerable then
         entity:damage(self.damage)
+        SOUNDS['barrel_hit']:stop()
+        SOUNDS['barrel_hit']:play()
+        SOUNDS['UOFF']:stop()
+        SOUNDS['UOFF']:play()
         entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
         self.timesHit = self.timesHit + 1
         if not entity.pervert then
