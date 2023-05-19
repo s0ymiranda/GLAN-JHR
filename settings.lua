@@ -52,6 +52,9 @@ require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
 DEBUG = true
+INFINITE_HP = false
+INFINITE_RESPECT = false
+SPAWN_AT_BUS_STATION = false
 
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then

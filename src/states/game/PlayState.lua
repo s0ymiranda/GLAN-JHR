@@ -223,6 +223,13 @@ function PlayState:enter(def)
             table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
         end
     end
+
+    if SPAWN_AT_BUS_STATION then
+        self.player.x = VIRTUAL_WIDTH * 6
+        if self.player2 then
+            self.player2.x = VIRTUAL_WIDTH * 6
+        end
+    end
 end
 
 function PlayState:exit()
@@ -574,7 +581,6 @@ function PlayState:update(dt)
                 -- self.player.innocent_beaten = self.player.innocent_beaten + 1
             end
         end
-
         if entity.health <= 0 and not entity.dead then
             entity:changeState('dead')
             if entity.pervert then
@@ -590,7 +596,7 @@ function PlayState:update(dt)
         if (entity.x < self.camera.x - 25 and not entity.dead) or (entity.x < self.camera.x - 75) then
             if entity.pervert and not entity.dead then
                 self.player.respect = self.player.respect - 10
-                self.player.perverts_passed = self.player.perverts_passed + 1 
+                self.player.perverts_passed = self.player.perverts_passed + 1
             end
             self:deleteEntity(k)
             goto continue
@@ -598,6 +604,10 @@ function PlayState:update(dt)
         entity:processAI({PlayState = self}, dt)
         entity:update(dt)
         ::continue::
+    end
+
+    if INFINITE_RESPECT then
+        self.player.respect = 100
     end
 
     -- logic for the Boss functionality
@@ -679,6 +689,12 @@ function PlayState:update(dt)
         end
     end
 
+    if INFINITE_HP then
+        self.player.health = 100
+        if self.player2 then
+            self.player2.health = 100
+        end
+    end
 end
 
 function PlayState:render()
