@@ -213,6 +213,7 @@ function PlayState:enter(def)
             table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
         end
     end
+    self.player.x = VIRTUAL_WIDTH * 6
 end
 
 function PlayState:exit()
@@ -433,6 +434,11 @@ function PlayState:update(dt)
         end
     end
 
+    local enemies = {self.boss}
+    for _, entity in pairs(self.entities) do
+        table.insert(enemies, entity)
+    end
+
     local stoppedProjectilesPositions = {}
     for k, projectile in pairs(self.projectiles) do
         projectile:update(dt)
@@ -441,7 +447,7 @@ function PlayState:update(dt)
             table.insert(self.objects, projectile)
             projectile.state = projectile.previousState
         else
-            for _, entity in pairs(self.entities) do
+            for _, entity in pairs(enemies) do
                 local entityFloor = entity.y + entity.height
                 -- from 3 to 10
                 if not entity.dead and (projectile.floor - 10 < entityFloor) and (entityFloor < projectile.floor + 10) and projectile:collides(entity) then
