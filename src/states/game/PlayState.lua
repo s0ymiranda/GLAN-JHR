@@ -384,7 +384,6 @@ function PlayState:update(dt)
     -- Left Ctrl pressed and released
     if love.keyboard.wasPressed('lctrl') then
         self.lctrlPressed = true
-        print('lctrl pressed')
     end
     if not love.keyboard.isDown('lctrl') then
         self.lctrlPressed = false
@@ -392,7 +391,6 @@ function PlayState:update(dt)
     -- Right Ctrl pressed and released
     if love.keyboard.wasPressed('rctrl') then
         self.rctrlPressed = true
-        print 'rctrl pressed'
     end
     if not love.keyboard.isDown('rctrl') then
         self.rctrlPressed = false
@@ -496,13 +494,6 @@ function PlayState:update(dt)
         -- self.healthBar2:setValue(self.player2.health)
         -- self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 74), 10)
         -- self.healthBar2:update()
-    end
-
-    if self.deletion then
-        print("Entities:")
-        for k, entity in pairs(self.entities) do
-            print("", k, entity)
-        end
     end
 
     local enemyFighting = false

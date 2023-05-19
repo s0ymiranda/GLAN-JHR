@@ -51,6 +51,8 @@ require 'src/gui/Panel'
 require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
+DEBUG = true
+
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then
     joystick = joysticks[1]

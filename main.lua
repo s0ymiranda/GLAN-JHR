@@ -1,8 +1,10 @@
 require 'settings'
 
 function love.load()
-    print()
-    print("GAME RUNNING")
+    if DEBUG then
+        print()
+        print("GAME RUNNING")
+    end
     math.randomseed(os.time())
     love.window.setTitle(GAME_TITLE)
     love.graphics.setDefaultFilter('nearest', 'nearest')

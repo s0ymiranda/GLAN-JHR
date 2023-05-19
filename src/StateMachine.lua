@@ -16,7 +16,7 @@ function StateMachine:init(states)
 end
 
 function StateMachine:change(stateName, enterParams)
-    if not self.states[stateName] then
+    if DEBUG and not self.states[stateName] then
         print('Invalid state name: ' .. stateName)
     end
     assert(self.states[stateName]) -- state must exist.

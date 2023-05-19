@@ -258,16 +258,17 @@ end
 function EntityWalkState:render()
     local entity = self.entity
     local anim = entity.currentAnimation
-    if not anim then
+    if anim then
+        love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
+            math.floor(entity.x), math.floor(entity.y))
+
+        if entity.displayDialog then
+            entity.dialog:render()
+        end
+    elseif DEBUG then
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> anim is nil")
         for k, v in pairs(entity) do
             print(k, v)
         end
-    end
-    love.graphics.draw(TEXTURES[anim.texture], FRAMES[anim.texture][anim:getCurrentFrame()],
-        math.floor(entity.x), math.floor(entity.y))
-
-    if entity.displayDialog then
-        entity.dialog:render()
     end
 end

@@ -145,8 +145,10 @@ function PlayerIdleState:update(dt, params)
             local nilObjectsPositions = {}
             for k, v in pairs(objects) do
                 if not v then
-                    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIL OBJECT")
-                    print(k, v)
+                    if DEBUG then
+                        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIL OBJECT")
+                        print(k, v)
+                    end
                     table.insert(nilObjectsPositions, k)
                 end
             end
