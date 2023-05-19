@@ -63,10 +63,4 @@ function PlayerPickUpState:render()
     end
     self.previousFrame = frame
     heldObject:render()
-
-    -- debug for hurtbox collision rects
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', self.kneeHitHitbox.x, self.kneeHitHitbox.y,
-    --     self.kneeHitHitbox.width, self.kneeHitHitbox.height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

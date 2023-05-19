@@ -76,8 +76,10 @@ function BossPunchState:render()
         math.floor(self.entity.x), math.floor(self.entity.y))
 
     -- debug for hurtbox collision rects
-    love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    love.graphics.rectangle('line', self.HandHitbox.x, self.HandHitbox.y,
-        self.HandHitbox.width, self.HandHitbox.height)
-    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    if SHOW_HURTBOX then
+        love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+        love.graphics.rectangle('line', self.HandHitbox.x, self.HandHitbox.y,
+            self.HandHitbox.width, self.HandHitbox.height)
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    end
 end

@@ -21,7 +21,11 @@ end
 function PlayState:enter(def)
     local isANewDay = def.isANewDay or false
 
-    self.dayNumber = def.dayNumber or 1
+    if START_AT_FRIDAY then
+        self.dayNumber = 5
+    else
+        self.dayNumber = def.dayNumber or 1
+    end
     if isANewDay then
         SOUNDS['scenary-music']:stop(true)
         SOUNDS['scenary-music']:setLooping(true)

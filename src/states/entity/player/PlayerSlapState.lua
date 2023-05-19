@@ -98,8 +98,10 @@ function PlayerSlapState:render()
     math.floor(self.player.x + self.xOffsetSlapTexture), math.floor(self.player.y))
 
     -- debug for hurtbox collision rects
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', math.floor(self.slapHitbox.x), math.floor(self.slapHitbox.y),
-    --     self.slapHitbox.width, self.slapHitbox.height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    if SHOW_HURTBOX then
+        love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+        love.graphics.rectangle('line', math.floor(self.slapHitbox.x), math.floor(self.slapHitbox.y),
+            self.slapHitbox.width, self.slapHitbox.height)
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    end
 end

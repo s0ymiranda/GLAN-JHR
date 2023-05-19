@@ -130,9 +130,11 @@ end
 
 function Entity:render()
     -- debug for player and hurtbox collision rects
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
-    -- love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    if SHOW_HITBOX then
+        love.graphics.setColor(love.math.colorFromBytes(255, 0, 255, 255))
+        love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    end
 
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then

@@ -200,7 +200,4 @@ function PlayerIdleState:render()
         y = self.entity.y + self.entity.height - 2,
         width = self.entity.width
     }
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, 255))
-    -- love.graphics.line(math.floor(player_bottom.x), math.floor(player_bottom.y), math.floor(player_bottom.x + player_bottom.width), math.floor(player_bottom.y))
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 end

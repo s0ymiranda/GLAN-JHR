@@ -51,10 +51,14 @@ require 'src/gui/Panel'
 require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
+-- Debugging settings
 DEBUG = true
 INFINITE_HP = false
 INFINITE_RESPECT = false
 SPAWN_AT_BUS_STATION = false
+START_AT_FRIDAY = false
+SHOW_HITBOX = false
+SHOW_HURTBOX = false
 
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then
