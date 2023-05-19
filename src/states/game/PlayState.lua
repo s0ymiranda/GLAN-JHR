@@ -90,6 +90,13 @@ function PlayState:enter(def)
             height = 73,
             health = 100,
         }
+        local player2Params
+        if def.player2 then
+            player2Params = {
+                heldObject = def.player2.stateMachine.current.heldObject,
+            }
+            self.player2.direction = def.player2.direction
+        end
         self.heldObjectsPlayer2 = {}
         self.projectilesPlayer2 = {}
         self.player2.playerNum = 2
@@ -103,9 +110,7 @@ function PlayState:enter(def)
             ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
             ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end
         }
-        self.player2:changeState('idle')
-        self.player2.direction = 'right'
-        self.player2:changeAnimation('idle-right')
+        self.player2:changeState('idle', player2Params)
         self.player2.pervert = false
         self.healthBar2 = ProgressBar {
             x = VIRTUAL_WIDTH - 10 - 100,
@@ -297,6 +302,7 @@ function PlayState:update(dt)
         self.player:changeAnimation('falling')
         if self.player2 ~= nil then
             self.player2.dead = true
+            self.player2.stateMachine.current.heldObject = nil
             self.player2:changeAnimation('falling')
         end
         Timer.after(0.4,function()
