@@ -4,6 +4,8 @@ function PlayerPickUpState:init(player)
     self.player = player
     self.player:changeAnimation('pick-up-' .. self.player.direction)
     self.previousFrame = 0
+    SOUNDS['barrel_pick_up']:stop()
+    SOUNDS['barrel_pick_up']:play()
 end
 
 function PlayerPickUpState:enter(params)

@@ -410,5 +410,8 @@ SOUNDS = {
     ['end_day_music'] = love.audio.newSource('sounds/end_day_music.mp3', 'static'),
     ['bus'] = love.audio.newSource('sounds/bus.mp3', 'static'),
     ['pause'] = love.audio.newSource('sounds/pause.mp3', 'static'),
+    ['barrel_pick_up'] = love.audio.newSource('sounds/barrel_pick_up.mp3', 'static'),
+    ['barrel_hit'] = love.audio.newSource('sounds/barrel_hit.mp3', 'static'),
+    ['barrel_fall'] = love.audio.newSource('sounds/barrel_fall.mp3', 'static'),
     ['spank'] = love.audio.newSource('sounds/spank.mp3', 'static')
 }

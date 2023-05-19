@@ -110,8 +110,10 @@ end
 
 function WinState:render()
     love.graphics.setFont(FONTS['large'])
-    love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, 255))
+    love.graphics.setColor(love.math.colorFromBytes(34, 34, 34, 255))
     love.graphics.printf('YOU WIN!', 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+    love.graphics.setColor(love.math.colorFromBytes(255, 127, 0, 255))
+    love.graphics.printf('YOU WIN!',  0, VIRTUAL_HEIGHT / 4 - 2, VIRTUAL_WIDTH, 'center')
 
     if #self.players == 1 then
         love.graphics.setFont(FONTS['medium'])
@@ -123,8 +125,10 @@ function WinState:render()
         love.graphics.printf("Number of Blows to Innocent: " .. self.players[1].innocent_beaten, 0, self.players[1].y + self.players[1].height + 64, VIRTUAL_WIDTH, 'center')
 
         -- love.graphics.setFont(FONTS['small'])
-        love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, self.alphas.n4))
+        love.graphics.setColor(love.math.colorFromBytes(34, 34, 34, self.alphas.n4))
         love.graphics.printf("Press Enter to Go to the Title Screen", 0, self.players[1].y + self.players[1].height + 96, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 127, 0, self.alphas.n4))
+        love.graphics.printf("Press Enter to Go to the Title Screen", 0, self.players[1].y + self.players[1].height + 94, VIRTUAL_WIDTH, 'center')
     else
         love.graphics.setFont(FONTS['medium'])
 
@@ -145,8 +149,12 @@ function WinState:render()
         love.graphics.printf("Number of Blows\nto Innocent: " .. self.players[2].innocent_beaten, VIRTUAL_WIDTH/2 , self.players[2].y + self.players[2].height + 80, VIRTUAL_WIDTH/2 - 10, 'center')
 
         love.graphics.setFont(FONTS['small'])
-        love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, self.alphas.n5))
-        love.graphics.printf("Press Enter to Go\nto the Title Screen", 0, self.players[1].y + self.players[1].height + 90, VIRTUAL_WIDTH, 'center')
+        -- love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, self.alphas.n5))
+        -- love.graphics.printf("Press Enter to Go\nto the Title Screen", 0, self.players[1].y + self.players[1].height + 90, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(34, 34, 34, self.alphas.n4))
+        love.graphics.printf("Press Enter to Go to\nthe Title Screen", 0, self.players[1].y + self.players[1].height + 90, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 127, 0, self.alphas.n4))
+        love.graphics.printf("Press Enter to Go to\nthe Title Screen", 0, self.players[1].y + self.players[1].height + 89, VIRTUAL_WIDTH, 'center')
     end
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     for k, player in pairs(self.players) do
