@@ -25,7 +25,6 @@ function PlayState:init()
 end
 
 function PlayState:enter(def)
-
     local isANewDay = def.isANewDay or false
 
     self.dayNumber = def.dayNumber or 1
@@ -52,6 +51,14 @@ function PlayState:enter(def)
         health = 100,
     }
 
+    local playerParams
+    if def and def.player then
+        playerParams = {
+            heldObject = def.player.stateMachine.current.heldObject,
+        }
+        self.player.direction = def.player.direction
+    end
+
     self.heldObjects = {}
     self.projectiles = {}
 
@@ -65,14 +72,8 @@ function PlayState:enter(def)
         ['pick-up'] = function() return PlayerPickUpState(self.player) end,
         ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
     }
-    self.player:changeState('idle')
-    self.player.direction = 'right'
-    self.player:changeAnimation('idle-right')
 
-    if def.player then
-        self.player.stateMachine.current.heldObject = def.player.stateMachine.current.heldObject
-    end
-
+    self.player:changeState('idle', playerParams)
     self.player.pervert = false
 
     if self.player.x > 0 then
