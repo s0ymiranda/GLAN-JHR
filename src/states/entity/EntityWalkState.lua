@@ -111,24 +111,34 @@ function EntityWalkState:processAI(params, dt)
                 entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
                 entity.displayDialog = true
                 entity.dialogElapsedTime = 0
-            elseif math.random() < HEAL_DROP_PROBABILITY then
-                message = HELP_MESSAGES[math.random(#HELP_MESSAGES)]
-                local healType
-                if math.random() < SMALL_FIRST_AID_KIT_DROP_PROBABILITY then
-                    healType = 'small-first-aid-kit'
-                else
-                    healType = 'first-aid-kit'
-                end
-                local healDefs = GAME_OBJECT_DEFS[healType]
-                table.insert(self.objects, GameObject(healDefs, entity.x, entity.y + entity.height - healDefs.height))
-                entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
-                entity.displayDialog = true
-                entity.dialogElapsedTime = 0
             else
-                message = REGULAR_MESSAGES[math.random(#REGULAR_MESSAGES)]
-                entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
-                entity.displayDialog = true
-                entity.dialogElapsedTime = 0
+                local hp = playState.player.health
+                if playState.player2 then
+                    hp = math.min(hp, playState.player2.health)
+                end
+                local hpBasedProbability = 0.9 - (hp / 100)
+                local respect = playState.player.respect
+                local respectBasedProbability = (respect / 100) - 0.5
+                local baseCondition = hp < 50 and respect > 50
+                if baseCondition and math.random() < (hpBasedProbability + respectBasedProbability) / 2 then
+                    message = HELP_MESSAGES[math.random(#HELP_MESSAGES)]
+                    local healType
+                    if math.random() < SMALL_FIRST_AID_KIT_DROP_PROBABILITY then
+                        healType = 'small-first-aid-kit'
+                    else
+                        healType = 'first-aid-kit'
+                    end
+                    local healDefs = GAME_OBJECT_DEFS[healType]
+                    table.insert(self.objects, GameObject(healDefs, entity.x, entity.y + entity.height - healDefs.height))
+                    entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                    entity.displayDialog = true
+                    entity.dialogElapsedTime = 0
+                else
+                    message = REGULAR_MESSAGES[math.random(#REGULAR_MESSAGES)]
+                    entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                    entity.displayDialog = true
+                    entity.dialogElapsedTime = 0
+                end
             end
         end
     elseif entity.displayDialog then
