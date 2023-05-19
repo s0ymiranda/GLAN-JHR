@@ -61,8 +61,7 @@ function PlayState:enter(def)
         end
     end
 
-    self.heldObjects = {}
-    self.projectiles = {}
+    self.projectiles = def.projectiles or {}
 
     self.players = {self.player}
 
@@ -103,8 +102,6 @@ function PlayState:enter(def)
                 self.player2.direction = 'right'
             end
         end
-        self.heldObjectsPlayer2 = {}
-        self.projectilesPlayer2 = {}
         self.player2.playerNum = 2
         self.player.numOfPlayersInGame = 2
         self.player2.numOfPlayersInGame = 2
@@ -308,6 +305,7 @@ function PlayState:update(dt)
             camera = self.camera,
             entities = self.entities,
             objects = self.objects,
+            projectiles = self.projectiles,
             dayNumber = self.dayNumber,
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
@@ -722,9 +720,6 @@ function PlayState:render()
             end
         end
         for _, object in pairs(self.objects) do
-            table.insert(to_render, object)
-        end
-        for _, object in pairs(self.heldObjects) do
             table.insert(to_render, object)
         end
         for _, object in pairs(self.projectiles) do
