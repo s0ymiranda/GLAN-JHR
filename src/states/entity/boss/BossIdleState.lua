@@ -29,7 +29,7 @@ function BossIdleState:processAI(params, dt)
         if playState.player2 ~= nil then
             playState.player2.fighting = true
         end
-        SOUNDS['dungeon-music']:pause(true)
+        SOUNDS['scenary-music']:pause(true)
         SOUNDS['boss_music']:setLooping(true)
         SOUNDS['boss_music']:play()
     end

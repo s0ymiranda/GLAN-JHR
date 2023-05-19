@@ -50,10 +50,13 @@ function PauseState:enter(def)
     }
 
     self.pauseMenu.panel:toggle()
+
+    SOUNDS['pause']:setLooping(true)
+    SOUNDS['pause']:play()
 end
 
 function PauseState:exit()
-
+    SOUNDS['pause']:pause()
 end
 
 function PauseState:update(dt)

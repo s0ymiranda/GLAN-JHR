@@ -16,12 +16,6 @@ function PlayState:init()
     self.rctrlPressed = false
 
     self.controllerButtoms = {a = false, x = false, start = false}
-
-    -- SOUNDS['boss_music']:stop()
-    -- SOUNDS['end_day_music']:stop()
-    -- SOUNDS['dungeon-music']:setLooping(true)
-    -- SOUNDS['dungeon-music']:play()
-
 end
 
 function PlayState:enter(def)
@@ -29,9 +23,9 @@ function PlayState:enter(def)
 
     self.dayNumber = def.dayNumber or 1
     if isANewDay or self.dayNumber == 1 then
-        SOUNDS['dungeon-music']:stop(true)
-        SOUNDS['dungeon-music']:setLooping(true)
-        SOUNDS['dungeon-music']:play()
+        SOUNDS['scenary-music']:stop(true)
+        SOUNDS['scenary-music']:setLooping(true)
+        SOUNDS['scenary-music']:play()
     end
 
     self.camera = def.camera or Camera{}
@@ -173,18 +167,18 @@ function PlayState:enter(def)
         if self.boss.fighting then
             SOUNDS['boss_music']:play()
         else
-            SOUNDS['dungeon-music']:play()
+            SOUNDS['scenary-music']:play()
         end
     else
         SOUNDS['end_day_music']:stop()
         SOUNDS['boss_music']:stop()
-        SOUNDS['dungeon-music']:setLooping(true)
-        SOUNDS['dungeon-music']:play()
+        SOUNDS['scenary-music']:setLooping(true)
+        SOUNDS['scenary-music']:play()
     end
 
     --Testing
-    self.player.x = VIRTUAL_WIDTH*6.5
-    self.boss = nil
+    -- self.player.x = VIRTUAL_WIDTH*6.5
+    -- self.boss = nil
     -- if not self.player.fighting then
     --     self.player.x = VIRTUAL_WIDTH*6
     --     self.player2.x = VIRTUAL_WIDTH*6
@@ -228,10 +222,10 @@ function PlayState:exit()
         if self.boss.fighting then
             SOUNDS['boss_music']:pause()
         else
-            SOUNDS['dungeon-music']:pause()
+            SOUNDS['scenary-music']:pause()
         end
     else
-        SOUNDS['dungeon-music']:pause()
+        SOUNDS['scenary-music']:pause()
     end
 end
 

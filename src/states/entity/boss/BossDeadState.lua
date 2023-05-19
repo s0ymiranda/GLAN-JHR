@@ -4,7 +4,7 @@ function BossDeadState:init(entity)
     self.entity = entity
     SOUNDS['dead']:play()
     SOUNDS['boss_music']:stop(true)
-    SOUNDS['dungeon-music']:play()
+    SOUNDS['scenary-music']:play()
     if entity.direction == 'right' then
         entity.x = entity.x - 75/2
     end
