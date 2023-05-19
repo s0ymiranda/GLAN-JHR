@@ -213,7 +213,6 @@ function PlayState:enter(def)
             table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
         end
     end
-    self.player.x = VIRTUAL_WIDTH * 6
 end
 
 function PlayState:exit()
@@ -294,6 +293,7 @@ function PlayState:update(dt)
             end
         end
         self.player.dead = true
+        self.player.stateMachine.current.heldObject = nil
         self.player:changeAnimation('falling')
         if self.player2 ~= nil then
             self.player2.dead = true
