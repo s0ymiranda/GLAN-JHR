@@ -572,7 +572,7 @@ function PlayState:update(dt)
                 self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
             else
                 self.player.respect = self.player.respect - 10
-                self.player.perverts_passed = self.player.perverts_passed + 1
+                -- self.player.innocent_beaten = self.player.innocent_beaten + 1
             end
         end
 
@@ -581,7 +581,7 @@ function PlayState:update(dt)
             if entity.pervert then
                 if self.player.respect < 100 then
                     self.player.respect = self.player.respect + 5
-                    self.player.perverts_defeated = self.player.perverts_defeated + 1
+                    -- self.player.perverts_defeated = self.player.perverts_defeated + 1
                 end
             else
                 self.player.respect = self.player.respect - 5
@@ -591,6 +591,7 @@ function PlayState:update(dt)
         if (entity.x < self.camera.x - 25 and not entity.dead) or (entity.x < self.camera.x - 75) then
             if entity.pervert and not entity.dead then
                 self.player.respect = self.player.respect - 10
+                self.player.perverts_passed = self.player.perverts_passed + 1 
             end
             self:deleteEntity(k)
             goto continue

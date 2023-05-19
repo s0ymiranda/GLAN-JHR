@@ -47,6 +47,11 @@ function PlayerSlapState:update(dt)
     for k, entity in pairs(self.entities) do
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.slapHitbox) and not entity.invulnerable  and not entity.dead then
             entity:damage(10)
+            if not entity.pervert then
+                self.player.innocent_beaten = self.player.innocent_beaten + 1
+            elseif entity.health <= 0 then
+                self.player.perverts_defeated = self.player.perverts_defeated + 1
+            end
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME-0.5)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()

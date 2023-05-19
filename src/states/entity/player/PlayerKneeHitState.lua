@@ -8,6 +8,8 @@ function PlayerKneeHitState:init(player,entities,boss)
     -- create hitbox based on where the player is and facing
     local direction = self.player.direction
 
+    self.scored = false
+
     local hitboxX, hitboxY, hitboxWidth, hitboxHeight
 
     if direction == 'left' then
@@ -40,6 +42,11 @@ function PlayerKneeHitState:update(dt)
     for k, entity in pairs(self.entities) do
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.kneeHitHitbox) and not entity.invulnerable and not entity.dead then
             entity:damage(15)
+            if not entity.pervert then
+                self.player.innocent_beaten = self.player.innocent_beaten + 1
+            elseif entity.health <= 0 then
+                self.player.perverts_defeated = self.player.perverts_defeated + 1
+            end
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
