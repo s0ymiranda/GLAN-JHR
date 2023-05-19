@@ -17,10 +17,10 @@ function PlayState:init()
 
     self.controllerButtoms = {a = false, x = false, start = false}
 
-    SOUNDS['boss_music']:stop()
-    SOUNDS['end_day_music']:stop()
-    SOUNDS['dungeon-music']:setLooping(true)
-    SOUNDS['dungeon-music']:play()
+    -- SOUNDS['boss_music']:stop()
+    -- SOUNDS['end_day_music']:stop()
+    -- SOUNDS['dungeon-music']:setLooping(true)
+    -- SOUNDS['dungeon-music']:play()
 
 end
 
@@ -147,9 +147,39 @@ function PlayState:enter(def)
         title = 'Respect'
     }
     if self.dayNumber == 5 then
-        self:generateBoss()
+        if self.boss == nil then
+            self:generateBoss()
+        end
+        self.bossHealthBar = ProgressBar {
+            x = 0 + 10,
+            y = 0 + self.healthBar.y + self.healthBar.height + 10,
+            width = VIRTUAL_WIDTH - 20,
+            height = 14,
+            color = {r = 189, g = 32, b = 32},
+            value = self.boss.health,
+            max = 50,
+            showDetails = true,
+            title = "Raiden Tameemon's Health"
+        }
     end
 
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            SOUNDS['boss_music']:play()
+        else
+            SOUNDS['dungeon-music']:play()
+        end
+    else
+        SOUNDS['end_day_music']:stop()
+        SOUNDS['boss_music']:stop()
+        SOUNDS['dungeon-music']:setLooping(true)
+        SOUNDS['dungeon-music']:play()
+    end
+
+    --Testing
+    -- if not self.player.fighting then
+    --     self.player.x = VIRTUAL_WIDTH*6
+    -- end
     --GameObjects
 
     --bus and bus sign
@@ -185,7 +215,15 @@ function PlayState:enter(def)
 end
 
 function PlayState:exit()
-    SOUNDS['dungeon-music']:pause()
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            SOUNDS['boss_music']:pause()
+        else
+            SOUNDS['dungeon-music']:pause()
+        end
+    else
+        SOUNDS['dungeon-music']:pause()
+    end
 end
 
 function PlayState:bottom_collision(a, b, y_diff)
@@ -221,6 +259,7 @@ function PlayState:update(dt)
                 dayNumber = self.dayNumber,
                 player2 = self.player2,
                 twoPlayers = twoPlayersMode,
+                boss = self.boss,
             })
         end
     end
@@ -237,11 +276,18 @@ function PlayState:update(dt)
             dayNumber = self.dayNumber,
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
+            boss = self.boss,
         })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
         for k,e in pairs(self.entities) do
             if not e.dead then
+                local a,b = string.find(e.direction,'left')
+                if a == nil or b == nil then
+                    e.direction = 'right'
+                else
+                    e.direction = 'left'
+                end
                 e:changeState('idle')
             end
         end
@@ -266,11 +312,18 @@ function PlayState:update(dt)
             objects = self.objects,
             dayNumber = self.dayNumber,
             player2 = self.player2,
+            boss = self.boss,
         })
     elseif self.player2 ~= nil then
         if self.player2.health <= 0 then
             for k,e in pairs(self.entities) do
                 if not e.dead then
+                    local a,b = string.find(e.direction,'left')
+                    if a == nil or b == nil then
+                        e.direction = 'right'
+                    else
+                        e.direction = 'left'
+                    end
                     e:changeState('idle')
                 end
             end
@@ -566,6 +619,14 @@ function PlayState:update(dt)
         self.healthBar2:update()
     end
 
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            self.bossHealthBar:setValue(self.boss.health)
+            self.bossHealthBar:setPosition(math.floor(self.camera.x + 10), VIRTUAL_HEIGHT - 20)
+            self.bossHealthBar:update()
+        end
+    end
+
     if (self.camera.x + VIRTUAL_WIDTH) >= MAP_WIDTH - 280 and not self.player.fighting then
         stateMachine:change('cinematic',{camera =self.camera, entities = self.entities, objects = self.objects, players = self.players,dayNumber = self.dayNumber})
     end
@@ -649,6 +710,11 @@ function PlayState:render()
         if self.player2 ~= nil then
             self.healthBar2:render()
         end
+        if self.boss ~= nil then
+            if self.boss.fighting then
+                self.bossHealthBar:render()
+            end
+        end
         if self.textAnimations.alpha.render then
             love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
             love.graphics.setFont(FONTS['large'])
@@ -696,6 +762,7 @@ function PlayState:generateWalkingEntity()
         ['punch'] = function() return EntityPunchState(new_entity,self.players) end,
         ['dead'] = function() return EntityDeadState(new_entity) end
     }
+    new_entity.direction = 'left'
     new_entity:changeState('walk')
     new_entity.justWalking = true
 
@@ -726,6 +793,7 @@ function PlayState:generateBoss()
         ['spank'] = function () return BossSpankState(boss,self.players) end,
         ['punch'] = function () return BossPunchState(boss,self.players) end
     }
+    boss.direction = 'left'
     boss:changeState('idle')
     boss:changeAnimation('idle-left')
     boss.pervert = true

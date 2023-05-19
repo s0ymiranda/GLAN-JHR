@@ -46,7 +46,7 @@ function PlayerIdleState:update(dt, params)
                 self.entity:changeAnimation('throw-' .. self.entity.direction)
                 self.entity.currentAnimation:refresh()
             end
-            return
+            -- return
         end
         if joystick:isGamepadDown('a') then
             self.entity:changeState('slap')
