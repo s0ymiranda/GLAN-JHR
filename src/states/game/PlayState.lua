@@ -636,8 +636,10 @@ function PlayState:update(dt)
 
     if (self.camera.x + VIRTUAL_WIDTH) >= MAP_WIDTH - 280 and not self.player.fighting then
         self.player.direction = 'right'
+        self.player.stateMachine.current.heldObject = nil
         if self.player2 then
             self.player2.direction = 'right'
+            self.player2.stateMachine.current.heldObject = nil
         end
         stateMachine:change('cinematic',{camera =self.camera, entities = self.entities, objects = self.objects, players = self.players,dayNumber = self.dayNumber})
     end
