@@ -145,7 +145,7 @@ function PlayerIdleState:update(dt, params)
             local nilObjectsPositions = {}
             for k, v in pairs(objects) do
                 if not v then
-                    if DEBUG then
+                    if SHOW_STDOUT then
                         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIL OBJECT")
                         print(k, v)
                     end

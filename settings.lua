@@ -53,13 +53,44 @@ require 'src/gui/Selection'
 
 -- Debugging settings
 DEBUG = true
-INFINITE_HP = false
-INFINITE_RESPECT = false
+
+ACTIVATE_ALL_DEBUG_SETTINGS = false
+
+SHOW_STDOUT = true
+ALLOW_CHEATS = true
+INFINITE_HP = true
+INFINITE_RESPECT = true
 SPAWN_AT_BUS_STATION = false
 START_AT_FRIDAY = false
 SHOW_HITBOX = false
 SHOW_HURTBOX = false
+DISABLE_AUTOMATIC_ENTITY_SPAWN = false
 
+if ACTIVATE_ALL_DEBUG_SETTINGS then
+    SHOW_STDOUT = true
+    ALLOW_CHEATS = true
+    INFINITE_HP = true
+    INFINITE_RESPECT = true
+    SPAWN_AT_BUS_STATION = true
+    START_AT_FRIDAY = true
+    SHOW_HITBOX = true
+    SHOW_HURTBOX = true
+    DISABLE_AUTOMATIC_ENTITY_SPAWN = true
+end
+
+if not DEBUG then
+    SHOW_STDOUT = false
+    ALLOW_CHEATS = false
+    INFINITE_HP = false
+    INFINITE_RESPECT = false
+    SPAWN_AT_BUS_STATION = false
+    START_AT_FRIDAY = false
+    SHOW_HITBOX = false
+    SHOW_HURTBOX = false
+    DISABLE_AUTOMATIC_ENTITY_SPAWN = false
+end
+
+-- Joystick
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then
     joystick = joysticks[1]

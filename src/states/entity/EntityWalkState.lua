@@ -302,7 +302,7 @@ function EntityWalkState:render()
         if entity.displayDialog then
             entity.dialog:render()
         end
-    elseif DEBUG then
+    elseif SHOW_STDOUT then
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> anim is nil")
         for k, v in pairs(entity) do
             print(k, v)

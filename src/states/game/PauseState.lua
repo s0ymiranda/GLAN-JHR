@@ -6,6 +6,8 @@ function PauseState:enter(def)
     self.camera = def.camera
     self.entities = def.entities
     self.objects = def.objects
+    self.projectiles = def.projectiles
+    self.signs = def.signs
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.twoPlayers = def.twoPlayers
@@ -27,6 +29,8 @@ function PauseState:enter(def)
                         camera = self.camera,
                         entities = self.entities,
                         objects = self.objects,
+                        projectiles = self.projectiles,
+                        signs = self.signs,
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
@@ -121,6 +125,12 @@ function PauseState:render()
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
+        end
+        for _, object in pairs(self.projectiles) do
+            table.insert(to_render, object)
+        end
+        for _, sign in pairs(self.signs) do
+            table.insert(to_render, sign)
         end
         if self.boss ~= nil then
             if self.boss.dead then
