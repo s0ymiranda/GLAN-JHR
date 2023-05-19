@@ -211,6 +211,43 @@ function EntityWalkState:processAIFighting(params,dt)
         -- elseif playState.player.x > entity.x + entity.width and entity.z-1 > playState.player.z then
         --     entity.direction = "up-right"
         -- end
+        for _, obj in pairs(self.objects) do
+            local entityBottom = {
+                x = entity.x,
+                y = entity.y + entity.height - 2,
+                width = entity.width,
+            }
+            local objBottom = obj.getBottom(obj)
+            if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
+
+                if (string.match(entity.direction, 'up') and entityBottom.y > objBottom.y) or (string.match(entity.direction, 'down') and entityBottom.y < objBottom.y) then
+                    -- CONVULSION
+                    -- if entity.x + entity.width/2 >= obj.x + obj.width/2 then
+                    --     entity.direction = 'right'
+                    --     self.prevDirection = 'right'
+                    --     entity:changeAnimation('walk-' .. tostring(entity.direction))
+                    --     return
+                    -- else
+                    --     entity.direction = 'left'
+                    --     self.prevDirection = 'left'
+                    --     entity:changeAnimation('walk-' .. tostring(entity.direction))
+                    --     return
+                    -- end
+                    if entity.x + entity.width/2 >= self.objetive.x + self.objetive.width/2 then
+                        entity.direction = 'left'
+                        self.prevDirection = 'left'
+                        -- entity:changeAnimation('walk-' .. tostring(entity.direction))
+                        return
+                    else
+                        entity.direction = 'right'
+                        self.prevDirection = 'right'
+                        -- entity:changeAnimation('walk-' .. tostring(entity.direction))
+                        return
+                    end
+                end
+            end
+        end
+
 
         if self.objetive.x + self.objetive.width < entity.x and math.abs(self.objetive.z - entity.z) <= 1 then
             entity.direction = "left"
