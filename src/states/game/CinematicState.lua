@@ -65,7 +65,7 @@ function CinematicState:update(dt)
         player.x = 0
         player.y = VIRTUAL_HEIGHT/2
         if self.dayNumber == 5 then
-            stateMachine:change('win')
+            stateMachine:change('win',{players = self.players})
         else
             local twoPlayersMode = false
             if player2 ~= nil then

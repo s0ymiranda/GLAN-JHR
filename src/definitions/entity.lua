@@ -171,6 +171,12 @@ ENTITY_DEFS = {
                 looping = true,
                 texture = 'character2-win'
             },
+            ['win-reverse'] = {
+                frames = {3,4,1,2},
+                interval = 0.20,
+                looping = true,
+                texture = 'character2-win'
+            },
             ['walk-left'] = {
                 frames = {5,7,8,7},
                 interval = 0.20,
