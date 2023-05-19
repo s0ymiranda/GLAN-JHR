@@ -389,8 +389,45 @@ function PlayState:update(dt)
             })
         end
     end
-    if love.keyboard.wasPressed('o') then
-        stateMachine:change('win',{players = self.players})
+    if DEBUG then
+        -- Ctrl + E: generate entity
+        if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
+            self:generateWalkingEntity()
+        end
+
+        -- Ctrl + H: generate first-aid-kit
+        if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
+            local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
+            table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
+        end
+
+        -- Ctrl + B: generate barrel
+        if love.keyboard.wasPressed('b') and (self.lctrlPressed or self.rctrlPressed) then
+            local barrelDefs = GAME_OBJECT_DEFS['barrel']
+            table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
+        end
+        -- Press o to win
+        if love.keyboard.wasPressed('o') then
+            stateMachine:change('win',{players = self.players})
+        end
+        -- Press r to skip day
+        if love.keyboard.wasPressed('r') then
+            self.player.x = 0
+            self.player.y = VIRTUAL_HEIGHT/2
+            if self.dayNumber == 5 then
+                stateMachine:change('win')
+            else
+                -- self.player.afterFighting = false
+                -- self.player.fighting = false
+                local twoPlayersMode = false
+                if self.player2 ~= nil then
+                    twoPlayersMode = true
+                    self.player2.x = 0
+                    self.player2.y = VIRTUAL_HEIGHT/2 + 55
+                end
+                stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
+            end
+        end
     end
     -- Left Ctrl pressed and released
     if love.keyboard.wasPressed('lctrl') then
@@ -405,22 +442,6 @@ function PlayState:update(dt)
     end
     if not love.keyboard.isDown('rctrl') then
         self.rctrlPressed = false
-    end
-    -- Ctrl + E: generate entity
-    if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
-        self:generateWalkingEntity()
-    end
-
-    -- Ctrl + H: generate first-aid-kit
-    if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
-        local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
-        table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
-    end
-
-    -- Ctrl + B: generate barrel
-    if love.keyboard.wasPressed('b') and (self.lctrlPressed or self.rctrlPressed) then
-        local barrelDefs = GAME_OBJECT_DEFS['barrel']
-        table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
     end
 
     if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then
@@ -673,24 +694,6 @@ function PlayState:update(dt)
             self.player2.stateMachine.current.heldObject = nil
         end
         stateMachine:change('cinematic',{camera =self.camera, entities = self.entities, objects = self.objects, players = self.players,dayNumber = self.dayNumber})
-    end
-
-    if love.keyboard.wasPressed('r') then
-        self.player.x = 0
-        self.player.y = VIRTUAL_HEIGHT/2
-        if self.dayNumber == 5 then
-            stateMachine:change('win')
-        else
-            -- self.player.afterFighting = false
-            -- self.player.fighting = false
-            local twoPlayersMode = false
-            if self.player2 ~= nil then
-                twoPlayersMode = true
-                self.player2.x = 0
-                self.player2.y = VIRTUAL_HEIGHT/2 + 55
-            end
-            stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
-        end
     end
 
     if INFINITE_HP then
