@@ -16,7 +16,11 @@ function EntityIdleState:processAI(params, dt)
     local playState = params.PlayState
     if self.dialogElapsedTime == nil then
         local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
-        if distance < 500 then
+        local distance2 = distance
+        if playState.player2 ~= nil then
+            distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+        end
+        if distance < 500 or distance2 < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
             self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
             self.displayDialog = true
@@ -46,6 +50,7 @@ end
 
 function EntityIdleState:processAIFighting(params, dt)
     -- TODO: add punches
+    local playState = params.PlayState
     if self.entity ~= nil then
         if not self.entity.punching then
             self:processAI(params, dt)
@@ -61,6 +66,26 @@ function EntityIdleState:processAIFighting(params, dt)
                 self.waitTimer = 0
                 self.waitDuration = 0
                 self.entity.punching = false
+
+                local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+                local distance2 = distance
+                if playState.player2 ~= nil then
+                    distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+                end
+                if distance <= distance2 then
+                    if self.entity.x <= playState.player.x then
+                        self.entity.direction = 'right'
+                    else
+                        self.entity.direction = 'left'
+                    end
+                else
+                    if self.entity.x <= playState.player2.x then
+                        self.entity.direction = 'right'
+                    else
+                        self.entity.direction = 'left'
+                    end
+                end
+                -- if self.entity.x <= playState.
                 self.entity:changeState('punch', {
                     dialogElapsedTime = self.dialogElapsedTime,
                     dialog = self.dialog,

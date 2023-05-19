@@ -206,6 +206,8 @@ function PlayState:enter(def)
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*7, MAP_HEIGHT-138))
 
     --signs
+    self.signTimer = 0
+    self.signWaitTimer = 0
     if not def.signs then
         table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
         table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
@@ -255,9 +257,9 @@ function PlayState:bottom_collision(a, b, y_diff)
 end
 
 function PlayState:update(dt)
-    if love.keyboard.wasPressed('escape') then
-        love.event.quit()
-    end
+    -- if love.keyboard.wasPressed('escape') then
+    --     love.event.quit()
+    -- end
     if #joysticks > 0 then
         if joystick:isGamepadDown('start') then
             self.controllerButtoms.start = true
@@ -285,7 +287,7 @@ function PlayState:update(dt)
             })
         end
     end
-    if love.keyboard.wasPressed('p') then
+    if love.keyboard.wasPressed('p') or love.keyboard.wasPressed('escape') then
         local twoPlayersMode = false
         if self.player2 ~= nil then
             twoPlayersMode = true
@@ -450,11 +452,30 @@ function PlayState:update(dt)
         self.spawnCooldown = 0
         self.spawnTimer = 0
     end
-    for k, signs in pairs(self.signs) do
-        if signs.state == 'off' then
-            signs.state = 'on'
+
+    self.signTimer = self.signTimer + dt
+
+    if self.signWaitTimer == 0 then
+        self.signTimer = 0
+        if self.signs[1].state == 'on' then
+            self.signWaitTimer = 0.2
         else
-            signs.state = 'off'
+            ::again::
+            self.signWaitTimer = math.random()*10
+            if self.signWaitTimer > 3 then
+                goto again
+            end
+        end
+    end
+
+    for k, signs in pairs(self.signs) do
+        if self.signTimer >= self.signWaitTimer then
+            self.signWaitTimer = 0
+            if signs.state == 'off' then
+                signs.state = 'on'
+            else
+                signs.state = 'off'
+            end
         end
     end
 
