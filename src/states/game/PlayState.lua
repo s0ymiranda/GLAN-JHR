@@ -177,8 +177,11 @@ function PlayState:enter(def)
     end
 
     --Testing
+    self.player.x = VIRTUAL_WIDTH*6.5
+    self.boss = nil
     -- if not self.player.fighting then
     --     self.player.x = VIRTUAL_WIDTH*6
+    --     self.player2.x = VIRTUAL_WIDTH*6
     -- end
     --GameObjects
 
@@ -352,7 +355,7 @@ function PlayState:update(dt)
         end
     end
     if love.keyboard.wasPressed('o') then
-        stateMachine:change('win')
+        stateMachine:change('win',{players = self.players})
     end
     -- Left Ctrl pressed and released
     if love.keyboard.wasPressed('lctrl') then
