@@ -389,7 +389,7 @@ function PlayState:update(dt)
             })
         end
     end
-    if DEBUG then
+    if ALLOW_CHEATS then
         -- Ctrl + E: generate entity
         if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
             self:generateWalkingEntity()
@@ -450,7 +450,7 @@ function PlayState:update(dt)
 
     self.spawnTimer = self.spawnTimer + dt
 
-    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) then
+    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) and not DISABLE_AUTOMATIC_ENTITY_SPAWN then
         self:generateWalkingEntity()
         self.spawnCooldown = 0
         self.spawnTimer = 0

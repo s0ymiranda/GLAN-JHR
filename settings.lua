@@ -52,14 +52,32 @@ require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
 -- Debugging settings
-DEBUG = true
+
+ACTIVATE_ALL_DEBUG_SETTINGS = true
+
+SHOW_STDOUT = true
 INFINITE_HP = false
 INFINITE_RESPECT = false
 SPAWN_AT_BUS_STATION = false
 START_AT_FRIDAY = false
 SHOW_HITBOX = false
 SHOW_HURTBOX = false
+ALLOW_CHEATS = false
+DISABLE_AUTOMATIC_ENTITY_SPAWN = false
 
+if ACTIVATE_ALL_DEBUG_SETTINGS then
+    SHOW_STDOUT = true
+    INFINITE_HP = true
+    INFINITE_RESPECT = true
+    SPAWN_AT_BUS_STATION = true
+    START_AT_FRIDAY = true
+    SHOW_HITBOX = true
+    SHOW_HURTBOX = true
+    ALLOW_CHEATS = true
+    DISABLE_AUTOMATIC_ENTITY_SPAWN = true
+end
+
+-- Joystick
 joysticks = love.joystick.getJoysticks()
 if #joysticks > 0 then
     joystick = joysticks[1]

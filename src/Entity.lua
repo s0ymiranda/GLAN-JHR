@@ -91,7 +91,7 @@ end
 
 function Entity:changeAnimation(name)
     self.currentAnimation = self.animations[name]
-    if DEBUG and not self.currentAnimation then
+    if SHOW_STDOUT and not self.currentAnimation then
         print("Invalid animation name: " .. name)
     end
 end
