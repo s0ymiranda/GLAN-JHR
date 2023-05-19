@@ -46,7 +46,7 @@ function PlayerSlapState:update(dt)
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.entities) do
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.slapHitbox) and not entity.invulnerable  and not entity.dead then
-            entity:damage(1)
+            entity:damage(10)
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME-0.5)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
@@ -63,7 +63,7 @@ function PlayerSlapState:update(dt)
     end
     if self.boss ~= nil then
         if math.abs(self.player.z - self.boss.z) <= 1 and self.boss:collides(self.slapHitbox) and not self.boss.invulnerable and not self.boss.dead then
-            self.boss:damage(1)
+            self.boss:damage(10)
             self.boss:goInvulnerable(ENTITY_INVULNERABILITY_TIME-0.5)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()

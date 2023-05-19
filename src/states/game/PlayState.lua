@@ -22,7 +22,7 @@ function PlayState:enter(def)
     local isANewDay = def.isANewDay or false
 
     self.dayNumber = def.dayNumber or 1
-    if isANewDay or self.dayNumber == 1 then
+    if isANewDay then
         SOUNDS['scenary-music']:stop(true)
         SOUNDS['scenary-music']:setLooping(true)
         SOUNDS['scenary-music']:play()
@@ -154,10 +154,10 @@ function PlayState:enter(def)
             x = 0 + 10,
             y = 0 + self.healthBar.y + self.healthBar.height + 10,
             width = VIRTUAL_WIDTH - 20,
-            height = 14,
+            height = 20,
             color = {r = 189, g = 32, b = 32},
             value = self.boss.health,
-            max = 50,
+            max = 1000,
             showDetails = true,
             title = "Raiden Tameemon's Health"
         }
@@ -177,7 +177,7 @@ function PlayState:enter(def)
     end
 
     --Testing
-    -- self.player.x = VIRTUAL_WIDTH*6.5
+    -- self.player.x = VIRTUAL_WIDTH*6
     -- self.boss = nil
     -- if not self.player.fighting then
     --     self.player.x = VIRTUAL_WIDTH*6
@@ -254,6 +254,12 @@ function PlayState:update(dt)
             if self.player2 ~= nil then
                 twoPlayersMode = true
             end
+            local musicTitle = 'scenary-music'
+            if self.boss ~= nil then
+                if self.boss.fighting then
+                    musicTitle = 'boss_music'
+                end
+            end
             stateMachine:change('pause',{
                 player = self.player,
                 camera = self.camera,
@@ -263,6 +269,7 @@ function PlayState:update(dt)
                 player2 = self.player2,
                 twoPlayers = twoPlayersMode,
                 boss = self.boss,
+                music = musicTitle,
             })
         end
     end
@@ -270,6 +277,12 @@ function PlayState:update(dt)
         local twoPlayersMode = false
         if self.player2 ~= nil then
             twoPlayersMode = true
+        end
+        local musicTitle = 'scenary-music'
+        if self.boss ~= nil then
+            if self.boss.fighting then
+                musicTitle = 'boss_music'
+            end
         end
         stateMachine:change('pause',{
             player = self.player,
@@ -280,6 +293,7 @@ function PlayState:update(dt)
             player2 = self.player2,
             twoPlayers = twoPlayersMode,
             boss = self.boss,
+            music = musicTitle,
         })
     end
     if self.player.health <= 0 or self.player.respect <= 0 then
@@ -632,7 +646,7 @@ function PlayState:update(dt)
     if self.boss ~= nil then
         if self.boss.fighting then
             self.bossHealthBar:setValue(self.boss.health)
-            self.bossHealthBar:setPosition(math.floor(self.camera.x + 10), VIRTUAL_HEIGHT - 20)
+            self.bossHealthBar:setPosition(math.floor(self.camera.x + 10), VIRTUAL_HEIGHT - 30)
             self.bossHealthBar:update()
         end
     end
@@ -768,7 +782,7 @@ function PlayState:generateWalkingEntity()
         width = 24,
         height = 75,
 
-        health = 3,
+        health = 30,
         pervertFactor = self.player.respect/100,
     }
 
@@ -798,7 +812,7 @@ function PlayState:generateBoss()
         width = 37,
         height = 84,
 
-        health = 50,
+        health = 1000,
 
     }
 

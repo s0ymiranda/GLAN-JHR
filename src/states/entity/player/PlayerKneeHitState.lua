@@ -39,7 +39,7 @@ function PlayerKneeHitState:update(dt)
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.entities) do
         if math.abs(self.player.z - entity.z) <= 1 and entity:collides(self.kneeHitHitbox) and not entity.invulnerable and not entity.dead then
-            entity:damage(1.5)
+            entity:damage(15)
             entity:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()
@@ -56,7 +56,7 @@ function PlayerKneeHitState:update(dt)
     end
     if self.boss ~=nil then
         if math.abs(self.player.z - self.boss.z) <= 1 and self.boss:collides(self.kneeHitHitbox) and not self.boss.invulnerable and not self.boss.dead then
-            self.boss:damage(1.5)
+            self.boss:damage(15)
             self.boss:goInvulnerable(ENTITY_INVULNERABILITY_TIME)
             SOUNDS['UOFF']:stop()
             SOUNDS['UOFF']:play()

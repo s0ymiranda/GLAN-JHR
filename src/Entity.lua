@@ -24,8 +24,8 @@ function Entity:init(def)
     self.punching = false
     self.justWalking = false
     -- self.angry = false
-    self.prevHealth = 3
-    self.maxHealth = def.health or 6
+    self.prevHealth = 30
+    self.maxHealth = def.health or 60
 
     self.leftLimit = 0
     self.rightLimit = MAP_WIDTH

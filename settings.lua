@@ -354,10 +354,10 @@ FONTS = {
 }
 
 SOUNDS = {
-    ['start-music'] = love.audio.newSource('sounds/blood_of_villain.mp3', 'static'),
-    ['scenary-music'] = love.audio.newSource('sounds/scenary_music.mp3', 'static'),
+    ['start-music'] = love.audio.newSource('sounds/rock_club.mp3', 'static'),
+    ['scenary-music'] = love.audio.newSource('sounds/river_city_ransom.mp3', 'static'),
     ['game-over-music'] = love.audio.newSource('sounds/hollow_knight.mp3', 'static'),
-    ['win-music'] = love.audio.newSource('sounds/win_music.mp3', 'static'),
+    ['win-music'] = love.audio.newSource('sounds/this_is_the_end.mp3', 'static'),
     ['UOFF'] = love.audio.newSource('sounds/UOFF.mp3', 'static'),
     ['hero-damage'] = love.audio.newSource('sounds/hero_damage.wav', 'static'),
     ['dead'] = love.audio.newSource('sounds/dead.mp3', 'static'),
@@ -370,6 +370,6 @@ SOUNDS = {
     ['boss_music'] = love.audio.newSource('sounds/the_dark_one.mp3', 'static'),
     ['end_day_music'] = love.audio.newSource('sounds/end_day_music.mp3', 'static'),
     ['bus'] = love.audio.newSource('sounds/bus.mp3', 'static'),
-    ['pause'] = love.audio.newSource('sounds/rock_club.mp3', 'static'),
+    ['pause'] = love.audio.newSource('sounds/pause.mp3', 'static'),
     ['spank'] = love.audio.newSource('sounds/spank.mp3', 'static')
 }
