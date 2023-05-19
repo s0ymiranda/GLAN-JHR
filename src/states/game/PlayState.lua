@@ -50,7 +50,11 @@ function PlayState:enter(def)
         playerParams = {
             heldObject = def.player.stateMachine.current.heldObject,
         }
-        self.player.direction = def.player.direction
+        if string.match(def.player.direction, 'left') then
+            self.player.direction = 'left'
+        else
+            self.player.direction = 'right'
+        end
     end
 
     self.heldObjects = {}
@@ -89,7 +93,11 @@ function PlayState:enter(def)
             player2Params = {
                 heldObject = def.player2.stateMachine.current.heldObject,
             }
-            self.player2.direction = def.player2.direction
+            if string.match(def.player2.direction, 'left') then
+                self.player2.direction = 'left'
+            else
+                self.player2.direction = 'right'
+            end
         end
         self.heldObjectsPlayer2 = {}
         self.projectilesPlayer2 = {}

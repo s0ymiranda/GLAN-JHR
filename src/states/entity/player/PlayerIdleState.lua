@@ -141,6 +141,18 @@ function PlayerIdleState:update(dt, params)
             local objects = params.objects
             local entityX = self.entity.x + self.entity.width / 2
             local entityY = self.entity.y + self.entity.height
+
+            local nilObjectsPositions = {}
+            for k, v in pairs(objects) do
+                if not v then
+                    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIL OBJECT")
+                    print(k, v)
+                    table.insert(nilObjectsPositions, k)
+                end
+            end
+            for _, v in pairs(nilObjectsPositions) do
+                table.remove(objects, v)
+            end
             table.sort(objects, function(a, b)
                 if not a.takeable then
                     return false
