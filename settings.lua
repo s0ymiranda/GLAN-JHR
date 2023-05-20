@@ -98,16 +98,22 @@ else
     joystick = false
 end
 
+-- Scenary Constans
 NUMBER_OF_BARRELS = 10
 
 VIRTUAL_WIDTH = 576
 VIRTUAL_HEIGHT = 324
+
+MAP_WIDTH = VIRTUAL_WIDTH*8
+MAP_HEIGHT = VIRTUAL_HEIGHT
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
 GAME_TITLE = 'Jitsugyouka: Home Road'
 TILE_SIZE = 16
+
+--General constans
 
 SMALL_FIRST_AID_KIT_DROP_PROBABILITY = 0.9
 GRAVITY = 500
@@ -125,15 +131,15 @@ CATCALLING_MESSAGES = {
     "What's your hurry, babe?",
     "*Wolf whistle*",
     "If you were mine, I'd stop smoking pot and I'd start to sell it just to spoil you baby",
+    "Give a piece of that cake",
 }
 
 HELP_MESSAGES = {
-    "Here you are",
     "Take! Over here!",
     "This might help you out",
     "I hope this helps",
     "Try this",
-    "I'm leaving this here for ya",
+    "I'm leaving this in here for you",
 }
 
 REGULAR_MESSAGES = {
@@ -142,6 +148,7 @@ REGULAR_MESSAGES = {
     "Excuse me, I'm getting late",
     "Sup",
     "I wanna eat a hamburger",
+    "What a beatiful evening",
 }
 
 WRONG_PERSON_MESSAGES = {
@@ -152,7 +159,8 @@ WRONG_PERSON_MESSAGES = {
     "Get away from me!",
     "Help!",
     "Leave me alone!",
-    "WTF! You crazy woman!"
+    "WTF! You are crazy",
+    "Don't hit me!",
 }
 
 WEEK_DAYS = {
@@ -163,10 +171,7 @@ WEEK_DAYS = {
     'Friday',
 }
 
--- map constants
 
-MAP_WIDTH = VIRTUAL_WIDTH*8
-MAP_HEIGHT = VIRTUAL_HEIGHT
 
 TEXTURES = {
     --Cursor
