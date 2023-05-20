@@ -44,6 +44,9 @@ Developers:
 - [**L**uis](https://github.com/DonLarry)
 - [**An**drea](https://github.com/s0ymiranda)
 
+Character Design:
+- Andrea
+
 Art:
 - The developers (mostly Andrea)
 - [Ansimuz's Streets of Fight assets pack](https://ansimuz.itch.io/streets-of-fight)
