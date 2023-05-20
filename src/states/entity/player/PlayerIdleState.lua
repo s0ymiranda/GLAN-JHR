@@ -48,11 +48,11 @@ function PlayerIdleState:update(dt, params)
             end
             -- return
         end
-        if joystick:isGamepadDown('a') then
+        if joystick:isGamepadDown('a') and not self.heldObject then
             self.entity:changeState('slap')
-        elseif joystick:isGamepadDown('x') then
+        elseif joystick:isGamepadDown('x') and not self.heldObject then
             self.entity:changeState('knee-hit')
-        elseif joystick:isGamepadDown('rightshoulder') then
+        elseif joystick:isGamepadDown('rightshoulder') and not self.heldObject then
             self.entity:changeState('dodge')
         elseif joystick:isGamepadDown('leftshoulder') then
             if #params.objects == 0 then
