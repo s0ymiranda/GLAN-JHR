@@ -1,7 +1,7 @@
 require 'settings'
 
 function love.load()
-    if DEBUG then
+    if SHOW_STDOUT then
         print()
         print("GAME RUNNING")
     end

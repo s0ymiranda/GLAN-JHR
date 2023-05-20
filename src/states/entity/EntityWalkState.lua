@@ -150,6 +150,21 @@ end
 function EntityWalkState:processAIFighting(params,dt)
     -- TODO: add punches
     local entity = self.entity
+
+    local entityBottom = {
+        x = entity.x,
+        y = entity.y + entity.height - 2,
+        width = entity.width,
+    }
+    if entity.obstacle then
+        local obstacleBottom = entity.obstacle.getBottom(entity.obstacle)
+        if entity.obstacle.solid and BottomCollision(entityBottom, obstacleBottom, entity.obstacle.bottomCollisionDistance) then
+            return
+        end
+        entity.obstacle = nil
+    end
+
+
     local playState = params.PlayState
     local distance = math.sqrt((entity.x - playState.player.x)^2 + (entity.y - playState.player.y)^2)
     local distance2 = distance
@@ -192,18 +207,48 @@ function EntityWalkState:processAIFighting(params,dt)
 
         self.moveDuration = math.random(5)
 
+        -- if playState.player.x + playState.player.width < entity.x and math.abs(playState.player.z - entity.z) <= 1 then
+        --     entity.direction = "left"
+        -- elseif playState.player.x > entity.x + entity.width and math.abs(playState.player.z - entity.z) <= 1 then
+        --     entity.direction = "right"
+        -- elseif playState.player.x + playState.player.width < entity.x and entity.z+1 < playState.player.z then
+        --     entity.direction = "down-left"
+        -- elseif playState.player.x + playState.player.width < entity.x and entity.z-1 > playState.player.z then
+        --     entity.direction = "up-left"
+        -- elseif playState.player.x > entity.x + entity.width and entity.z+1 < playState.player.z then
+        --     entity.direction = "down-right"
+        -- elseif playState.player.x > entity.x + entity.width and entity.z-1 > playState.player.z then
+        --     entity.direction = "up-right"
+        -- end
+
+        for _, obj in pairs(self.objects) do
+            local objBottom = obj.getBottom(obj)
+            if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
+                entity.obstacle = obj
+                if string.match(entity.direction, 'right') then
+                    entity.direction = 'right'
+                    self.prevDirection = 'right'
+                else
+                    entity.direction = 'left'
+                    self.prevDirection = 'left'
+                end
+                entity:changeAnimation('walk-' .. entity.direction)
+                goto processAIFightingEnd
+            end
+        end
+
         if self.objetive.x + self.objetive.width < entity.x and math.abs(self.objetive.z - entity.z) <= 1 then
-            entity.direction = "left"
+            entity.direction = 'left'
         elseif self.objetive.x > entity.x + entity.width and math.abs(self.objetive.z - entity.z) <= 1 then
-            entity.direction = "right"
+            entity.direction = 'right'
         elseif self.objetive.x + self.objetive.width < entity.x and entity.z+1 < self.objetive.z then
-            entity.direction = "down-left"
+            entity.direction = 'down-left'
         elseif self.objetive.x + self.objetive.width < entity.x and entity.z-1 > self.objetive.z then
-            entity.direction = "up-left"
+            entity.direction = 'up-left'
         elseif self.objetive.x > entity.x + entity.width and entity.z+1 < self.objetive.z then
-            entity.direction = "down-right"
+            entity.direction = 'down-right'
         elseif self.objetive.x > entity.x + entity.width and entity.z-1 > self.objetive.z then
-            entity.direction = "up-right"
+            entity.direction = 'up-right'
         end
 
         local a,b = string.find(entity.direction,'left')
@@ -233,6 +278,7 @@ function EntityWalkState:processAIFighting(params,dt)
         })
         return
     end
+    ::processAIFightingEnd::
 end
 
 function EntityWalkState:render()
@@ -245,7 +291,7 @@ function EntityWalkState:render()
         if entity.displayDialog then
             entity.dialog:render()
         end
-    elseif DEBUG then
+    elseif SHOW_STDOUT then
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> anim is nil")
         for k, v in pairs(entity) do
             print(k, v)

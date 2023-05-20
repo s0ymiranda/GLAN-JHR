@@ -6,6 +6,8 @@ function PauseState:enter(def)
     self.camera = def.camera
     self.entities = def.entities
     self.objects = def.objects
+    self.projectiles = def.projectiles
+    self.signs = def.signs
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.twoPlayers = def.twoPlayers
@@ -28,6 +30,8 @@ function PauseState:enter(def)
                         entities = self.entities,
                         cinematicDone = true,
                         objects = self.objects,
+                        projectiles = self.projectiles,
+                        signs = self.signs,
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
@@ -54,7 +58,6 @@ function PauseState:enter(def)
 
     self.pauseMenu.panel:toggle()
 
-    -- SOUNDS['pause']:setLooping(true)
     SOUNDS['pause']:stop()
     SOUNDS['pause']:play()
     SOUNDS[self.music]:setVolume(0.5)
@@ -65,47 +68,14 @@ function PauseState:exit()
     SOUNDS['pause']:stop()
     SOUNDS['pause']:play()
     SOUNDS[self.music]:setVolume(1)
-    -- SOUNDS[self.music]:play()
 end
 
 function PauseState:update(dt)
-    -- if love.keyboard.wasPressed('p') then
-    --     stateMachine:change('play',{
-    --         player = self.player,
-    --         camera = self.camera,
-    --         entities = self.entities,
-    --         objects = self.objects,
-    --         dayNumber = self.dayNumber,
-    --         twoPlayers = self.twoPlayers,
-    --         player2 = self.player2,
-    -- })
-    -- end
     self.pauseMenu:update(dt)
-    --For Joystick
-    -- if #joysticks > 0 then
-    --     if joystick:isGamepadDown('start') then
-    --         self.controllerButtoms.start = true
-    --     elseif self.controllerButtoms.start then
-    --         stateMachine:change('play',{
-    --             player = self.player,
-    --             camera = self.camera,
-    --             entities = self.entities,
-    --             objects = self.objects,
-    --             twoPlayers = self.twoPlayers,
-    --             player2 = self.player2,
-    --         })
-    --     end
-    -- end
-
 end
 
 function PauseState:render()
-
-    -- love.graphics.draw(TEXTURES['bg-play'], 0, 0, 0,
-    -- VIRTUAL_WIDTH / TEXTURES['bg-play']:getWidth(),
-    -- VIRTUAL_HEIGHT / TEXTURES['bg-play']:getHeight())
     self.camera:set()
-
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
@@ -122,6 +92,12 @@ function PauseState:render()
         end
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
+        end
+        for _, object in pairs(self.projectiles) do
+            table.insert(to_render, object)
+        end
+        for _, sign in pairs(self.signs) do
+            table.insert(to_render, sign)
         end
         if self.boss ~= nil then
             if self.boss.dead then
@@ -141,9 +117,6 @@ function PauseState:render()
         for _, entity in pairs(to_render) do
             entity:render()
         end
-
-        -- self.healthBar:render()
-        -- self.respectBar:render()
 
         love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
         love.graphics.setFont(FONTS['large'])

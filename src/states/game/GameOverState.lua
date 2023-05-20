@@ -2,11 +2,6 @@ GameOverState = Class{__includes = BaseState}
 
 function GameOverState:enter(def)
     SOUNDS['game-over-music']:play()
-    if #joysticks > 0 then
-        self.message = "Press A"
-    else
-        self.message = "Press Enter"
-    end
     self.player = def.player
     self.camera = def.camera
     self.entities = def.entities
@@ -14,8 +9,43 @@ function GameOverState:enter(def)
     self.dayNumber = def.dayNumber
     self.player2 = def.player2
     self.boss = def.boss
+    self.alpha = {a1 = 0, a2 = 0}
+
+    self.canRender = false
+    self.canInput = false
 
     self.controllerButtoms = {a = false, x = false, start = false}
+
+    self.opacity = 0
+    self.r = 0
+    self.g = 0
+    self.b = 0
+    self.time = 3
+
+    Timer.tween(self.time, {
+        [self] = {opacity = 255}
+    })
+    Timer.after(4.5,function()
+        if self.player2 ~= nil then
+            self.player.x = VIRTUAL_WIDTH/2 - self.player.width/2 - 5 - 20
+            self.player.y = VIRTUAL_HEIGHT/2
+            self.player2.x = VIRTUAL_WIDTH/2 - self.player.width/2 - 5 + 20
+            self.player2.y = VIRTUAL_HEIGHT/2
+        else
+            self.player.x = VIRTUAL_WIDTH/2 - self.player.width/2 - 5
+            self.player.y = VIRTUAL_HEIGHT/2
+        end
+        self.canRender = true
+        Timer.tween(self.time, {
+            [self.alpha] = {a1 = 255}
+        })
+        :finish(function()
+            Timer.tween(self.time, {
+                [self.alpha] = {a2 = 255}
+            })
+            Timer.after(self.time, function() self.canInput = true end)
+        end)
+    end)
 end
 
 function GameOverState:exit()
@@ -23,20 +53,21 @@ function GameOverState:exit()
 end
 
 function GameOverState:update(dt)
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        stateMachine:change('start')
-    end
-
 
     self.player:onlyAnimation(dt)
     if self.player2 ~= nil then
         self.player2:onlyAnimation(dt)
     end
 
-    --For Joystick
-    if #joysticks > 0 then
-        if joystick:isGamepadDown('a') then
+    if self.canInput then
+        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
             stateMachine:change('start')
+        end
+        --For Joystick
+        if #joysticks > 0 then
+            if joystick:isGamepadDown('a') then
+                stateMachine:change('start')
+            end
         end
     end
 
@@ -46,22 +77,14 @@ function GameOverState:update(dt)
 end
 
 function GameOverState:render()
-    -- love.graphics.setFont(FONTS['medium'])
-    -- love.graphics.setColor(love.math.colorFromBytes(175, 53, 42, 255))
-    -- love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2 - 48, VIRTUAL_WIDTH, 'center')
-
-    -- love.graphics.setFont(FONTS['small'])
-    -- love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 16, VIRTUAL_WIDTH, 'center')
-    -- love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     self.camera:set()
-
         love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
         local to_render = {self.player}
-        local corpses = {}
         if self.player2 ~= nil then
-            table.insert(to_render, self.player2)
+            table.insert(to_render,self.player2)
         end
+        local corpses = {}
         for _, entity in pairs(self.entities) do
             if entity.dead then
                 table.insert(corpses, entity)
@@ -90,12 +113,23 @@ function GameOverState:render()
         for _, entity in pairs(to_render) do
             entity:render()
         end
-
-        -- self.healthBar:render()
-        -- self.respectBar:render()
-
-        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-        love.graphics.setFont(FONTS['large'])
-        love.graphics.printf("DEFEATED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
     self.camera:unset()
+
+    love.graphics.setColor(love.math.colorFromBytes(self.r, self.g, self.b, self.opacity))
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
+    if self.canRender then
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.alpha.a1))
+        self.player:render()
+        if self.player2 ~= nil then
+            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.alpha.a1))
+            self.player2:render()
+        end
+        love.graphics.setColor(love.math.colorFromBytes(255, 0, 0, self.alpha.a2))
+        love.graphics.setFont(FONTS['large'])
+        love.graphics.printf("DEFEATED", 0, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
+        love.graphics.setFont(FONTS['medium'])
+        love.graphics.printf("Press Enter to Go to the Menu", 0, self.player.y + self.player.height + 25, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    end
 end

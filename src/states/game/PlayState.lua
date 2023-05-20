@@ -9,8 +9,6 @@ function PlayState:init()
     Timer.after(2, function() Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 0}}) end)
     Timer.after(3.5, function() self.textAnimations.alpha.render = false end)
 
-    -- self.camera = Camera {}
-
     -- Key combinations
     self.lctrlPressed = false
     self.rctrlPressed = false
@@ -19,6 +17,7 @@ function PlayState:init()
 end
 
 function PlayState:enter(def)
+
     local isANewDay = def.isANewDay or false
     
     if START_AT_FRIDAY then
@@ -60,10 +59,9 @@ function PlayState:enter(def)
             self.player.direction = 'right'
         end
     end
-    
-    self.heldObjects = {}
-    self.projectiles = {}
-    
+
+    self.projectiles = def.projectiles or {}
+
     self.players = {self.player}
     
     self.player.stateMachine = StateMachine {
@@ -102,8 +100,6 @@ function PlayState:enter(def)
                 self.player2.direction = 'right'
             end
         end
-        self.heldObjectsPlayer2 = {}
-        self.projectilesPlayer2 = {}
         self.player2.playerNum = 2
         self.player.numOfPlayersInGame = 2
         self.player2.numOfPlayersInGame = 2
@@ -187,7 +183,6 @@ function PlayState:enter(def)
         SOUNDS['scenary-music']:play()
     end
 
-
     --GameObjects
 
     --bus and bus sign
@@ -207,11 +202,16 @@ function PlayState:enter(def)
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*5, MAP_HEIGHT-138))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*6, MAP_HEIGHT-138))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*7, MAP_HEIGHT-138))
+
     --signs
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
-    table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+    self.signTimer = 0
+    self.signWaitTimer = 0
+    if not def.signs then
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+    end
     --barrels
     if isANewDay and not def.objects then
         for i = 1, NUMBER_OF_BARRELS, 1 do
@@ -257,138 +257,103 @@ function PlayState:bottom_collision(a, b, y_diff)
     return true
 end
 
+function PlayState:pause()
+    local twoPlayersMode = false
+    if self.player2 ~= nil then
+        twoPlayersMode = true
+    end
+    local musicTitle = 'scenary-music'
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            musicTitle = 'boss_music'
+        end
+    end
+    stateMachine:change('pause',{
+        player = self.player,
+        camera = self.camera,
+        entities = self.entities,
+        objects = self.objects,
+        projectiles = self.projectiles,
+        signs = self.signs,
+        dayNumber = self.dayNumber,
+        player2 = self.player2,
+        twoPlayers = twoPlayersMode,
+        boss = self.boss,
+        music = musicTitle,
+    })
+end
+
+function PlayState:GameOver()
+    for k,e in pairs(self.entities) do
+        if not e.dead then
+            local a,b = string.find(e.direction,'left')
+            if a == nil or b == nil then
+                e.direction = 'right'
+            else
+                e.direction = 'left'
+            end
+            e:changeState('idle')
+        end
+    end
+    self.player.dead = true
+    self.player.stateMachine.current.heldObject = nil
+    self.player:changeAnimation('falling')
+    if self.player2 ~= nil then
+        self.player2.dead = true
+        self.player2.stateMachine.current.heldObject = nil
+        self.player2:changeAnimation('falling')
+    end
+    Timer.after(0.4,function()
+        self.player.y = self.player.y + 15
+        self.player:changeAnimation('defeated')
+        if self.player2 ~= nil then
+            self.player2.y = self.player2.y + 15
+            self.player2:changeAnimation('defeated')
+        end
+    end)
+    stateMachine:change('game-over',{
+        player = self.player,
+        camera = self.camera,
+        entities = self.entities,
+        objects = self.objects,
+        dayNumber = self.dayNumber,
+        player2 = self.player2,
+        boss = self.boss,
+    })
+end
+
 function PlayState:update(dt)
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
+
     if #joysticks > 0 then
         if joystick:isGamepadDown('start') then
             self.controllerButtoms.start = true
         elseif self.controllerButtoms.start then
-            local twoPlayersMode = false
-            if self.player2 ~= nil then
-                twoPlayersMode = true
-            end
-            local musicTitle = 'scenary-music'
-            if self.boss ~= nil then
-                if self.boss.fighting then
-                    musicTitle = 'boss_music'
-                end
-            end
-            stateMachine:change('pause',{
-                player = self.player,
-                camera = self.camera,
-                entities = self.entities,
-                objects = self.objects,
-                dayNumber = self.dayNumber,
-                player2 = self.player2,
-                twoPlayers = twoPlayersMode,
-                boss = self.boss,
-                music = musicTitle,
-            })
+            self:pause()
         end
     end
     if love.keyboard.wasPressed('p') then
-        local twoPlayersMode = false
-        if self.player2 ~= nil then
-            twoPlayersMode = true
-        end
-        local musicTitle = 'scenary-music'
-        if self.boss ~= nil then
-            if self.boss.fighting then
-                musicTitle = 'boss_music'
-            end
-        end
-        stateMachine:change('pause',{
-            player = self.player,
-            camera = self.camera,
-            entities = self.entities,
-            objects = self.objects,
-            dayNumber = self.dayNumber,
-            player2 = self.player2,
-            twoPlayers = twoPlayersMode,
-            boss = self.boss,
-            music = musicTitle,
-        })
+        self:pause()
     end
+
     if self.player.health <= 0 or self.player.respect <= 0 then
-        for k,e in pairs(self.entities) do
-            if not e.dead then
-                local a,b = string.find(e.direction,'left')
-                if a == nil or b == nil then
-                    e.direction = 'right'
-                else
-                    e.direction = 'left'
-                end
-                e:changeState('idle')
-            end
-        end
-        self.player.dead = true
-        self.player.stateMachine.current.heldObject = nil
-        self.player:changeAnimation('falling')
-        if self.player2 ~= nil then
-            self.player2.dead = true
-            self.player2.stateMachine.current.heldObject = nil
-            self.player2:changeAnimation('falling')
-        end
-        Timer.after(0.4,function()
-            self.player.y = self.player.y + 15
-            self.player:changeAnimation('defeated')
-            if self.player2 ~= nil then
-                self.player2.y = self.player2.y + 15
-                self.player2:changeAnimation('defeated')
-            end
-        end)
-        stateMachine:change('game-over',{
-            player = self.player,
-            camera = self.camera,
-            entities = self.entities,
-            objects = self.objects,
-            dayNumber = self.dayNumber,
-            player2 = self.player2,
-            boss = self.boss,
-        })
+        self:GameOver()
     elseif self.player2 ~= nil then
         if self.player2.health <= 0 then
-            for k,e in pairs(self.entities) do
-                if not e.dead then
-                    local a,b = string.find(e.direction,'left')
-                    if a == nil or b == nil then
-                        e.direction = 'right'
-                    else
-                        e.direction = 'left'
-                    end
-                    e:changeState('idle')
-                end
-            end
-            self.player.dead = true
-            self.player:changeAnimation('falling')
-
-            self.player2.dead = true
-            self.player2:changeAnimation('falling')
-
-            Timer.after(0.4,function()
-                self.player.y = self.player.y + 15
-                self.player:changeAnimation('defeated')
-
-                self.player2.y = self.player2.y + 15
-                self.player2:changeAnimation('defeated')
-
-            end)
-            stateMachine:change('game-over',{
-                player = self.player,
-                camera = self.camera,
-                entities = self.entities,
-                objects = self.objects,
-                dayNumber = self.dayNumber,
-                player2 = self.player2,
-            })
+            self:GameOver()
         end
     end
-    if DEBUG then
+    if ALLOW_CHEATS then
         -- Ctrl + E: generate entity
         if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
             self:generateWalkingEntity()
+        end
+
+        if love.keyboard.wasPressed('b') then
+            self:GameOver()
         end
 
         -- Ctrl + H: generate first-aid-kit
@@ -413,8 +378,6 @@ function PlayState:update(dt)
             if self.dayNumber == 5 then
                 stateMachine:change('win')
             else
-                -- self.player.afterFighting = false
-                -- self.player.fighting = false
                 local twoPlayersMode = false
                 if self.player2 ~= nil then
                     twoPlayersMode = true
@@ -446,16 +409,35 @@ function PlayState:update(dt)
 
     self.spawnTimer = self.spawnTimer + dt
 
-    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) then
+    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) and not DISABLE_AUTOMATIC_ENTITY_SPAWN then
         self:generateWalkingEntity()
         self.spawnCooldown = 0
         self.spawnTimer = 0
     end
-    for k, signs in pairs(self.signs) do
-        if signs.state == 'off' then
-            signs.state = 'on'
+
+    self.signTimer = self.signTimer + dt
+
+    if self.signWaitTimer == 0 then
+        self.signTimer = 0
+        if self.signs[1].state == 'on' then
+            self.signWaitTimer = 0.2
         else
-            signs.state = 'off'
+            ::again::
+            self.signWaitTimer = math.random()*10
+            if self.signWaitTimer > 3 then
+                goto again
+            end
+        end
+    end
+
+    for k, signs in pairs(self.signs) do
+        if self.signTimer >= self.signWaitTimer then
+            self.signWaitTimer = 0
+            if signs.state == 'off' then
+                signs.state = 'on'
+            else
+                signs.state = 'off'
+            end
         end
     end
 
@@ -521,9 +503,6 @@ function PlayState:update(dt)
         self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
         self.player2.leftLimit = self.camera.x
         self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
-        -- self.healthBar2:setValue(self.player2.health)
-        -- self.healthBar2:setPosition(math.floor(self.camera.x + VIRTUAL_WIDTH - 74), 10)
-        -- self.healthBar2:update()
     end
 
     local enemyFighting = false
@@ -601,7 +580,6 @@ function PlayState:update(dt)
                 self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
             else
                 self.player.respect = self.player.respect - 10
-                -- self.player.innocent_beaten = self.player.innocent_beaten + 1
             end
         end
         if entity.health <= 0 and not entity.dead then
@@ -609,7 +587,6 @@ function PlayState:update(dt)
             if entity.pervert then
                 if self.player.respect < 100 then
                     self.player.respect = self.player.respect + 5
-                    -- self.player.perverts_defeated = self.player.perverts_defeated + 1
                 end
             else
                 self.player.respect = self.player.respect - 5
@@ -722,9 +699,6 @@ function PlayState:render()
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
         end
-        for _, object in pairs(self.heldObjects) do
-            table.insert(to_render, object)
-        end
         for _, object in pairs(self.projectiles) do
             table.insert(to_render, object)
         end
@@ -833,7 +807,6 @@ function PlayState:generateBoss()
         height = 84,
 
         health = 1000,
-
     }
 
     boss.stateMachine = StateMachine {
