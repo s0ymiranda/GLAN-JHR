@@ -405,7 +405,7 @@ FONTS = {
 }
 
 SOUNDS = {
-    ['start-music'] = love.audio.newSource('sounds/rock_club.mp3', 'static'),
+    ['start-music'] = love.audio.newSource('sounds/teenage_mutant_ninja_turtles.mp3', 'static'),
     ['scenary-music'] = love.audio.newSource('sounds/river_city_ransom.mp3', 'static'),
     ['game-over-music'] = love.audio.newSource('sounds/hollow_knight.mp3', 'static'),
     ['win-music'] = love.audio.newSource('sounds/this_is_the_end.mp3', 'static'),
