@@ -10,6 +10,19 @@ This is the repository of a game made as a project for the video games course at
 
 ## How to play
 
+### Playability 
+-Health bar, respect bar (if you lose all your health or respect, you will lose the game).
+
+- Attacks: Slap, knee, pick up and throw barrels.
+
+- Dodge.
+
+- You have to spot the creepy guys and beat them. If you ignore them, you’ll lose respect. But be careful because not anyone is a creep, and even some might help you(if you atack someone that is not a pervert, you'll lose respect).
+
+- The goal is to reach the end of the map.
+
+- You gotta overpass 5 Days (Monday to Friday)
+
 ### Controls
 
 #### 1 Player
