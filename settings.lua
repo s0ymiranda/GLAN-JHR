@@ -147,7 +147,7 @@ REGULAR_MESSAGES = {
     "Good night",
     "Excuse me, I'm getting late",
     "Sup",
-    "I wanna eat an hamburger",
+    "I wanna eat a hamburger",
     "What a beatiful evening",
 }
 
