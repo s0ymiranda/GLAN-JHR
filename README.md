@@ -50,10 +50,20 @@ Character Design:
 Art:
 - The developers (mostly Andrea)
 - [Ansimuz's Streets of Fight assets pack](https://ansimuz.itch.io/streets-of-fight)
+- [Main Character Inspiration - Zheirk](https://pin.it/418dhuV)
 
 Music:
 - [Teenage Mutant Ninja Turtles 2 - The Arcade Game (NES) Music - Scene 7](https://www.youtube.com/watch?v=BfTrejmnbYo)
-- [This Is the End · Anamanaguchi](https://www.youtube.com/watch?v=09m93Fm36bc)
-- [The Dark One · Anamanaguchi](https://youtu.be/TNfItV62gD8)
+- [This Is the End - Anamanaguchi](https://www.youtube.com/watch?v=09m93Fm36bc)
+- [The Dark One - Anamanaguchi](https://youtu.be/TNfItV62gD8)
 - [Hollow Knight - Christopher Larkin](https://youtu.be/r6PuACnHkNY)
 - [Prologue - River City Ransom - Dino Lionetti](https://youtu.be/d7GiSzUaibg)
+
+SFX:
+- [Super Dialogue Audio Pack - Dillon Becker](https://dillonbecker.itch.io/sdap)
+- [Barrels 1](https://youtu.be/OHKu180Sl9Q)
+- [Barrels 2](https://youtu.be/AFdKD3DCbLo)
+- [Pause](https://youtu.be/8rhFkhtaC0A)
+- [Enemy Hurt - Minecraft Steve OOF Sound Effect - Mojang](https://youtu.be/9iMDchSHfy4)
+- [Enemy Fall - Minecraft Fall Damage Sound Effect - Mojang](https://youtu.be/Lc6lJ5O4_Ls)
+- [Spanking](https://youtu.be/FSwQxbh_xIs)
