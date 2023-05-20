@@ -2,11 +2,6 @@ GameOverState = Class{__includes = BaseState}
 
 function GameOverState:enter(def)
     SOUNDS['game-over-music']:play()
-    if #joysticks > 0 then
-        self.message = "Press A"
-    else
-        self.message = "Press Enter"
-    end
     self.player = def.player
     self.camera = def.camera
     self.entities = def.entities
@@ -76,9 +71,9 @@ function GameOverState:update(dt)
         end
     end
 
-    -- if love.keyboard.wasPressed('escape') then
-    --     love.event.quit()
-    -- end
+    if love.keyboard.wasPressed('escape') then
+        love.event.quit()
+    end
 end
 
 function GameOverState:render()
@@ -137,6 +132,4 @@ function GameOverState:render()
         love.graphics.printf("Press Enter to Go to the Menu", 0, self.player.y + self.player.height + 25, VIRTUAL_WIDTH, 'center')
         love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
     end
-
-
 end

@@ -9,8 +9,6 @@ function PlayState:init()
     Timer.after(2, function() Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 0}}) end)
     Timer.after(3.5, function() self.textAnimations.alpha.render = false end)
 
-    -- self.camera = Camera {}
-
     -- Key combinations
     self.lctrlPressed = false
     self.rctrlPressed = false
@@ -19,6 +17,7 @@ function PlayState:init()
 end
 
 function PlayState:enter(def)
+
     local isANewDay = def.isANewDay or false
 
     if START_AT_FRIDAY then

@@ -1,6 +1,7 @@
 StartState = Class{__includes = BaseState}
 
 function StartState:init()
+
     SOUNDS['scenary-music']:stop()
     SOUNDS['start-music']:setLooping(true)
     SOUNDS['start-music']:play()
@@ -10,7 +11,6 @@ function StartState:init()
     self.cloud2_x = 0
 
     if #joysticks > 0 then
-        -- self.message = "Press Start"
         self.startMenu = Menu {
             x = VIRTUAL_WIDTH/2 - 64,
             y = VIRTUAL_HEIGHT/2 + 50,
@@ -39,7 +39,6 @@ function StartState:init()
             }
         }
     else
-        -- self.message = "Press Enter"
         self.startMenu = Menu {
             x = VIRTUAL_WIDTH/2 - 64,
             y = VIRTUAL_HEIGHT/2 + 50,
@@ -62,8 +61,7 @@ function StartState:init()
             }
         }
     end
-    -- table.insert(self.background, GameObject(GAME_OBJECT_DEFS['cloud1'],1280, ))
-    -- table.insert(self.background, GameObject(GAME_OBJECT_DEFS['estructure1'],1000,0))
+
     self.startMenu.panel:toggle()
 
     self.timer = 0
@@ -74,59 +72,40 @@ function StartState:exit()
 end
 
 function StartState:update(dt)
-    -- self.cloud1_x = self.cloud1_x + dt*2
-    -- self.cloud2_x = self.cloud2_x + dt*4
+
     self.timer = self.timer + dt
     if self.timer >= 0.05 then
         self.timer = 0
         self.cloud1_x = self.cloud1_x + 0.04
         self.cloud2_x = self.cloud2_x + 0.08
     end
-    -- self.cloud1_x = math.abs(self.cloud1_x + dt*2)
-    -- self.cloud2_x = math.abs(self.cloud2_x + dt*4)
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
 
     --For Joystick
     if #joysticks > 0 then
-        -- if not joystick:isConnected() then
-        --     self.startMenu.selection.items ={
-        --         {
-        --             text = 'One Player',
-        --             onSelect = function()
-        --                 stateMachine:change('play',{isANewDay = true})
-        --             end
-        --         },
-        --         {
-        --             text = 'Exit Game',
-        --             onSelect = function()
-        --                 love.event.quit()
-        --             end
-        --         }
-        --     }
-        -- else
-            self.startMenu.selection.items ={
-                {
-                    text = 'One Player',
-                    onSelect = function()
-                        stateMachine:change('play',{isANewDay = true})
-                    end
-                },
-                {
-                    text = 'Two Players',
-                    onSelect = function()
-                        stateMachine:change('play',{twoPlayers = true, isANewDay = true})
-                    end
-                },
-                {
-                    text = 'Exit Game',
-                    onSelect = function()
-                        love.event.quit()
-                    end
-                }
+        self.startMenu.selection.items ={
+            {
+                text = 'One Player',
+                onSelect = function()
+                    stateMachine:change('play',{isANewDay = true})
+                end
+            },
+            {
+                text = 'Two Players',
+                onSelect = function()
+                    stateMachine:change('play',{twoPlayers = true, isANewDay = true})
+                end
+            },
+            {
+                text = 'Exit Game',
+                onSelect = function()
+                    love.event.quit()
+                end
             }
-        -- end
+        }
     else
         joysticks = love.joystick.getJoysticks()
         if #joysticks > 0 then
@@ -187,8 +166,6 @@ function StartState:render()
     love.graphics.printf(GAME_TITLE, 0, VIRTUAL_HEIGHT / 2 - 32, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-    -- love.graphics.setFont(FONTS['small'])
-    -- love.graphics.printf(self.message, 0, VIRTUAL_HEIGHT / 2 + 64, VIRTUAL_WIDTH, 'center')
 
     self.startMenu:render()
 end
