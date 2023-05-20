@@ -51,3 +51,6 @@ Art:
 Music:
 - [Teenage Mutant Ninja Turtles 2 - The Arcade Game (NES) Music - Scene 7](https://www.youtube.com/watch?v=BfTrejmnbYo)
 - [This Is the End · Anamanaguchi](https://www.youtube.com/watch?v=09m93Fm36bc)
+- [The Dark One · Anamanaguchi](https://youtu.be/TNfItV62gD8)
+- [Hollow Knight - Christopher Larkin](https://youtu.be/r6PuACnHkNY)
+- [Prologue - River City Ransom - Dino Lionetti](https://youtu.be/d7GiSzUaibg)
