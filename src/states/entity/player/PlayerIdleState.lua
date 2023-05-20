@@ -113,6 +113,7 @@ function PlayerIdleState:update(dt, params)
                 self.heldObject.ySpeed = 0
                 self.heldObject.gravity = true
                 self.heldObject.floor = self.entity.y + self.entity.height
+                self.heldObject.player = self.entity
                 --self.heldObject.z = self.player.z
                 table.insert(self.projectiles, self.heldObject)
                 self.heldObject = nil

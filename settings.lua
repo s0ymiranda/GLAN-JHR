@@ -52,7 +52,7 @@ require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
 -- Debugging settings
-DEBUG = false
+DEBUG = true
 
 ACTIVATE_ALL_DEBUG_SETTINGS = false
 

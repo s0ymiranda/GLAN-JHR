@@ -323,71 +323,6 @@ function PlayState:GameOver()
 end
 
 function PlayState:update(dt)
-
-    if love.keyboard.wasPressed('escape') then
-        love.event.quit()
-    end
-
-    if #joysticks > 0 then
-        if joystick:isGamepadDown('start') then
-            self.controllerButtoms.start = true
-        elseif self.controllerButtoms.start then
-            self:pause()
-        end
-    end
-    if love.keyboard.wasPressed('p') then
-        self:pause()
-    end
-
-    if self.player.health <= 0 or self.player.respect <= 0 then
-        self:GameOver()
-    elseif self.player2 ~= nil then
-        if self.player2.health <= 0 then
-            self:GameOver()
-        end
-    end
-    if ALLOW_CHEATS then
-        -- Ctrl + E: generate entity
-        if love.keyboard.wasPressed('e') and (self.lctrlPressed or self.rctrlPressed) then
-            self:generateWalkingEntity()
-        end
-
-        if love.keyboard.wasPressed('b') then
-            self:GameOver()
-        end
-
-        -- Ctrl + H: generate first-aid-kit
-        if love.keyboard.wasPressed('h') and (self.lctrlPressed or self.rctrlPressed) then
-            local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
-            table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
-        end
-
-        -- Ctrl + B: generate barrel
-        if love.keyboard.wasPressed('b') and (self.lctrlPressed or self.rctrlPressed) then
-            local barrelDefs = GAME_OBJECT_DEFS['barrel']
-            table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
-        end
-        -- Press o to win
-        if love.keyboard.wasPressed('o') then
-            stateMachine:change('win',{players = self.players})
-        end
-        -- Press r to skip day
-        if love.keyboard.wasPressed('r') then
-            self.player.x = 0
-            self.player.y = VIRTUAL_HEIGHT/2
-            if self.dayNumber == 5 then
-                stateMachine:change('win')
-            else
-                local twoPlayersMode = false
-                if self.player2 ~= nil then
-                    twoPlayersMode = true
-                    self.player2.x = 0
-                    self.player2.y = VIRTUAL_HEIGHT/2 + 55
-                end
-                stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
-            end
-        end
-    end
     -- Left Ctrl pressed and released
     if love.keyboard.wasPressed('lctrl') then
         self.lctrlPressed = true
@@ -401,6 +336,78 @@ function PlayState:update(dt)
     end
     if not love.keyboard.isDown('rctrl') then
         self.rctrlPressed = false
+    end
+
+    if self.lctrlPressed or self.rctrlPressed then
+        -- Ctrl pressed
+        if ALLOW_CHEATS then
+            -- Ctrl + E: generate entity
+            if love.keyboard.wasPressed('e')then
+                self:generateWalkingEntity()
+            end
+            -- Ctrl + H: generate first-aid-kit
+            if love.keyboard.wasPressed('h') then
+                local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
+                table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
+            end
+            -- Ctrl + B: generate barrel
+            if love.keyboard.wasPressed('b') then
+                local barrelDefs = GAME_OBJECT_DEFS['barrel']
+                table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
+            end
+        end
+    else
+        -- Ctrl not pressed
+        if love.keyboard.wasPressed('p') then
+            self:pause()
+        end
+        if ALLOW_CHEATS then
+            -- Press b to lose
+            if love.keyboard.wasPressed('b') then
+                self:GameOver()
+            end
+            -- Press o to win
+            if love.keyboard.wasPressed('o') then
+                stateMachine:change('win', { players = self.players })
+            end
+            -- Press r to skip day
+            if love.keyboard.wasPressed('r') then
+                self.player.x = 0
+                self.player.y = VIRTUAL_HEIGHT/2
+                if self.dayNumber == 5 then
+                    stateMachine:change('win')
+                else
+                    local twoPlayersMode = false
+                    if self.player2 ~= nil then
+                        twoPlayersMode = true
+                        self.player2.x = 0
+                        self.player2.y = VIRTUAL_HEIGHT/2 + 55
+                    end
+                    stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
+                end
+            end
+        end
+    end
+
+    -- Indifferent if Ctrl is pressed
+    if love.keyboard.wasPressed('escape') then
+        love.event.quit()
+    end
+
+    if #joysticks > 0 then
+        if joystick:isGamepadDown('start') then
+            self.controllerButtoms.start = true
+        elseif self.controllerButtoms.start then
+            self:pause()
+        end
+    end
+
+    if self.player.health <= 0 or self.player.respect <= 0 then
+        self:GameOver()
+    elseif self.player2 ~= nil then
+        if self.player2.health <= 0 then
+            self:GameOver()
+        end
     end
 
     if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then

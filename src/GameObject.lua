@@ -80,6 +80,9 @@ function GameObject:hit(entity)
             entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
             entity.displayDialog = true
             entity.dialogElapsedTime = 0
+            self.player.innocent_beaten = self.player.innocent_beaten + 1
+        elseif entity.health <= 0 then
+            self.player.perverts_defeated = self.player.perverts_defeated + 1
         end
         if self.timesHit == 3 then
             local previousHeight = self:getCurrentState().height
