@@ -1,4 +1,4 @@
-PlayerWalkState = Class{__includes = EntityWalkState}
+PlayerWalkState = Class { __includes = EntityWalkState }
 
 function PlayerWalkState:init(player, objects)
     self.entity = player
@@ -18,7 +18,6 @@ function PlayerWalkState:enter(params)
 end
 
 function PlayerWalkState:update(dt)
-
     --For Joystick
     if #joysticks > 0 and (self.entity.numOfPlayersInGame == 1 or self.entity.playerNum == 2) then
         local isJoystickMoving = true
@@ -45,7 +44,7 @@ function PlayerWalkState:update(dt)
             self.usingJoystick = true
         elseif self.entity.playerNum == 2 then
             self.entity.direction = self.prev
-            self.entity:changeState('idle',{heldObject = self.heldObject})
+            self.entity:changeState('idle', { heldObject = self.heldObject })
         end
         if not self.heldObject then
             if (joystick:isGamepadDown('a')) then
@@ -65,23 +64,23 @@ function PlayerWalkState:update(dt)
     end
 
     if self.entity.playerNum == 1 then
-        if love.keyboard.isDown('left','a') then
+        if love.keyboard.isDown('left', 'a') then
             self.entity.direction = 'left'
             self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
             self.prev = 'left'
-        elseif love.keyboard.isDown('right','d') then
+        elseif love.keyboard.isDown('right', 'd') then
             self.entity.direction = 'right'
             self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
             self.prev = 'right'
-        elseif love.keyboard.isDown('up','w') then
+        elseif love.keyboard.isDown('up', 'w') then
             self.entity.direction = 'up-' .. self.prev
             self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
-        elseif love.keyboard.isDown('down','s') then
+        elseif love.keyboard.isDown('down', 's') then
             self.entity.direction = 'down-' .. self.prev
             self.entity:changeAnimation(self.animationPrefix .. self.entity.direction)
         elseif not self.usingJoystick then
             self.entity.direction = self.prev
-            self.entity:changeState('idle', {heldObject = self.heldObject})
+            self.entity:changeState('idle', { heldObject = self.heldObject })
             return
         end
         if not self.heldObject then

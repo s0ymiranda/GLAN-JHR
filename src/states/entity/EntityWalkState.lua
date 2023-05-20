@@ -1,4 +1,4 @@
-EntityWalkState = Class{__includes = BaseState}
+EntityWalkState = Class { __includes = BaseState }
 
 function EntityWalkState:init(entity, objects)
     self.entity = entity
@@ -45,7 +45,6 @@ function EntityWalkState:update(dt)
     if entity.direction == 'left' then
         entity.x = entity.x - entity.walkSpeed * dt
         if entity.x <= entity.leftLimit and not entity.justWalking then
-
             entity.x = entity.leftLimit
             if not entity.justWalking then
                 self.bumped = true
@@ -63,8 +62,8 @@ function EntityWalkState:update(dt)
     elseif entity.direction == 'up-left' or entity.direction == 'up-right' then
         entity.y = entity.y - entity.walkSpeed * dt
 
-        if entity.y <= VIRTUAL_HEIGHT*0.45 - entity.height * 0.45 then
-            entity.y = VIRTUAL_HEIGHT*0.45  - entity.height * 0.45
+        if entity.y <= VIRTUAL_HEIGHT * 0.45 - entity.height * 0.45 then
+            entity.y = VIRTUAL_HEIGHT * 0.45 - entity.height * 0.45
 
             if not entity.justWalking then
                 self.bumped = true
@@ -83,7 +82,7 @@ function EntityWalkState:update(dt)
         end
     end
     if entity.displayDialog then
-        entity.dialog:update(entity.x + entity.width/2, entity.y - 1)
+        entity.dialog:update(entity.x + entity.width / 2, entity.y - 1)
     end
 end
 
@@ -93,16 +92,16 @@ function EntityWalkState:processAI(params, dt)
     local entity = self.entity
 
     if entity.dialogElapsedTime == nil then
-        local distance = math.sqrt((entity.x - playState.player.x)^2 + (entity.y - playState.player.y)^2)
+        local distance = math.sqrt((entity.x - playState.player.x) ^ 2 + (entity.y - playState.player.y) ^ 2)
         local distance2 = distance
         if playState.player2 ~= nil then
-            distance2 = math.sqrt((entity.x - playState.player2.x)^2 + (entity.y - playState.player2.y)^2)
+            distance2 = math.sqrt((entity.x - playState.player2.x) ^ 2 + (entity.y - playState.player2.y) ^ 2)
         end
         if (distance < 150 or distance2 < 150) then
             local message
             if entity.pervert then
                 message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-                entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
                 entity.displayDialog = true
                 entity.dialogElapsedTime = 0
             else
@@ -124,12 +123,12 @@ function EntityWalkState:processAI(params, dt)
                     end
                     local healDefs = GAME_OBJECT_DEFS[healType]
                     table.insert(self.objects, GameObject(healDefs, entity.x, entity.y + entity.height - healDefs.height))
-                    entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                    entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
                     entity.displayDialog = true
                     entity.dialogElapsedTime = 0
                 else
                     message = REGULAR_MESSAGES[math.random(#REGULAR_MESSAGES)]
-                    entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                    entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
                     entity.displayDialog = true
                     entity.dialogElapsedTime = 0
                 end
@@ -147,7 +146,7 @@ function EntityWalkState:processAI(params, dt)
     entity:changeAnimation('walk-' .. tostring(entity.direction))
 end
 
-function EntityWalkState:processAIFighting(params,dt)
+function EntityWalkState:processAIFighting(params, dt)
     -- TODO: add punches
     local entity = self.entity
 
@@ -166,14 +165,14 @@ function EntityWalkState:processAIFighting(params,dt)
 
 
     local playState = params.PlayState
-    local distance = math.sqrt((entity.x - playState.player.x)^2 + (entity.y - playState.player.y)^2)
+    local distance = math.sqrt((entity.x - playState.player.x) ^ 2 + (entity.y - playState.player.y) ^ 2)
     local distance2 = distance
 
     if playState.player2 ~= nil then
-        distance2 = math.sqrt((entity.x - playState.player2.x)^2 + (entity.y - playState.player2.y)^2)
+        distance2 = math.sqrt((entity.x - playState.player2.x) ^ 2 + (entity.y - playState.player2.y) ^ 2)
     end
 
-    if distance < math.random(20,30) or distance2 < math.random(20,30) then
+    if distance < math.random(20, 30) or distance2 < math.random(20, 30) then
         self.bumped = true
     end
 
@@ -192,7 +191,7 @@ function EntityWalkState:processAIFighting(params,dt)
     if entity.dialogElapsedTime == nil then
         if distance < 500 or distance2 < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+            entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
             entity.displayDialog = true
             entity.dialogElapsedTime = 0
         end
@@ -204,7 +203,6 @@ function EntityWalkState:processAIFighting(params,dt)
     end
 
     if not self.bumped then
-
         self.moveDuration = math.random(5)
 
         -- if playState.player.x + playState.player.width < entity.x and math.abs(playState.player.z - entity.z) <= 1 then
@@ -241,17 +239,17 @@ function EntityWalkState:processAIFighting(params,dt)
             entity.direction = 'left'
         elseif self.objetive.x > entity.x + entity.width and math.abs(self.objetive.z - entity.z) <= 1 then
             entity.direction = 'right'
-        elseif self.objetive.x + self.objetive.width < entity.x and entity.z+1 < self.objetive.z then
+        elseif self.objetive.x + self.objetive.width < entity.x and entity.z + 1 < self.objetive.z then
             entity.direction = 'down-left'
-        elseif self.objetive.x + self.objetive.width < entity.x and entity.z-1 > self.objetive.z then
+        elseif self.objetive.x + self.objetive.width < entity.x and entity.z - 1 > self.objetive.z then
             entity.direction = 'up-left'
-        elseif self.objetive.x > entity.x + entity.width and entity.z+1 < self.objetive.z then
+        elseif self.objetive.x > entity.x + entity.width and entity.z + 1 < self.objetive.z then
             entity.direction = 'down-right'
-        elseif self.objetive.x > entity.x + entity.width and entity.z-1 > self.objetive.z then
+        elseif self.objetive.x > entity.x + entity.width and entity.z - 1 > self.objetive.z then
             entity.direction = 'up-right'
         end
 
-        local a,b = string.find(entity.direction,'left')
+        local a, b = string.find(entity.direction, 'left')
         if a == nil or b == nil then
             self.prevDirection = 'right'
         else
@@ -259,9 +257,8 @@ function EntityWalkState:processAIFighting(params,dt)
         end
 
         entity:changeAnimation('walk-' .. tostring(entity.direction))
-
     else
-        local a,b = string.find(entity.direction,'left')
+        local a, b = string.find(entity.direction, 'left')
         if a == nil or b == nil then
             self.prevDirection = 'right'
         else

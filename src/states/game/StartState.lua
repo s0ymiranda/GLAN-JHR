@@ -1,7 +1,6 @@
-StartState = Class{__includes = BaseState}
+StartState = Class { __includes = BaseState }
 
 function StartState:init()
-
     SOUNDS['scenary-music']:stop()
     SOUNDS['start-music']:setLooping(true)
     SOUNDS['start-music']:play()
@@ -12,8 +11,8 @@ function StartState:init()
 
     if #joysticks > 0 then
         self.startMenu = Menu {
-            x = VIRTUAL_WIDTH/2 - 64,
-            y = VIRTUAL_HEIGHT/2 + 50,
+            x = VIRTUAL_WIDTH / 2 - 64,
+            y = VIRTUAL_HEIGHT / 2 + 50,
             width = 128,
             height = 60,
             current_selection = last_selection,
@@ -21,13 +20,13 @@ function StartState:init()
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{isANewDay = true})
+                        stateMachine:change('play', { isANewDay = true })
                     end
                 },
                 {
                     text = 'Two Players',
                     onSelect = function()
-                        stateMachine:change('play',{twoPlayers = true, isANewDay = true})
+                        stateMachine:change('play', { twoPlayers = true, isANewDay = true })
                     end
                 },
                 {
@@ -40,8 +39,8 @@ function StartState:init()
         }
     else
         self.startMenu = Menu {
-            x = VIRTUAL_WIDTH/2 - 64,
-            y = VIRTUAL_HEIGHT/2 + 50,
+            x = VIRTUAL_WIDTH / 2 - 64,
+            y = VIRTUAL_HEIGHT / 2 + 50,
             width = 128,
             height = 60,
             current_selection = last_selection,
@@ -49,7 +48,7 @@ function StartState:init()
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{isANewDay = true})
+                        stateMachine:change('play', { isANewDay = true })
                     end
                 },
                 {
@@ -72,7 +71,6 @@ function StartState:exit()
 end
 
 function StartState:update(dt)
-
     self.timer = self.timer + dt
     if self.timer >= 0.05 then
         self.timer = 0
@@ -86,17 +84,17 @@ function StartState:update(dt)
 
     --For Joystick
     if #joysticks > 0 then
-        self.startMenu.selection.items ={
+        self.startMenu.selection.items = {
             {
                 text = 'One Player',
                 onSelect = function()
-                    stateMachine:change('play',{isANewDay = true})
+                    stateMachine:change('play', { isANewDay = true })
                 end
             },
             {
                 text = 'Two Players',
                 onSelect = function()
-                    stateMachine:change('play',{twoPlayers = true, isANewDay = true})
+                    stateMachine:change('play', { twoPlayers = true, isANewDay = true })
                 end
             },
             {
@@ -110,17 +108,17 @@ function StartState:update(dt)
         joysticks = love.joystick.getJoysticks()
         if #joysticks > 0 then
             joystick = joysticks[1]
-            self.startMenu.selection.items ={
+            self.startMenu.selection.items = {
                 {
                     text = 'One Player',
                     onSelect = function()
-                        stateMachine:change('play',{isANewDay = true})
+                        stateMachine:change('play', { isANewDay = true })
                     end
                 },
                 {
                     text = 'Two Players',
                     onSelect = function()
-                        stateMachine:change('play',{twoPlayers = true, isANewDay = true})
+                        stateMachine:change('play', { twoPlayers = true, isANewDay = true })
                     end
                 },
                 {
@@ -137,24 +135,24 @@ end
 
 function StartState:render()
     love.graphics.draw(TEXTURES['background'], 0, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['background']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['background']:getHeight())
+        VIRTUAL_WIDTH / TEXTURES['background']:getWidth(),
+        VIRTUAL_HEIGHT / TEXTURES['background']:getHeight())
 
     love.graphics.draw(TEXTURES['cloud1'], self.cloud1_x, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['cloud1']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['cloud1']:getHeight())
+        VIRTUAL_WIDTH / TEXTURES['cloud1']:getWidth(),
+        VIRTUAL_HEIGHT / TEXTURES['cloud1']:getHeight())
 
     love.graphics.draw(TEXTURES['estructure1'], 0, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['estructure1']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['estructure1']:getHeight())
+        VIRTUAL_WIDTH / TEXTURES['estructure1']:getWidth(),
+        VIRTUAL_HEIGHT / TEXTURES['estructure1']:getHeight())
 
     love.graphics.draw(TEXTURES['cloud2'], self.cloud2_x, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['cloud2']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['cloud2']:getHeight())
+        VIRTUAL_WIDTH / TEXTURES['cloud2']:getWidth(),
+        VIRTUAL_HEIGHT / TEXTURES['cloud2']:getHeight())
 
     love.graphics.draw(TEXTURES['estructure2'], 0, 0, 0,
-    VIRTUAL_WIDTH / TEXTURES['estructure2']:getWidth(),
-    VIRTUAL_HEIGHT / TEXTURES['estructure2']:getHeight())
+        VIRTUAL_WIDTH / TEXTURES['estructure2']:getWidth(),
+        VIRTUAL_HEIGHT / TEXTURES['estructure2']:getHeight())
 
 
     love.graphics.setFont(FONTS['medium'])

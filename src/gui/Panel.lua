@@ -1,4 +1,4 @@
-Panel = Class{}
+Panel = Class {}
 
 function Panel:init(x, y, width, height)
     self.x = x

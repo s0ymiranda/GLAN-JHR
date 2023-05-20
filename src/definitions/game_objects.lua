@@ -20,7 +20,7 @@ GAME_OBJECT_DEFS = {
         getBottom = function(self)
             return {
                 x = math.floor(self.x),
-                y = math.floor(self.y + 3*self.height/4),
+                y = math.floor(self.y + 3 * self.height / 4),
                 width = self.states[self.state].width or self.width
             }
         end,
@@ -49,7 +49,7 @@ GAME_OBJECT_DEFS = {
         getBottom = function(self)
             return {
                 x = math.floor(self.x),
-                y = math.floor(self.y + 3*self.height/4),
+                y = math.floor(self.y + 3 * self.height / 4),
                 width = self.states[self.state].width or self.width
             }
         end,

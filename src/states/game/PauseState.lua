@@ -1,7 +1,6 @@
-PauseState = Class{__includes = BaseState}
+PauseState = Class { __includes = BaseState }
 
 function PauseState:enter(def)
-
     self.player = def.player
     self.camera = def.camera
     self.entities = def.entities
@@ -13,18 +12,18 @@ function PauseState:enter(def)
     self.twoPlayers = def.twoPlayers
     self.boss = def.boss
 
-    self.controllerButtoms = {a = false, x = false, start = false}
+    self.controllerButtoms = { a = false, x = false, start = false }
     self.pauseMenu = Menu {
-        x = VIRTUAL_WIDTH/2 - 64 -32 + self.camera.x,
-        y = VIRTUAL_HEIGHT/2 + 50,
-        width = 128+64,
+        x = VIRTUAL_WIDTH / 2 - 64 - 32 + self.camera.x,
+        y = VIRTUAL_HEIGHT / 2 + 50,
+        width = 128 + 64,
         height = 60,
         current_selection = last_selection,
         items = {
             {
                 text = 'Resumen Game',
                 onSelect = function()
-                    stateMachine:change('play',{
+                    stateMachine:change('play', {
                         player = self.player,
                         camera = self.camera,
                         entities = self.entities,
@@ -36,7 +35,7 @@ function PauseState:enter(def)
                         twoPlayers = self.twoPlayers,
                         player2 = self.player2,
                         boss = self.boss,
-                })
+                    })
                 end
             },
             {
@@ -76,52 +75,52 @@ end
 
 function PauseState:render()
     self.camera:set()
-        love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
+    love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
-        local to_render = {self.player}
-        local corpses = {}
-        if self.player2 ~= nil then
-            table.insert(to_render, self.player2)
+    local to_render = { self.player }
+    local corpses = {}
+    if self.player2 ~= nil then
+        table.insert(to_render, self.player2)
+    end
+    for _, entity in pairs(self.entities) do
+        if entity.dead then
+            table.insert(corpses, entity)
+        else
+            table.insert(to_render, entity)
         end
-        for _, entity in pairs(self.entities) do
-            if entity.dead then
-                table.insert(corpses, entity)
-            else
-                table.insert(to_render, entity)
-            end
+    end
+    for _, object in pairs(self.objects) do
+        table.insert(to_render, object)
+    end
+    for _, object in pairs(self.projectiles) do
+        table.insert(to_render, object)
+    end
+    for _, sign in pairs(self.signs) do
+        table.insert(to_render, sign)
+    end
+    if self.boss ~= nil then
+        if self.boss.dead then
+            table.insert(corpses, self.boss)
+        else
+            table.insert(to_render, self.boss)
         end
-        for _, object in pairs(self.objects) do
-            table.insert(to_render, object)
-        end
-        for _, object in pairs(self.projectiles) do
-            table.insert(to_render, object)
-        end
-        for _, sign in pairs(self.signs) do
-            table.insert(to_render, sign)
-        end
-        if self.boss ~= nil then
-            if self.boss.dead then
-                table.insert(corpses, self.boss)
-            else
-                table.insert(to_render, self.boss)
-            end
-        end
-        table.sort(to_render, function(a, b)
-            return a.y + a.height < b.y + b.height
-        end)
+    end
+    table.sort(to_render, function(a, b)
+        return a.y + a.height < b.y + b.height
+    end)
 
-        for _, corpse in pairs(corpses) do
-            corpse:render()
-        end
+    for _, corpse in pairs(corpses) do
+        corpse:render()
+    end
 
-        for _, entity in pairs(to_render) do
-            entity:render()
-        end
-        love.graphics.setFont(FONTS['large'])
-        love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, 255))
-        love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
-        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
-        love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3 - 2, VIRTUAL_WIDTH, 'center')
-        self.pauseMenu:render(dt)
+    for _, entity in pairs(to_render) do
+        entity:render()
+    end
+    love.graphics.setFont(FONTS['large'])
+    love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, 255))
+    love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
+    love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+    love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3 - 2, VIRTUAL_WIDTH, 'center')
+    self.pauseMenu:render(dt)
     self.camera:unset()
 end

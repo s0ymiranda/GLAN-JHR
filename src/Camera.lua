@@ -1,4 +1,4 @@
-Camera = Class{}
+Camera = Class {}
 
 function Camera:init()
   self.x = 0

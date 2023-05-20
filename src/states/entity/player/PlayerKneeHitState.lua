@@ -1,6 +1,6 @@
-PlayerKneeHitState = Class{__includes = BaseState}
+PlayerKneeHitState = Class { __includes = BaseState }
 
-function PlayerKneeHitState:init(player,entities,boss)
+function PlayerKneeHitState:init(player, entities, boss)
     self.player = player
     self.entities = entities
     self.boss = boss
@@ -16,13 +16,13 @@ function PlayerKneeHitState:init(player,entities,boss)
         self.player.x = self.player.x - 7
         hitboxWidth = 16
         hitboxHeight = 12
-        hitboxX = self.player.x - hitboxWidth/2 + 7
-        hitboxY = self.player.y + self.player.height/2
+        hitboxX = self.player.x - hitboxWidth / 2 + 7
+        hitboxY = self.player.y + self.player.height / 2
     elseif direction == 'right' then
         hitboxWidth = 16
         hitboxHeight = 12
         hitboxX = self.player.x + hitboxWidth
-        hitboxY = self.player.y + self.player.height/2
+        hitboxY = self.player.y + self.player.height / 2
     end
 
     self.kneeHitHitbox = Hitbox(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
@@ -55,13 +55,13 @@ function PlayerKneeHitState:update(dt)
             self.miss = false
             if not entity.pervert then
                 local message = WRONG_PERSON_MESSAGES[math.random(#WRONG_PERSON_MESSAGES)]
-                entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+                entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
                 entity.displayDialog = true
                 entity.dialogElapsedTime = 0
             end
         end
     end
-    if self.boss ~=nil then
+    if self.boss ~= nil then
         if math.abs(self.player.z - self.boss.z) <= 1 and self.boss:collides(self.kneeHitHitbox) and not self.boss.invulnerable and not self.boss.dead then
             self.boss:damage(15)
             self.boss:goInvulnerable(ENTITY_INVULNERABILITY_TIME)

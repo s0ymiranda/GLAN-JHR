@@ -1,4 +1,4 @@
-EntityIdleState = Class{__includes = BaseState}
+EntityIdleState = Class { __includes = BaseState }
 
 function EntityIdleState:init(entity)
     self.entity = entity
@@ -15,14 +15,14 @@ function EntityIdleState:processAI(params, dt)
     -- TODO: add punches
     local playState = params.PlayState
     if self.dialogElapsedTime == nil then
-        local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+        local distance = math.sqrt((self.entity.x - playState.player.x) ^ 2 + (self.entity.y - playState.player.y) ^ 2)
         local distance2 = distance
         if playState.player2 ~= nil then
-            distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+            distance2 = math.sqrt((self.entity.x - playState.player2.x) ^ 2 + (self.entity.y - playState.player2.y) ^ 2)
         end
         if distance < 500 or distance2 < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
+            self.dialog = Dialog(self.entity.x + self.entity.width / 2, self.entity.y - 1, message)
             self.displayDialog = true
             self.dialogElapsedTime = 0
         end
@@ -33,7 +33,7 @@ function EntityIdleState:processAI(params, dt)
         end
     end
     if self.waitDuration == 0 then
-        self.waitDuration = math.random(math.floor(5*self.entity.pervertFactor))
+        self.waitDuration = math.random(math.floor(5 * self.entity.pervertFactor))
     else
         self.waitTimer = self.waitTimer + dt
 
@@ -67,10 +67,12 @@ function EntityIdleState:processAIFighting(params, dt)
                 self.waitDuration = 0
                 self.entity.punching = false
 
-                local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+                local distance = math.sqrt((self.entity.x - playState.player.x) ^ 2 +
+                (self.entity.y - playState.player.y) ^ 2)
                 local distance2 = distance
                 if playState.player2 ~= nil then
-                    distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+                    distance2 = math.sqrt((self.entity.x - playState.player2.x) ^ 2 +
+                    (self.entity.y - playState.player2.y) ^ 2)
                 end
                 if distance <= distance2 then
                     if self.entity.x <= playState.player.x then

@@ -1,7 +1,6 @@
-Entity = Class{}
+Entity = Class {}
 
 function Entity:init(def)
-
     -- in top-down games, there are four directions instead of two
 
     self.stateMachine = StateMachine(def.states or {})
@@ -12,7 +11,7 @@ function Entity:init(def)
 
     self.pervertFactor = def.pervertFactor or 1
 
-    local random = math.random(math.floor((2/self.pervertFactor)+0.5))
+    local random = math.random(math.floor((2 / self.pervertFactor) + 0.5))
     --print(random)
 
     if random == 1 then
@@ -34,7 +33,7 @@ function Entity:init(def)
     self.x = def.x
     self.y = def.y
     self.z = 0
-    self.z_base = VIRTUAL_HEIGHT*0.55
+    self.z_base = VIRTUAL_HEIGHT * 0.55
     self.width = def.width
     self.height = def.height
 
@@ -69,8 +68,9 @@ end
 
 function Entity:collides(target)
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
-                self.y + self.height < target.y or self.y > target.y + target.height)
+        self.y + self.height < target.y or self.y > target.y + target.height)
 end
+
 function Entity:onlyAnimation(dt)
     self.currentAnimation:update(dt)
 end
@@ -118,7 +118,7 @@ function Entity:update(dt, params)
         self.currentAnimation:update(dt)
     end
 
-    self.z = math.floor(((self.y+self.height)-self.z_base)/10)
+    self.z = math.floor(((self.y + self.height) - self.z_base) / 10)
 end
 
 function Entity:processAI(params, dt)

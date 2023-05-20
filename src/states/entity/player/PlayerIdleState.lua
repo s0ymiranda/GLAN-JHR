@@ -1,4 +1,4 @@
-PlayerIdleState = Class{__includes = EntityIdleState}
+PlayerIdleState = Class { __includes = EntityIdleState }
 
 function PlayerIdleState:init(player, projectiles)
     EntityIdleState.init(self, player)
@@ -29,9 +29,9 @@ function PlayerIdleState:update(dt, params)
 
     --For Joystick
     if #joysticks > 0 and (self.entity.numOfPlayersInGame == 1 or self.entity.playerNum == 2) then
-        if (joystick:isGamepadDown('dpdown','dpup','dpleft','dpright')
-        or math.abs(joystick:getGamepadAxis("leftx")) == 1 or math.abs(joystick:getGamepadAxis("lefty")) == 1)  and not self.entity.afterFigthing  then
-            self.entity:changeState('walk', {heldObject = self.heldObject})
+        if (joystick:isGamepadDown('dpdown', 'dpup', 'dpleft', 'dpright')
+                or math.abs(joystick:getGamepadAxis("leftx")) == 1 or math.abs(joystick:getGamepadAxis("lefty")) == 1) and not self.entity.afterFigthing then
+            self.entity:changeState('walk', { heldObject = self.heldObject })
         end
         if self.heldObject then
             if joystick:isGamepadDown('leftshoulder') then
@@ -73,7 +73,7 @@ function PlayerIdleState:update(dt, params)
                 local bXDist = math.abs(b.x + b.width / 2 - entityX)
                 local aYDist = math.abs(a.y + a.height - entityY)
                 local bYDist = math.abs(b.y + b.height - entityY)
-                return math.sqrt(aXDist^2 + aYDist^2) < math.sqrt(bXDist^2 + bYDist^2)
+                return math.sqrt(aXDist ^ 2 + aYDist ^ 2) < math.sqrt(bXDist ^ 2 + bYDist ^ 2)
             end)
             local closestObject = objects[1]
             if not closestObject.takeable then
@@ -90,7 +90,7 @@ function PlayerIdleState:update(dt, params)
 
             table.remove(objects, 1)
 
-            self.entity:changeState('pick-up', {heldObject = closestObject, playerPreviousState = 'idle'})
+            self.entity:changeState('pick-up', { heldObject = closestObject, playerPreviousState = 'idle' })
             -- objects[k].state = 'damaged'
             -- if takenObject ~= nil  then
             --     table.remove(params.objects, objectIdx)
@@ -102,8 +102,8 @@ function PlayerIdleState:update(dt, params)
         end
     end
     if self.entity.playerNum == 1 then
-        if love.keyboard.isDown('left','a','right','d','up','w','down','s') and not self.entity.afterFigthing then
-            self.entity:changeState('walk', {heldObject = self.heldObject})
+        if love.keyboard.isDown('left', 'a', 'right', 'd', 'up', 'w', 'down', 's') and not self.entity.afterFigthing then
+            self.entity:changeState('walk', { heldObject = self.heldObject })
             return
         end
         if self.heldObject then
@@ -167,7 +167,7 @@ function PlayerIdleState:update(dt, params)
                 local bXDist = math.abs(b.x + b.width / 2 - entityX)
                 local aYDist = math.abs(a.y + a.height - entityY)
                 local bYDist = math.abs(b.y + b.height - entityY)
-                return math.sqrt(aXDist^2 + aYDist^2) < math.sqrt(bXDist^2 + bYDist^2)
+                return math.sqrt(aXDist ^ 2 + aYDist ^ 2) < math.sqrt(bXDist ^ 2 + bYDist ^ 2)
             end)
             local closestObject = objects[1]
             if not closestObject.takeable then
@@ -184,7 +184,7 @@ function PlayerIdleState:update(dt, params)
 
             table.remove(objects, 1)
 
-            self.entity:changeState('pick-up', {heldObject = closestObject, playerPreviousState = 'idle'})
+            self.entity:changeState('pick-up', { heldObject = closestObject, playerPreviousState = 'idle' })
             return
         end
     end

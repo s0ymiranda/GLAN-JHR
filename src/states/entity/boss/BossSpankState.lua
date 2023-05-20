@@ -1,14 +1,14 @@
-BossSpankState = Class{__includes = BaseState}
+BossSpankState = Class { __includes = BaseState }
 
-function BossSpankState:init(entity,players)
+function BossSpankState:init(entity, players)
     self.entity = entity
     self.players = players
     self.miss = true
 
     self.canHit = false
 
-    Timer.after(0.3,function() self.canHit = true end)
-    Timer.after(0.6,function() self.canHit = false end)
+    Timer.after(0.3, function() self.canHit = true end)
+    Timer.after(0.6, function() self.canHit = false end)
     -- create hitbox based on where the entity is and facing
     local direction = self.entity.direction
 
@@ -18,17 +18,17 @@ function BossSpankState:init(entity,players)
         self.entity.x = self.entity.x
         hitboxWidth = 16
         hitboxHeight = 14
-        hitboxX = self.entity.x - hitboxWidth/3
+        hitboxX = self.entity.x - hitboxWidth / 3
         hitboxY = self.entity.y + 45
     elseif direction == 'right' then
         hitboxWidth = 16
         hitboxHeight = 14
-        hitboxX = self.entity.x + self.entity.width/3 + hitboxWidth
+        hitboxX = self.entity.x + self.entity.width / 3 + hitboxWidth
         hitboxY = self.entity.y + 45
     end
 
     self.HandHitbox = Hitbox(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
-    self.entity:changeAnimation('spank-'.. direction)
+    self.entity:changeAnimation('spank-' .. direction)
 end
 
 function BossSpankState:enter(params)

@@ -1,4 +1,4 @@
-BossDeadState = Class{__includes = BaseState}
+BossDeadState = Class { __includes = BaseState }
 
 function BossDeadState:init(entity)
     self.entity = entity
@@ -6,11 +6,11 @@ function BossDeadState:init(entity)
     SOUNDS['boss_music']:stop(true)
     SOUNDS['scenary-music']:play()
     if entity.direction == 'right' then
-        entity.x = entity.x - 75/2
+        entity.x = entity.x - 75 / 2
     end
     entity:changeAnimation('die-' .. entity.direction)
     entity.dead = true
-    Timer.after(0.48,function()
+    Timer.after(0.48, function()
         entity.fighting = false
         entity.y = entity.y + 5
         self.entity:changeAnimation('dead-' .. self.entity.direction)

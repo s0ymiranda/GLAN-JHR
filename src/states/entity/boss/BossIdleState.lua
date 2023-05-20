@@ -1,4 +1,4 @@
-BossIdleState = Class{__includes = EntityIdleState}
+BossIdleState = Class { __includes = EntityIdleState }
 
 function BossIdleState:init(entity)
     self.entity = entity
@@ -16,11 +16,11 @@ end
 
 function BossIdleState:processAI(params, dt)
     local playState = params.PlayState
-    local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+    local distance = math.sqrt((self.entity.x - playState.player.x) ^ 2 + (self.entity.y - playState.player.y) ^ 2)
     local distance2 = distance
 
     if playState.player2 ~= nil then
-        distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+        distance2 = math.sqrt((self.entity.x - playState.player2.x) ^ 2 + (self.entity.y - playState.player2.y) ^ 2)
     end
 
     if distance < 200 or distance2 < 200 then

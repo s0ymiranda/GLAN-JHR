@@ -1,14 +1,14 @@
-EntityPunchState = Class{__includes = BaseState}
+EntityPunchState = Class { __includes = BaseState }
 
-function EntityPunchState:init(entity,players)
+function EntityPunchState:init(entity, players)
     self.players = players
     self.entity = entity
     self.miss = true
 
     self.canHit = false
 
-    Timer.after(0.3,function() self.canHit = true end)
-    Timer.after(0.6,function() self.canHit = false end)
+    Timer.after(0.3, function() self.canHit = true end)
+    Timer.after(0.6, function() self.canHit = false end)
 
     local direction = self.entity.direction
 
@@ -18,7 +18,7 @@ function EntityPunchState:init(entity,players)
         self.entity.x = self.entity.x - 7
         hitboxWidth = 18
         hitboxHeight = 12
-        hitboxX = self.entity.x - hitboxWidth/2 + 7
+        hitboxX = self.entity.x - hitboxWidth / 2 + 7
         hitboxY = self.entity.y + 17
     elseif direction == 'right' then
         self.entity.x = self.entity.x - 3
@@ -49,7 +49,7 @@ function EntityPunchState:update(dt)
             player:goInvulnerable(1.5)
             SOUNDS['hero-damage']:stop()
             SOUNDS['hero-damage']:play()
-            if player.health <= 0  then
+            if player.health <= 0 then
                 SOUNDS['punch-eco']:stop()
                 SOUNDS['punch-eco']:play()
             else

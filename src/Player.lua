@@ -1,4 +1,4 @@
-Player = Class{__includes = Entity}
+Player = Class { __includes = Entity }
 
 function Player:init(def)
     Entity.init(self, def)
@@ -15,7 +15,6 @@ end
 function Player:update(dt, params)
     Entity.update(self, dt, params)
 end
-
 
 function Player:render()
     Entity.render(self)

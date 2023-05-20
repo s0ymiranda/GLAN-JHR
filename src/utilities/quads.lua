@@ -11,8 +11,8 @@ function generateQuads(spriteSheet, tileWidth, tileHeight)
                 love.graphics.newQuad(
                     x * tileWidth, y * tileHeight, tileWidth, tileHeight, spriteSheet:getDimensions()
                 )
-                quadCounter = quadCounter + 1
-            end
+            quadCounter = quadCounter + 1
         end
+    end
     return quads
 end

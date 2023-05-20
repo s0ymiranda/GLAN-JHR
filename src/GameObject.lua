@@ -1,4 +1,4 @@
-GameObject = Class{}
+GameObject = Class {}
 
 function GameObject:init(def, x, y)
     self.type = def.type
@@ -21,19 +21,22 @@ function GameObject:init(def, x, y)
     self.height = def.height
     self.x = x
     self.y = y
-    self.z_base = VIRTUAL_HEIGHT*0.55
-    self.z = math.floor(((self.y+self.height)-self.z_base)/10)
+    self.z_base = VIRTUAL_HEIGHT * 0.55
+    self.z = math.floor(((self.y + self.height) - self.z_base) / 10)
 
     -- default empty collision callback
-    self.onCollide = def.onCollide or function() end
+    self.onCollide = def.onCollide or function()
+    end
 
     -- variable for consumable objects
     self.consumable = def.consumable
 
     -- onConsume function an empty function if it is not specified
-    self.onConsume = def.onConsume or function() end
+    self.onConsume = def.onConsume or function()
+    end
 
-    self.getBottom = def.getBottom or function() end
+    self.getBottom = def.getBottom or function()
+    end
 
     -- an object could be taken or not
     self.takeable = def.takeable
@@ -43,8 +46,8 @@ end
 
 function GameObject:update(dt)
     if self.gravity then
-        self.ySpeed = self.ySpeed + GRAVITY*dt
-        self.y = self.y + self.ySpeed*dt
+        self.ySpeed = self.ySpeed + GRAVITY * dt
+        self.y = self.y + self.ySpeed * dt
     end
     if self.floor and (self.y >= self.floor - self.height) then
         self.y = self.floor - self.height
@@ -53,13 +56,13 @@ function GameObject:update(dt)
         self.gravity = false
     end
     if self.xSpeed and (self.xSpeed ~= 0) then
-        self.x = self.x + self.xSpeed*dt
+        self.x = self.x + self.xSpeed * dt
     end
 end
 
 function GameObject:collides(target)
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
-                self.y + self.height < target.y or self.y > target.y + target.height)
+        self.y + self.height < target.y or self.y > target.y + target.height)
 end
 
 function GameObject:getCurrentState()
@@ -77,7 +80,7 @@ function GameObject:hit(entity)
         self.timesHit = self.timesHit + 1
         if not entity.pervert then
             local message = WRONG_PERSON_MESSAGES[math.random(#WRONG_PERSON_MESSAGES)]
-            entity.dialog = Dialog(entity.x + entity.width/2, entity.y - 1, message)
+            entity.dialog = Dialog(entity.x + entity.width / 2, entity.y - 1, message)
             entity.displayDialog = true
             entity.dialogElapsedTime = 0
             self.player.innocent_beaten = self.player.innocent_beaten + 1
@@ -98,7 +101,7 @@ end
 function GameObject:render()
     local currentState = self:getCurrentState()
     local frames = FRAMES[self.texture]
-    local emptySpaces = currentState.emptySpaces or {0, 0, 0, 0}
+    local emptySpaces = currentState.emptySpaces or { 0, 0, 0, 0 }
     local x = math.floor(self.x - emptySpaces[4])
     local y = math.floor(self.y - emptySpaces[1])
     local width = currentState.width or self.width

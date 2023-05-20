@@ -1,8 +1,8 @@
-EntityDeadState = Class{__includes = BaseState}
+EntityDeadState = Class { __includes = BaseState }
 
 function EntityDeadState:init(entity)
     self.entity = entity
-    local a,b = string.find(self.entity.direction,'left')
+    local a, b = string.find(self.entity.direction, 'left')
     if a == nil or b == nil then
         self.entity.direction = 'right'
     else
@@ -10,12 +10,12 @@ function EntityDeadState:init(entity)
     end
     SOUNDS['dead']:play()
     if entity.direction == 'right' then
-        entity.x = entity.x - 75/2
+        entity.x = entity.x - 75 / 2
     end
     entity:changeAnimation('die-' .. entity.direction)
     entity.dead = true
     entity.stillFalling = true
-    Timer.after(0.48,function()
+    Timer.after(0.48, function()
         entity.fighting = false
         entity.y = entity.y + 5
         self.entity:changeAnimation('dead-' .. self.entity.direction)

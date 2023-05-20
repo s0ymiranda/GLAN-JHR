@@ -1,4 +1,4 @@
-PlayerPickUpState = Class{__includes = BaseState}
+PlayerPickUpState = Class { __includes = BaseState }
 
 function PlayerPickUpState:init(player)
     self.player = player
@@ -17,7 +17,7 @@ end
 
 function PlayerPickUpState:update(dt)
     if self.player.currentAnimation.timesPlayed > 0 then
-        self.player:changeState(self.params.playerPreviousState, {heldObject = self.params.heldObject})
+        self.player:changeState(self.params.playerPreviousState, { heldObject = self.params.heldObject })
         return
     end
 end
@@ -40,25 +40,25 @@ function PlayerPickUpState:render()
                 heldObject.state = 'default-noshadow'
             end
             if player.direction == 'left' then
-                heldObject.x = player.x + 10 - heldObjectState.width/2
+                heldObject.x = player.x + 10 - heldObjectState.width / 2
             else
-                heldObject.x = player.x + 32 - 10 - heldObjectState.width/2
+                heldObject.x = player.x + 32 - 10 - heldObjectState.width / 2
             end
             heldObject.y = math.min(heldObject.y, player.y + 55 - heldObjectState.height / 2)
         end
         if frame == 4 then
             if player.direction == 'left' then
-                heldObject.x = player.x + 14 - heldObjectState.width/2
+                heldObject.x = player.x + 14 - heldObjectState.width / 2
             else
-                heldObject.x = player.x + 32 - 14 - heldObjectState.width/2
+                heldObject.x = player.x + 32 - 14 - heldObjectState.width / 2
             end
             heldObject.y = math.min(heldObject.y, player.y + 41 - heldObjectState.height / 2)
         end
         if frame == 5 then
             if player.direction == 'left' then
-                heldObject.x = player.x + 12 - heldObjectState.width/2
+                heldObject.x = player.x + 12 - heldObjectState.width / 2
             else
-                heldObject.x = player.x + 32 - 12 - heldObjectState.width/2
+                heldObject.x = player.x + 32 - 12 - heldObjectState.width / 2
             end
             heldObject.y = math.min(heldObject.y, player.y + 39 - heldObjectState.height / 2)
         end

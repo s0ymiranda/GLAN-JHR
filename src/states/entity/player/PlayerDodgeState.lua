@@ -1,6 +1,6 @@
-PlayerDodgeState = Class{__includes = BaseState}
+PlayerDodgeState = Class { __includes = BaseState }
 
-function PlayerDodgeState:init(player,entities)
+function PlayerDodgeState:init(player, entities)
     self.player = player
 
     if self.player.direction == 'right' then
@@ -21,7 +21,6 @@ function PlayerDodgeState:enter(params)
 end
 
 function PlayerDodgeState:update(dt)
-
     self.player.invulnerable = true
 
     if self.player.currentAnimation.timesPlayed > 0 then

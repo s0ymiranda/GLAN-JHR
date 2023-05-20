@@ -52,7 +52,7 @@ require 'src/gui/ProgressBar'
 require 'src/gui/Selection'
 
 -- Debugging settings
-DEBUG = true
+DEBUG = false
 
 ACTIVATE_ALL_DEBUG_SETTINGS = false
 
@@ -104,7 +104,7 @@ NUMBER_OF_BARRELS = 10
 VIRTUAL_WIDTH = 576
 VIRTUAL_HEIGHT = 324
 
-MAP_WIDTH = VIRTUAL_WIDTH*8
+MAP_WIDTH = VIRTUAL_WIDTH * 8
 MAP_HEIGHT = VIRTUAL_HEIGHT
 
 WINDOW_WIDTH = 1280

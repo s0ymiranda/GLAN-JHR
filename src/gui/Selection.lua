@@ -1,4 +1,4 @@
-Selection = Class{}
+Selection = Class {}
 
 function Selection:init(def)
     self.items = def.items
@@ -18,7 +18,7 @@ function Selection:init(def)
 
     self.alpha = def.alpha or 255
 
-    self.controllerButtoms = {a = false, x = false, start = false, up = false, down = false}
+    self.controllerButtoms = { a = false, x = false, start = false, up = false, down = false }
 end
 
 function Selection:update(dt)
@@ -88,14 +88,14 @@ function Selection:render()
 
         -- draw selection marker if we're at the right index
         if i == self.currentSelection and self.showCursor then
-            love.graphics.draw(TEXTURES['cursor-right'], math.max(self.width/3, self.x - 8), paddedY)
+            love.graphics.draw(TEXTURES['cursor-right'], math.max(self.width / 3, self.x - 8), paddedY)
         end
 
-        love.graphics.setColor(love.math.colorFromBytes(0,0,0,self.alpha))
+        love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, self.alpha))
         love.graphics.printf(self.items[i].text, self.x, paddedY, self.width, 'center')
-        love.graphics.setColor(love.math.colorFromBytes(255,255,255,self.alpha))
-        love.graphics.printf(self.items[i].text, self.x, paddedY-2, self.width, 'center')
-        love.graphics.setColor(love.math.colorFromBytes(255,255,255,255))
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.alpha))
+        love.graphics.printf(self.items[i].text, self.x, paddedY - 2, self.width, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
 
         currentY = currentY + self.gapHeight
     end

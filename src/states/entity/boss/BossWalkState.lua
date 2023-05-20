@@ -1,4 +1,4 @@
-BossWalkState = Class{__includes = EntityWalkState}
+BossWalkState = Class { __includes = EntityWalkState }
 
 function BossWalkState:init(entity)
     self.entity = entity
@@ -22,7 +22,6 @@ function BossWalkState:update(dt)
     if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
         if self.entity.x <= self.entity.leftLimit and not self.entity.justWalking then
-
             self.entity.x = self.entity.leftLimit
             if not self.entity.justWalking then
                 self.bumped = true
@@ -40,8 +39,8 @@ function BossWalkState:update(dt)
     elseif self.entity.direction == 'up-left' or self.entity.direction == 'up-right' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
-        if self.entity.y <= VIRTUAL_HEIGHT*0.45 - self.entity.height * 0.45 then
-            self.entity.y = VIRTUAL_HEIGHT*0.45  - self.entity.height * 0.45
+        if self.entity.y <= VIRTUAL_HEIGHT * 0.45 - self.entity.height * 0.45 then
+            self.entity.y = VIRTUAL_HEIGHT * 0.45 - self.entity.height * 0.45
 
             if not self.entity.justWalking then
                 self.bumped = true
@@ -60,20 +59,20 @@ function BossWalkState:update(dt)
         end
     end
     if self.displayDialog then
-        self.dialog:update(self.entity.x + self.entity.width/2, self.entity.y - 1)
+        self.dialog:update(self.entity.x + self.entity.width / 2, self.entity.y - 1)
     end
 end
 
-function BossWalkState:processAIFighting(params,dt)
+function BossWalkState:processAIFighting(params, dt)
     local playState = params.PlayState
-    local distance = math.sqrt((self.entity.x - playState.player.x)^2 + (self.entity.y - playState.player.y)^2)
+    local distance = math.sqrt((self.entity.x - playState.player.x) ^ 2 + (self.entity.y - playState.player.y) ^ 2)
     local distance2 = distance
 
     if playState.player2 ~= nil then
-        distance2 = math.sqrt((self.entity.x - playState.player2.x)^2 + (self.entity.y - playState.player2.y)^2)
+        distance2 = math.sqrt((self.entity.x - playState.player2.x) ^ 2 + (self.entity.y - playState.player2.y) ^ 2)
     end
 
-    if distance < math.random(20,30) or distance2 < math.random(20,30) then
+    if distance < math.random(20, 30) or distance2 < math.random(20, 30) then
         self.bumped = true
     end
 
@@ -92,7 +91,7 @@ function BossWalkState:processAIFighting(params,dt)
     if self.dialogElapsedTime == nil then
         if distance < 500 or distance2 < 500 then
             local message = CATCALLING_MESSAGES[math.random(#CATCALLING_MESSAGES)]
-            self.dialog = Dialog(self.entity.x + self.entity.width/2, self.entity.y - 1, message)
+            self.dialog = Dialog(self.entity.x + self.entity.width / 2, self.entity.y - 1, message)
             self.displayDialog = true
             self.dialogElapsedTime = 0
         end
@@ -104,23 +103,22 @@ function BossWalkState:processAIFighting(params,dt)
     end
 
     if not self.bumped then
-
         self.moveDuration = math.random(5)
         if self.objetive.x + self.objetive.width < self.entity.x and math.abs(self.objetive.z - self.entity.z) <= 1 then
             self.entity.direction = "left"
         elseif self.objetive.x > self.entity.x + self.entity.width and math.abs(self.objetive.z - self.entity.z) <= 1 then
             self.entity.direction = "right"
-        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z+1 < self.objetive.z then
+        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z + 1 < self.objetive.z then
             self.entity.direction = "down-left"
-        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z-1 > self.objetive.z then
+        elseif self.objetive.x + self.objetive.width < self.entity.x and self.entity.z - 1 > self.objetive.z then
             self.entity.direction = "up-left"
-        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z+1 < self.objetive.z then
+        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z + 1 < self.objetive.z then
             self.entity.direction = "down-right"
-        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z-1 > self.objetive.z then
+        elseif self.objetive.x > self.entity.x + self.entity.width and self.entity.z - 1 > self.objetive.z then
             self.entity.direction = "up-right"
         end
 
-        local a,b = string.find(self.entity.direction,'left')
+        local a, b = string.find(self.entity.direction, 'left')
         if a == nil or b == nil then
             self.prevDirection = 'right'
         else
@@ -128,9 +126,8 @@ function BossWalkState:processAIFighting(params,dt)
         end
 
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-
     else
-        local a,b = string.find(self.entity.direction,'left')
+        local a, b = string.find(self.entity.direction, 'left')
         if a == nil or b == nil then
             self.prevDirection = 'right'
         else

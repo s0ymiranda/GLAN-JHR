@@ -1,23 +1,21 @@
-PlayState = Class{__includes = BaseState}
+PlayState = Class { __includes = BaseState }
 
 function PlayState:init()
-
     self.spawnCooldown = 0
     self.spawnTimer = 0
-    self.textAnimations = {alpha = {value = 0, render = true}}
-    Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 255}})
-    Timer.after(2, function() Timer.tween(1.5, {[self.textAnimations.alpha] = {value = 0}}) end)
+    self.textAnimations = { alpha = { value = 0, render = true } }
+    Timer.tween(1.5, { [self.textAnimations.alpha] = { value = 255 } })
+    Timer.after(2, function() Timer.tween(1.5, { [self.textAnimations.alpha] = { value = 0 } }) end)
     Timer.after(3.5, function() self.textAnimations.alpha.render = false end)
 
     -- Key combinations
     self.lctrlPressed = false
     self.rctrlPressed = false
 
-    self.controllerButtoms = {a = false, x = false, start = false}
+    self.controllerButtoms = { a = false, x = false, start = false }
 end
 
 function PlayState:enter(def)
-
     local isANewDay = def.isANewDay or false
 
     if START_AT_FRIDAY then
@@ -31,7 +29,7 @@ function PlayState:enter(def)
         SOUNDS['scenary-music']:play()
     end
     self.cinematicDone = def.cinematicDone or nil
-    self.camera = def.camera or Camera{}
+    self.camera = def.camera or Camera {}
     self.entities = def.entities or {}
     self.objects = def.objects or {}
     self.signs = def.signs or {}
@@ -42,7 +40,7 @@ function PlayState:enter(def)
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         x = 0,
-        y = VIRTUAL_HEIGHT / 2 ,
+        y = VIRTUAL_HEIGHT / 2,
         width = 24,
         height = 73,
         health = 100,
@@ -62,13 +60,13 @@ function PlayState:enter(def)
 
     self.projectiles = def.projectiles or {}
 
-    self.players = {self.player}
+    self.players = { self.player }
 
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player, self.objects) end,
         ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
-        ['slap'] = function() return PlayerSlapState(self.player, self.entities,self.boss) end,
-        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities,self.boss) end,
+        ['slap'] = function() return PlayerSlapState(self.player, self.entities, self.boss) end,
+        ['knee-hit'] = function() return PlayerKneeHitState(self.player, self.entities, self.boss) end,
         ['pick-up'] = function() return PlayerPickUpState(self.player) end,
         ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
     }
@@ -104,9 +102,9 @@ function PlayState:enter(def)
         self.player.numOfPlayersInGame = 2
         self.player2.numOfPlayersInGame = 2
         self.player2.stateMachine = StateMachine {
-            ['walk'] = function() return PlayerWalkState(self.player2,self.objects) end,
+            ['walk'] = function() return PlayerWalkState(self.player2, self.objects) end,
             ['idle'] = function() return PlayerIdleState(self.player2, self.projectiles) end,
-            ['slap'] = function() return PlayerSlapState(self.player2, self.entities,self.boss) end,
+            ['slap'] = function() return PlayerSlapState(self.player2, self.entities, self.boss) end,
             ['knee-hit'] = function() return PlayerKneeHitState(self.player2, self.entities, self.boss) end,
             ['pick-up'] = function() return PlayerPickUpState(self.player2) end,
             ['dodge'] = function() return PlayerDodgeState(self.player2, self.entities) end
@@ -118,7 +116,7 @@ function PlayState:enter(def)
             y = 0 + 10,
             width = 100,
             height = 12,
-            color = {r = 189, g = 32, b = 32},
+            color = { r = 189, g = 32, b = 32 },
             value = self.player2.health,
             max = 100,
             showDetails = true,
@@ -127,7 +125,7 @@ function PlayState:enter(def)
         if def.player2 then
             self.player2.stateMachine.current.heldObject = def.player2.stateMachine.current.heldObject
         end
-        table.insert(self.players,self.player2)
+        table.insert(self.players, self.player2)
     end
 
     self.healthBar = ProgressBar {
@@ -135,7 +133,7 @@ function PlayState:enter(def)
         y = 0 + 10,
         width = 100,
         height = 12,
-        color = {r = 189, g = 32, b = 32},
+        color = { r = 189, g = 32, b = 32 },
         value = self.player.health,
         max = 100,
         showDetails = true,
@@ -147,7 +145,7 @@ function PlayState:enter(def)
         y = 0 + self.healthBar.y + self.healthBar.height + 10,
         width = 100,
         height = 12,
-        color = {r = 128, g = 128, b = 128},
+        color = { r = 128, g = 128, b = 128 },
         value = self.player.respect,
         max = 100,
         showDetails = true,
@@ -162,9 +160,9 @@ function PlayState:enter(def)
             y = 0 + self.healthBar.y + self.healthBar.height + 10,
             width = VIRTUAL_WIDTH - 20,
             height = 20,
-            color = {r = 189, g = 32, b = 32},
+            color = { r = 189, g = 32, b = 32 },
             value = self.boss.health,
-            max = 500*self.player.numOfPlayersInGame,
+            max = 500 * self.player.numOfPlayersInGame,
             showDetails = true,
             title = "Raiden Tameemon's Health"
         }
@@ -189,39 +187,42 @@ function PlayState:enter(def)
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus'], MAP_WIDTH - 300, 140))
     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bus-sign'], MAP_WIDTH - 350, 120))
     --bushes
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH-300, MAP_HEIGHT-66))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*1.7, MAP_HEIGHT-66))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*3, MAP_HEIGHT-66))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*5+300, MAP_HEIGHT-66))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH*6.5, MAP_HEIGHT-66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH - 300, MAP_HEIGHT - 66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH * 1.7, MAP_HEIGHT - 66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH * 3, MAP_HEIGHT - 66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH * 5 + 300, MAP_HEIGHT - 66))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['bush'], VIRTUAL_WIDTH * 6.5, MAP_HEIGHT - 66))
     --lights
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH-200, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*1.2, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*2, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*3.5, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*5, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*6, MAP_HEIGHT-138))
-    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH*7, MAP_HEIGHT-138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH - 200, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 1.2, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 2, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 3.5, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 5, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 6, MAP_HEIGHT - 138))
+    table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['light'], VIRTUAL_WIDTH * 7, MAP_HEIGHT - 138))
 
     --signs
     self.signTimer = 0
     self.signWaitTimer = 0
     if not def.signs then
         table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH + 450, 20))
-        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH*6 + 350, 20))
-        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH*3 +125, 40))
-        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH*7 + 400, 40))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['sushi'], VIRTUAL_WIDTH * 6 + 350, 20))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['neon'], VIRTUAL_WIDTH * 3 + 125, 40))
+        table.insert(self.signs, GameObject(GAME_OBJECT_DEFS['cafe'], VIRTUAL_WIDTH * 7 + 400, 40))
     end
     --barrels
     if isANewDay and not def.objects then
         for i = 1, NUMBER_OF_BARRELS, 1 do
-            local barrel_x = math.random(10,VIRTUAL_WIDTH*6.5)
-            local barrel_y_variation = math.random(0,45)
-            table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
+            local barrel_x = math.random(10, VIRTUAL_WIDTH * 6.5)
+            local barrel_y_variation = math.random(0, 45)
+            table.insert(self.objects,
+                GameObject(GAME_OBJECT_DEFS['barrel'], barrel_x, VIRTUAL_HEIGHT * 0.47 + barrel_y_variation))
         end
     end
     if self.dayNumber == 1 and not self.cinematicDone then
-        stateMachine:change('cinematic_begining',{camera =self.camera,objects = self.objects, players = self.players,dayNumber = self.dayNumber,twoPlayersMode = self.twoPlayersMode})
+        stateMachine:change('cinematic_begining',
+            { camera = self.camera, objects = self.objects, players = self.players, dayNumber = self.dayNumber,
+                twoPlayersMode = self.twoPlayersMode })
     end
 
     if SPAWN_AT_BUS_STATION then
@@ -268,7 +269,7 @@ function PlayState:pause()
             musicTitle = 'boss_music'
         end
     end
-    stateMachine:change('pause',{
+    stateMachine:change('pause', {
         player = self.player,
         camera = self.camera,
         entities = self.entities,
@@ -284,9 +285,9 @@ function PlayState:pause()
 end
 
 function PlayState:GameOver()
-    for k,e in pairs(self.entities) do
+    for k, e in pairs(self.entities) do
         if not e.dead then
-            local a,b = string.find(e.direction,'left')
+            local a, b = string.find(e.direction, 'left')
             if a == nil or b == nil then
                 e.direction = 'right'
             else
@@ -303,7 +304,7 @@ function PlayState:GameOver()
         self.player2.stateMachine.current.heldObject = nil
         self.player2:changeAnimation('falling')
     end
-    Timer.after(0.4,function()
+    Timer.after(0.4, function()
         self.player.y = self.player.y + 15
         self.player:changeAnimation('defeated')
         if self.player2 ~= nil then
@@ -311,7 +312,7 @@ function PlayState:GameOver()
             self.player2:changeAnimation('defeated')
         end
     end)
-    stateMachine:change('game-over',{
+    stateMachine:change('game-over', {
         player = self.player,
         camera = self.camera,
         entities = self.entities,
@@ -342,18 +343,22 @@ function PlayState:update(dt)
         -- Ctrl pressed
         if ALLOW_CHEATS then
             -- Ctrl + E: generate entity
-            if love.keyboard.wasPressed('e')then
+            if love.keyboard.wasPressed('e') then
                 self:generateWalkingEntity()
             end
             -- Ctrl + H: generate first-aid-kit
             if love.keyboard.wasPressed('h') then
                 local firstAidKitDefs = GAME_OBJECT_DEFS['first-aid-kit']
-                table.insert(self.objects, GameObject(firstAidKitDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - firstAidKitDefs.height))
+                table.insert(self.objects,
+                    GameObject(firstAidKitDefs, self.player.x + self.player.width + 10,
+                        self.player.y + self.player.height - firstAidKitDefs.height))
             end
             -- Ctrl + B: generate barrel
             if love.keyboard.wasPressed('b') then
                 local barrelDefs = GAME_OBJECT_DEFS['barrel']
-                table.insert(self.objects, GameObject(barrelDefs, self.player.x + self.player.width + 10, self.player.y + self.player.height - barrelDefs.height))
+                table.insert(self.objects,
+                    GameObject(barrelDefs, self.player.x + self.player.width + 10,
+                        self.player.y + self.player.height - barrelDefs.height))
             end
         end
     else
@@ -373,7 +378,7 @@ function PlayState:update(dt)
             -- Press r to skip day
             if love.keyboard.wasPressed('r') then
                 self.player.x = 0
-                self.player.y = VIRTUAL_HEIGHT/2
+                self.player.y = VIRTUAL_HEIGHT / 2
                 if self.dayNumber == 5 then
                     stateMachine:change('win')
                 else
@@ -381,9 +386,11 @@ function PlayState:update(dt)
                     if self.player2 ~= nil then
                         twoPlayersMode = true
                         self.player2.x = 0
-                        self.player2.y = VIRTUAL_HEIGHT/2 + 55
+                        self.player2.y = VIRTUAL_HEIGHT / 2 + 55
                     end
-                    stateMachine:change('play',{player = self.player,dayNumber = self.dayNumber + 1,isANewDay = true, player2 = self.player2, twoPlayers = twoPlayersMode})
+                    stateMachine:change('play',
+                        { player = self.player, dayNumber = self.dayNumber + 1, isANewDay = true, player2 = self.player2,
+                            twoPlayers = twoPlayersMode })
                 end
             end
         end
@@ -411,12 +418,12 @@ function PlayState:update(dt)
     end
 
     if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then
-        self.spawnCooldown = math.random( 8 - math.floor( (self.dayNumber/2)*self.player.numOfPlayersInGame + 0.5 ) )
+        self.spawnCooldown = math.random(8 - math.floor((self.dayNumber / 2) * self.player.numOfPlayersInGame + 0.5))
     end
 
     self.spawnTimer = self.spawnTimer + dt
 
-    if self.spawnTimer >= self.spawnCooldown and not((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH*7.5) and not DISABLE_AUTOMATIC_ENTITY_SPAWN then
+    if self.spawnTimer >= self.spawnCooldown and not ((self.camera.x + VIRTUAL_WIDTH) >= VIRTUAL_WIDTH * 7.5) and not DISABLE_AUTOMATIC_ENTITY_SPAWN then
         self:generateWalkingEntity()
         self.spawnCooldown = 0
         self.spawnTimer = 0
@@ -430,7 +437,7 @@ function PlayState:update(dt)
             self.signWaitTimer = 0.2
         else
             ::again::
-            self.signWaitTimer = math.random()*10
+            self.signWaitTimer = math.random() * 10
             if self.signWaitTimer > 3 then
                 goto again
             end
@@ -474,7 +481,7 @@ function PlayState:update(dt)
         end
     end
 
-    local enemies = {self.boss}
+    local enemies = { self.boss }
     for _, entity in pairs(self.entities) do
         table.insert(enemies, entity)
     end
@@ -503,10 +510,10 @@ function PlayState:update(dt)
         table.remove(self.projectiles, v)
     end
 
-    self.player:update(dt, {objects = self.objects})
+    self.player:update(dt, { objects = self.objects })
     self.player.leftLimit = self.camera.x
     if self.player2 ~= nil then
-        self.player2:update(dt, {objects = self.objects})
+        self.player2:update(dt, { objects = self.objects })
         self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
         self.player2.leftLimit = self.camera.x
         self.player.rightLimit = self.camera.x + VIRTUAL_WIDTH
@@ -515,10 +522,10 @@ function PlayState:update(dt)
     local enemyFighting = false
     for k, entity in pairs(self.entities) do
         if entity.pervert and self.player.fighting and not self.player.afterFighting and not entity.fighting then
-            local distance = math.sqrt((entity.x - self.player.x)^2 + (entity.y - self.player.y)^2)
+            local distance = math.sqrt((entity.x - self.player.x) ^ 2 + (entity.y - self.player.y) ^ 2)
             local distance2 = 160
             if self.player2 ~= nil then
-                distance2 = math.sqrt((entity.x - self.player2.x)^2 + (entity.y - self.player2.y)^2)
+                distance2 = math.sqrt((entity.x - self.player2.x) ^ 2 + (entity.y - self.player2.y) ^ 2)
             end
             if (distance < 150 or distance2 < 150) and not entity.dead then
                 entity.fighting = true
@@ -548,11 +555,14 @@ function PlayState:update(dt)
             self.player2.afterFighting = true
             Timer.tween(0.5, {
                 [self.camera] = {
-                    x = math.floor(math.min(math.floor(math.max(self.camera.x,(self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2 + self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
+                    x = math.floor(math.min(
+                    math.floor(math.max(self.camera.x,
+                        (self.player.x + self.player.width / 2 - VIRTUAL_WIDTH / 2 + self.player2.x + self.player2.width / 2 - VIRTUAL_WIDTH / 2) /
+                        2)), math.floor(MAP_WIDTH - VIRTUAL_WIDTH))),
                     y = self.camera.y
                 }
             })
-            Timer.after(0.5,function()
+            Timer.after(0.5, function()
                 self.player.fighting = false
                 self.player.afterFigthing = false
                 self.player.leftLimit = self.camera.x
@@ -564,15 +574,23 @@ function PlayState:update(dt)
                 self.player2.rightLimit = self.camera.x + VIRTUAL_WIDTH
             end)
         else
-            if self.camera.x + VIRTUAL_WIDTH/2 < self.player.x then
+            if self.camera.x + VIRTUAL_WIDTH / 2 < self.player.x then
                 Timer.tween(0.5, {
                     [self.camera] = {
-                        x = math.floor(math.min(math.floor(math.max(0,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH))),
+                        x = math.floor(math.min(
+                        math.floor(math.max(0, self.player.x + self.player.width / 2 - VIRTUAL_WIDTH / 2)),
+                            math.floor(MAP_WIDTH - VIRTUAL_WIDTH))),
                         y = self.camera.y
                     }
                 })
             end
-            Timer.after(0.5,function() self.player.fighting = false self.player.afterFigthing = false  self.player.leftLimit = self.camera.x self.player.rightLimit = MAP_WIDTH end)
+            Timer.after(0.5,
+                function()
+                    self.player.fighting = false
+                    self.player.afterFigthing = false
+                    self.player.leftLimit = self.camera.x
+                    self.player.rightLimit = MAP_WIDTH
+                end)
         end
     end
 
@@ -608,7 +626,7 @@ function PlayState:update(dt)
             self:deleteEntity(k)
             goto continue
         end
-        entity:processAI({PlayState = self}, dt)
+        entity:processAI({ PlayState = self }, dt)
         entity:update(dt)
         ::continue::
     end
@@ -627,9 +645,9 @@ function PlayState:update(dt)
             self.boss = nil
             goto continue
         end
-            self.boss:processAI({PlayState =self},dt)
-            self.boss:update(dt)
-            ::continue::
+        self.boss:processAI({ PlayState = self }, dt)
+        self.boss:update(dt)
+        ::continue::
     end
     if (#self.players > 1 or (self.player.stateMachine.currentStateName ~= 'slap' and self.player.stateMachine.currentStateName ~= 'knee-hit' and self.player.stateMachine.currentStateName ~= 'dodge')) and not self.player.fighting and not self.player.afterFighting then
         -- OPCION ARRASTRAR AL PLAYER 2:
@@ -641,17 +659,21 @@ function PlayState:update(dt)
         -- end
         --OPCIONA PREFERIDA, LA CAMARA SE MUEVE EN UN PUNTO MEDIO DE AMBOS JUGADORES
         if self.player2 ~= nil then
-            self.camera.x = math.floor(math.min(math.floor(math.max(self.camera.x,math.floor((self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2 + self.player2.x + self.player2.width/2 - VIRTUAL_WIDTH/2)/2))),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+            self.camera.x = math.floor(math.min(
+            math.floor(math.max(self.camera.x,
+                math.floor((self.player.x + self.player.width / 2 - VIRTUAL_WIDTH / 2 + self.player2.x + self.player2.width / 2 - VIRTUAL_WIDTH / 2) /
+                2))), math.floor(MAP_WIDTH - VIRTUAL_WIDTH)))
         else
-            self.camera.x = math.floor(math.min(math.floor(math.max(self.camera.x,self.player.x + self.player.width/2 - VIRTUAL_WIDTH/2)),math.floor(MAP_WIDTH-VIRTUAL_WIDTH)))
+            self.camera.x = math.floor(math.min(
+            math.floor(math.max(self.camera.x, self.player.x + self.player.width / 2 - VIRTUAL_WIDTH / 2)),
+                math.floor(MAP_WIDTH - VIRTUAL_WIDTH)))
         end
-
     end
     self.healthBar:setValue(self.player.health)
-    self.healthBar:setPosition(self.camera.x+10, 10)
+    self.healthBar:setPosition(self.camera.x + 10, 10)
     self.healthBar:update()
-    self.respectBar:setValue(math.max(0,self.player.respect))
-    self.respectBar:setPosition(self.healthBar.x , self.healthBar.y + self.healthBar.height + 10)
+    self.respectBar:setValue(math.max(0, self.player.respect))
+    self.respectBar:setPosition(self.healthBar.x, self.healthBar.y + self.healthBar.height + 10)
     self.respectBar:update()
 
     if self.player2 ~= nil then
@@ -675,7 +697,9 @@ function PlayState:update(dt)
             self.player2.direction = 'right'
             self.player2.stateMachine.current.heldObject = nil
         end
-        stateMachine:change('cinematic',{camera =self.camera, entities = self.entities, objects = self.objects, players = self.players,dayNumber = self.dayNumber})
+        stateMachine:change('cinematic',
+            { camera = self.camera, entities = self.entities, objects = self.objects, players = self.players,
+                dayNumber = self.dayNumber })
     end
 
     if INFINITE_HP then
@@ -689,70 +713,70 @@ end
 function PlayState:render()
     self.camera:set()
 
-        love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
+    love.graphics.draw(TEXTURES['scenary'], 0, 0, 0)
 
-        local to_render = {self.player}
-        local corpses = {}
-        if self.player2 ~= nil then
-            table.insert(to_render, self.player2)
+    local to_render = { self.player }
+    local corpses = {}
+    if self.player2 ~= nil then
+        table.insert(to_render, self.player2)
+    end
+    for _, entity in pairs(self.entities) do
+        if entity.dead and not entity.stillFalling then
+            table.insert(corpses, entity)
+        else
+            table.insert(to_render, entity)
         end
-        for _, entity in pairs(self.entities) do
-            if entity.dead and not entity.stillFalling then
-                table.insert(corpses, entity)
-            else
-                table.insert(to_render, entity)
-            end
-        end
-        for _, object in pairs(self.objects) do
-            table.insert(to_render, object)
-        end
-        for _, object in pairs(self.projectiles) do
-            table.insert(to_render, object)
-        end
+    end
+    for _, object in pairs(self.objects) do
+        table.insert(to_render, object)
+    end
+    for _, object in pairs(self.projectiles) do
+        table.insert(to_render, object)
+    end
 
-        for _, sign in pairs(self.signs) do
-            table.insert(to_render, sign)
+    for _, sign in pairs(self.signs) do
+        table.insert(to_render, sign)
+    end
+    if self.boss ~= nil then
+        if self.boss.dead then
+            table.insert(corpses, self.boss)
+        else
+            table.insert(to_render, self.boss)
         end
-        if self.boss ~= nil then
-            if self.boss.dead then
-                table.insert(corpses, self.boss)
-            else
-                table.insert(to_render, self.boss)
-            end
-        end
-        table.sort(to_render, function(a, b)
-            local ay = a.floor
-            local by = b.floor
-            if not ay then ay = a.y + a.height end
-            if not by then by = b.y + b.height end
-            return ay < by
-        end)
+    end
+    table.sort(to_render, function(a, b)
+        local ay = a.floor
+        local by = b.floor
+        if not ay then ay = a.y + a.height end
+        if not by then by = b.y + b.height end
+        return ay < by
+    end)
 
-        for _, corpse in pairs(corpses) do
-            corpse:render()
-        end
+    for _, corpse in pairs(corpses) do
+        corpse:render()
+    end
 
-        for _, renderable in pairs(to_render) do
-            renderable:render()
-        end
+    for _, renderable in pairs(to_render) do
+        renderable:render()
+    end
 
-        self.healthBar:render()
-        self.respectBar:render()
-        if self.player2 ~= nil then
-            self.healthBar2:render()
+    self.healthBar:render()
+    self.respectBar:render()
+    if self.player2 ~= nil then
+        self.healthBar2:render()
+    end
+    if self.boss ~= nil then
+        if self.boss.fighting then
+            self.bossHealthBar:render()
         end
-        if self.boss ~= nil then
-            if self.boss.fighting then
-                self.bossHealthBar:render()
-            end
-        end
-        if self.textAnimations.alpha.render then
-            love.graphics.setFont(FONTS['large'])
-            love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, self.textAnimations.alpha.value))
-            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
-            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
-            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4 - 2, VIRTUAL_WIDTH, 'center')
-        end
+    end
+    if self.textAnimations.alpha.render then
+        love.graphics.setFont(FONTS['large'])
+        love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, self.textAnimations.alpha.value))
+        love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
+        love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4 - 2, VIRTUAL_WIDTH, 'center')
+    end
     self.camera:unset()
 end
 
@@ -768,12 +792,14 @@ function PlayState:deleteObject(idx)
 end
 
 function PlayState:generateWalkingEntity()
-    local types = {'npc1-0', 'npc1-1', 'npc1-2', 'npc1-3', 'npc1-4', 'npc1-5', 'npc1-6', 'npc1-7', 'npc0','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local types = { 'npc1-0', 'npc1-1', 'npc1-2', 'npc1-3', 'npc1-4', 'npc1-5', 'npc1-6', 'npc1-7', 'npc0',
+        'npc0-blackskin-blond', 'npc0-blackskin-blond-noglasses', 'npc0-blackskin-whiteclothes', 'npc0-blond',
+        'npc0-blond-chinese', 'npc0-blond-noglasses', 'npc0-blond-otherclothes' }
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20
 
-    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
+    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT * 0.55 - 70, VIRTUAL_HEIGHT - 77))
 
     local new_entity = Entity {
         animations = ENTITY_DEFS[type].animations,
@@ -786,13 +812,13 @@ function PlayState:generateWalkingEntity()
         height = 75,
 
         health = 30,
-        pervertFactor = self.player.respect/100,
+        pervertFactor = self.player.respect / 100,
     }
 
     new_entity.stateMachine = StateMachine {
         ['walk'] = function() return EntityWalkState(new_entity, self.objects) end,
         ['idle'] = function() return EntityIdleState(new_entity) end,
-        ['punch'] = function() return EntityPunchState(new_entity,self.players) end,
+        ['punch'] = function() return EntityPunchState(new_entity, self.players) end,
         ['dead'] = function() return EntityDeadState(new_entity) end
     }
     new_entity.direction = 'left'
@@ -801,29 +827,29 @@ function PlayState:generateWalkingEntity()
 
     table.insert(self.entities, new_entity)
 end
+
 function PlayState:generateBoss()
+    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT * 0.55 - 70, VIRTUAL_HEIGHT - 77))
 
-    local y_distance = math.floor(math.random(VIRTUAL_HEIGHT*0.55-70,VIRTUAL_HEIGHT-77))
-
-    local boss = Entity{
+    local boss = Entity {
         animations = ENTITY_DEFS['boss'].animations,
         walkSpeed = ENTITY_DEFS['boss'].walkSpeed,
 
-        x = VIRTUAL_WIDTH*6.5,
+        x = VIRTUAL_WIDTH * 6.5,
         y = y_distance,
 
         width = 37,
         height = 84,
 
-        health = 500*self.player.numOfPlayersInGame,
+        health = 500 * self.player.numOfPlayersInGame,
     }
 
     boss.stateMachine = StateMachine {
         ['idle'] = function() return BossIdleState(boss) end,
-        ['walk'] = function () return BossWalkState(boss) end,
-        ['dead'] = function () return BossDeadState(boss) end,
-        ['spank'] = function () return BossSpankState(boss,self.players) end,
-        ['punch'] = function () return BossPunchState(boss,self.players) end
+        ['walk'] = function() return BossWalkState(boss) end,
+        ['dead'] = function() return BossDeadState(boss) end,
+        ['spank'] = function() return BossSpankState(boss, self.players) end,
+        ['punch'] = function() return BossPunchState(boss, self.players) end
     }
     boss.direction = 'left'
     boss:changeState('idle')

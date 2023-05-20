@@ -1,4 +1,4 @@
-Menu = Class{}
+Menu = Class {}
 
 function Menu:init(def)
     self.panel = Panel(def.x, def.y, def.width, def.height)
