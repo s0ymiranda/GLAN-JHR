@@ -19,7 +19,7 @@ end
 function PlayState:enter(def)
 
     local isANewDay = def.isANewDay or false
-    
+
     if START_AT_FRIDAY then
         self.dayNumber = 5
     else
@@ -63,7 +63,7 @@ function PlayState:enter(def)
     self.projectiles = def.projectiles or {}
 
     self.players = {self.player}
-    
+
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player, self.objects) end,
         ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
@@ -164,7 +164,7 @@ function PlayState:enter(def)
             height = 20,
             color = {r = 189, g = 32, b = 32},
             value = self.boss.health,
-            max = 1000,
+            max = 500*self.player.numOfPlayersInGame,
             showDetails = true,
             title = "Raiden Tameemon's Health"
         }
@@ -404,7 +404,7 @@ function PlayState:update(dt)
     end
 
     if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then
-        self.spawnCooldown = math.random(8-self.dayNumber)
+        self.spawnCooldown = math.random( 8 - math.floor( (self.dayNumber/2)*self.player.numOfPlayersInGame + 0.5 ) )
     end
 
     self.spawnTimer = self.spawnTimer + dt
@@ -806,7 +806,7 @@ function PlayState:generateBoss()
         width = 37,
         height = 84,
 
-        health = 1000,
+        health = 500*self.player.numOfPlayersInGame,
     }
 
     boss.stateMachine = StateMachine {
