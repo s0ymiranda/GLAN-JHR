@@ -402,7 +402,7 @@ function PlayState:update(dt)
     end
 
     if self.spawnCooldown == 0 and self.player.x < MAP_WIDTH then
-        self.spawnCooldown = math.random(8-self.dayNumber)
+        self.spawnCooldown = math.random(8-math.floor(self.dayNumber/2 + 0.5))
     end
 
     self.spawnTimer = self.spawnTimer + dt
