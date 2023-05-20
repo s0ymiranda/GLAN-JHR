@@ -117,10 +117,11 @@ function PauseState:render()
         for _, entity in pairs(to_render) do
             entity:render()
         end
-
-        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
         love.graphics.setFont(FONTS['large'])
+        love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, 255))
         love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, 255))
+        love.graphics.printf("GAME PAUSED", self.camera.x, VIRTUAL_HEIGHT / 3 - 2, VIRTUAL_WIDTH, 'center')
         self.pauseMenu:render(dt)
     self.camera:unset()
 end

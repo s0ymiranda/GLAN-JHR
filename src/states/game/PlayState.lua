@@ -740,9 +740,11 @@ function PlayState:render()
             end
         end
         if self.textAnimations.alpha.render then
-            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
             love.graphics.setFont(FONTS['large'])
+            love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, self.textAnimations.alpha.value))
             love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
+            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4 - 2, VIRTUAL_WIDTH, 'center')
         end
     self.camera:unset()
 end

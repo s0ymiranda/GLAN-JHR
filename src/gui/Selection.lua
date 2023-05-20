@@ -91,10 +91,12 @@ function Selection:render()
             love.graphics.draw(TEXTURES['cursor-right'], math.max(self.width/3, self.x - 8), paddedY)
         end
 
-        love.graphics.setColor(love.math.colorFromBytes(255,255,255,self.alpha))
+        love.graphics.setColor(love.math.colorFromBytes(0,0,0,self.alpha))
         love.graphics.printf(self.items[i].text, self.x, paddedY, self.width, 'center')
+        love.graphics.setColor(love.math.colorFromBytes(255,255,255,self.alpha))
+        love.graphics.printf(self.items[i].text, self.x, paddedY-2, self.width, 'center')
         love.graphics.setColor(love.math.colorFromBytes(255,255,255,255))
-        --love.graphics.printf(self.alpha, self.x, paddedY+10, self.width, 'center')
+
         currentY = currentY + self.gapHeight
     end
 end

@@ -36,13 +36,12 @@ function CinematicStartState:exit()
 end
 
 function CinematicStartState:enter(params)
-   
+
     self.camera = params.camera
     self.objects = params.objects
     self.dayNumber = params.dayNumber
     self.players = params.players
     SOUNDS['scenary-music']:play()
-    
     self.player = self.players[1]
     self.player2 = self.players[2]
 
@@ -50,12 +49,9 @@ function CinematicStartState:enter(params)
     if self.player2 ~= nil then
         self.twoPlayers = true
     end
- 
-
     for k, player in pairs(self.players) do
         player:changeAnimation('walk-right')
     end
-    
     self:Player1Animation()
 
     self:Player2Animation()
@@ -90,15 +86,12 @@ function CinematicStartState:render()
         if not self.pervert.dead then
             table.insert(to_render, self.pervert)
         end
-        
         for _, object in pairs(self.objects) do
             table.insert(to_render, object)
         end
-        
         table.sort(to_render, function(a, b)
             return a.y + a.height < b.y + b.height
         end)
-        
         for _, entity in pairs(to_render) do
             entity:render()
         end
@@ -107,9 +100,11 @@ function CinematicStartState:render()
         end
 
         if self.textAnimations.alpha.render then
-            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
             love.graphics.setFont(FONTS['large'])
-            love.graphics.printf(WEEK_DAYS[1], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+            love.graphics.setColor(love.math.colorFromBytes(0, 0, 0, self.textAnimations.alpha.value))
+            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
+            love.graphics.setColor(love.math.colorFromBytes(255, 255, 255, self.textAnimations.alpha.value))
+            love.graphics.printf(WEEK_DAYS[self.dayNumber], self.camera.x, VIRTUAL_HEIGHT / 4 - 2, VIRTUAL_WIDTH, 'center')
         end
 
     self.camera:unset()
@@ -120,10 +115,10 @@ function CinematicStartState:Player1Animation()
         [self.player] = {
             x = VIRTUAL_WIDTH/3
     }})
-    Timer.after(5, 
-    function() 
+    Timer.after(5,
+    function()
         self.player:changeAnimation('idle-left-mad')
-        Timer.after(2.5, function() 
+        Timer.after(2.5, function()
             self.player:changeAnimation('idle-right-mad')
             local message = 'I am not going to deal whit this anymore'
             self.player.dialog = Dialog(self.player.x + self.player.width/2, self.player.y - 1, message)
@@ -139,13 +134,13 @@ function CinematicStartState:Player2Animation()
     if self.player2 ~= nil then
         Timer.tween(5, {
             [self.player2] = {
-                x = VIRTUAL_WIDTH/3 - 40, 
+                x = VIRTUAL_WIDTH/3 - 40,
                 y = VIRTUAL_HEIGHT/2 + 10
         }})
-        Timer.after(5, 
-        function() 
+        Timer.after(5,
+        function()
             self.player2:changeAnimation('idle-left-mad')
-            Timer.after(3, function() 
+            Timer.after(3, function()
                 self.player2:changeAnimation('idle-right-mad')
                 local message = 'What a jerk'
                 self.player2.dialog = Dialog(self.player2.x + self.player2.width/2, self.player2.y - 1, message)
@@ -162,7 +157,7 @@ function CinematicStartState:PervertAnimation()
         [self.pervert] = {
             x = VIRTUAL_WIDTH/3 + 10
         }})
-    Timer.after(5, function() 
+    Timer.after(5, function()
         self.pervert.x = self.pervert.x - 2
         local message = 'Come baby'
         self.pervert.dialog = Dialog(self.pervert.x + self.pervert.width/2, self.pervert.y - 1, message)
@@ -176,12 +171,12 @@ function CinematicStartState:PervertAnimation()
         Timer.after(1,function()
             self.pervert.x = self.pervert.x + 2
             self.pervert.displayDialog = false
-            self.pervert:changeAnimation('walk-left') 
+            self.pervert:changeAnimation('walk-left')
             Timer.tween(4,{
                 [self.pervert] = {
                     x = -40
                 }
-            }) 
+            })
         end)
     end)
 end
