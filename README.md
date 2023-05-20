@@ -11,7 +11,7 @@ This is the repository of a game made as a project for the video games course at
 ## How to play
 
 ### Playability 
--Health bar, respect bar (if you lose all your health or respect, you will lose the game).
+- Health bar, respect bar (if you lose all your health or respect, you will lose the game).
 
 - Attacks: Slap, knee, pick up and throw barrels.
 
