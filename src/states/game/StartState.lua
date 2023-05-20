@@ -1,6 +1,7 @@
 StartState = Class{__includes = BaseState}
 
 function StartState:init()
+    SOUNDS['scenary-music']:stop()
     SOUNDS['start-music']:setLooping(true)
     SOUNDS['start-music']:play()
     self.last_selection = 1

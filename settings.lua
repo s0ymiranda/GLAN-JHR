@@ -124,6 +124,7 @@ CATCALLING_MESSAGES = {
     "Hey baby, you got a boyfriend?",
     "What's your hurry, babe?",
     "*Wolf whistle*",
+    "If you were mine, I'd stop smoking pot and I'd start to sell it just to spoil you baby",
 }
 
 HELP_MESSAGES = {
@@ -140,6 +141,7 @@ REGULAR_MESSAGES = {
     "Good night",
     "I'm getting late",
     "Sup",
+    "I wanna eat a hamburger",
 }
 
 WRONG_PERSON_MESSAGES = {
@@ -149,6 +151,7 @@ WRONG_PERSON_MESSAGES = {
     "Get away from me!",
     "Help!",
     "Leave me alone!",
+    "WTF! You crazy woman!"
 }
 
 WEEK_DAYS = {
