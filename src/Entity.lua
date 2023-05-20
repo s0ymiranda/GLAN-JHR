@@ -71,6 +71,9 @@ function Entity:collides(target)
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end
+function Entity:onlyAnimation(dt)
+    self.currentAnimation:update(dt)
+end
 
 function Entity:damage(dmg)
     self.health = self.health - dmg

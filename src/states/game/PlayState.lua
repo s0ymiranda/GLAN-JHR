@@ -19,7 +19,7 @@ end
 function PlayState:enter(def)
 
     local isANewDay = def.isANewDay or false
-
+    
     if START_AT_FRIDAY then
         self.dayNumber = 5
     else
@@ -30,7 +30,7 @@ function PlayState:enter(def)
         SOUNDS['scenary-music']:setLooping(true)
         SOUNDS['scenary-music']:play()
     end
-
+    self.cinematicDone = def.cinematicDone or nil
     self.camera = def.camera or Camera{}
     self.entities = def.entities or {}
     self.objects = def.objects or {}
@@ -63,7 +63,7 @@ function PlayState:enter(def)
     self.projectiles = def.projectiles or {}
 
     self.players = {self.player}
-
+    
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player, self.objects) end,
         ['idle'] = function() return PlayerIdleState(self.player, self.projectiles) end,
@@ -72,7 +72,6 @@ function PlayState:enter(def)
         ['pick-up'] = function() return PlayerPickUpState(self.player) end,
         ['dodge'] = function() return PlayerDodgeState(self.player, self.entities) end
     }
-
     self.player:changeState('idle', playerParams)
     self.player.pervert = false
 
@@ -220,6 +219,9 @@ function PlayState:enter(def)
             local barrel_y_variation = math.random(0,45)
             table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['barrel'],barrel_x, VIRTUAL_HEIGHT*0.47 + barrel_y_variation))
         end
+    end
+    if self.dayNumber == 1 and not self.cinematicDone then
+        stateMachine:change('cinematic_begining',{camera =self.camera,objects = self.objects, players = self.players,dayNumber = self.dayNumber,twoPlayersMode = self.twoPlayersMode})
     end
 
     if SPAWN_AT_BUS_STATION then
@@ -757,7 +759,7 @@ function PlayState:deleteObject(idx)
 end
 
 function PlayState:generateWalkingEntity()
-    local types = {'npc1-0', 'npc1-1', 'npc1-2', 'npc1-3', 'npc1-4', 'npc1-5', 'npc1-6', 'npc1-7', 'enemy','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
+    local types = {'npc1-0', 'npc1-1', 'npc1-2', 'npc1-3', 'npc1-4', 'npc1-5', 'npc1-6', 'npc1-7', 'npc0','npc0-blackskin-blond','npc0-blackskin-blond-noglasses','npc0-blackskin-whiteclothes','npc0-blond','npc0-blond-chinese','npc0-blond-noglasses','npc0-blond-otherclothes'}
     local type = types[math.random(#types)]
 
     local x_distance = self.camera.x + VIRTUAL_WIDTH + 20

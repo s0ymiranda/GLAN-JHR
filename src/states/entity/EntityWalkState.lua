@@ -33,12 +33,6 @@ function EntityWalkState:update(dt)
         }
         local objBottom = obj.getBottom(obj)
         if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
-            -- if entity.direction == 'right' and entityBottom.x + entityBottom.width < objBottom.x then
-            --     return
-            -- end
-            -- if entity.direction == 'left' and entityBottom.x > objBottom.x + objBottom.width then
-            --     return
-            -- end
             if string.match(entity.direction, 'up') and entityBottom.y > objBottom.y then
                 return
             end
@@ -242,7 +236,6 @@ function EntityWalkState:processAIFighting(params,dt)
                 goto processAIFightingEnd
             end
         end
-
 
         if self.objetive.x + self.objetive.width < entity.x and math.abs(self.objetive.z - entity.z) <= 1 then
             entity.direction = 'left'

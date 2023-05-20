@@ -79,6 +79,14 @@ ENTITY_DEFS = {
                 frames = {2},
                 texture = 'character-walk'
             },
+            ['idle-left-mad'] = {
+                frames = {4},
+                texture = 'character-walk'
+            },
+            ['idle-right-mad'] = {
+                frames = {3},
+                texture = 'character-walk'
+            },
 
             ['held-idle-left'] = {
                 frames = {9},
@@ -245,6 +253,14 @@ ENTITY_DEFS = {
             },
             ['idle-right'] = {
                 frames = {2},
+                texture = 'character2-walk'
+            },
+            ['idle-left-mad'] = {
+                frames = {4},
+                texture = 'character2-walk'
+            },
+            ['idle-right-mad'] = {
+                frames = {3},
                 texture = 'character2-walk'
             },
 
@@ -422,43 +438,37 @@ ENTITY_DEFS = {
             },
         }
     },
-    ['enemy'] = {
+    ['npc0'] = {
         walkSpeed = 60,
         animations = {
             ['walk-left'] = {
-                --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'npc0-walk'
             },
             ['walk-right'] = {
-                --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'npc0-walk'
             },
 
             ['walk-up-left'] = {
-                --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'npc0-walk'
             },
             ['walk-up-right'] = {
-                --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'npc0-walk'
             },
 
             ['walk-down-left'] = {
-                --frames = {5,7,8,7},
                 frames = {8,7,5,7},
                 interval = 0.20,
                 texture = 'npc0-walk'
             },
             ['walk-down-right'] = {
-                --frames = {9,11,12,11},
                 frames = {9,10,12,10},
                 interval = 0.20,
                 texture = 'npc0-walk'
@@ -503,6 +513,12 @@ ENTITY_DEFS = {
             ['dead-right'] = {
                 frames = {10},
                 texture = 'Npc0-dead'
+            },
+            ['cinematic-spank'] = {
+                frames = {1,2,1},
+                interval = 0.30,
+                looping = false,
+                texture = 'Npc0-spank-cinematic'
             },
         }
     },

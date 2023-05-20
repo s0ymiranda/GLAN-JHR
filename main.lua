@@ -20,6 +20,7 @@ function love.load()
         ['pause'] = function() return PauseState() end,
         ['game-over'] = function() return GameOverState() end,
         ['cinematic'] = function() return CinematicState() end,
+        ['cinematic_begining'] = function() return CinematicStartState() end,
         ['win'] = function() return WinState() end
     }
 
