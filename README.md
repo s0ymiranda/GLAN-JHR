@@ -40,9 +40,9 @@ You can activate the 2-player mode by connecting a joystick to the computer.
 ## Credits
 
 Developers:
-- [**G**erardo](https://github.com/SaymedDustga)
-- [**L**uis](https://github.com/DonLarry)
-- [**An**drea](https://github.com/s0ymiranda)
+- [Gerardo Alberto Rosetti Medina @Saymed](https://github.com/SaymedDustga)
+- [Luis Adolfo Ramirez @donLarry](https://github.com/DonLarry)
+- [Andrea Carolina Miranda Castillo @s0ymiranda](https://github.com/s0ymiranda)
 
 Character Design:
 - Andrea
