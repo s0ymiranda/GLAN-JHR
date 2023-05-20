@@ -33,12 +33,6 @@ function EntityWalkState:update(dt)
         }
         local objBottom = obj.getBottom(obj)
         if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
-            -- if entity.direction == 'right' and entityBottom.x + entityBottom.width < objBottom.x then
-            --     return
-            -- end
-            -- if entity.direction == 'left' and entityBottom.x > objBottom.x + objBottom.width then
-            --     return
-            -- end
             if string.match(entity.direction, 'up') and entityBottom.y > objBottom.y then
                 return
             end
@@ -197,20 +191,6 @@ function EntityWalkState:processAIFighting(params,dt)
     if not self.bumped then
 
         self.moveDuration = math.random(5)
-
-        -- if playState.player.x + playState.player.width < entity.x and math.abs(playState.player.z - entity.z) <= 1 then
-        --     entity.direction = "left"
-        -- elseif playState.player.x > entity.x + entity.width and math.abs(playState.player.z - entity.z) <= 1 then
-        --     entity.direction = "right"
-        -- elseif playState.player.x + playState.player.width < entity.x and entity.z+1 < playState.player.z then
-        --     entity.direction = "down-left"
-        -- elseif playState.player.x + playState.player.width < entity.x and entity.z-1 > playState.player.z then
-        --     entity.direction = "up-left"
-        -- elseif playState.player.x > entity.x + entity.width and entity.z+1 < playState.player.z then
-        --     entity.direction = "down-right"
-        -- elseif playState.player.x > entity.x + entity.width and entity.z-1 > playState.player.z then
-        --     entity.direction = "up-right"
-        -- end
 
         if self.objetive.x + self.objetive.width < entity.x and math.abs(self.objetive.z - entity.z) <= 1 then
             entity.direction = "left"

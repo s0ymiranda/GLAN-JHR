@@ -18,36 +18,7 @@ function CinematicState:enter(params)
     self.player = self.players[1]
     self.player2 = self.players[2]
 
-    self.animationPrefix = 'walk-'
-    for k, player in pairs(self.players) do
-        player:changeAnimation(self.animationPrefix .. player.direction)
-    end
-    for k, player in pairs(self.players) do
-        local y_destiny = VIRTUAL_HEIGHT*0.46 +10
-        local x_destiny = MAP_WIDTH - 380
-        if k == 2 then
-            x_destiny = x_destiny - player.width - 10
-        end
-        Timer.tween(3, {
-            [player] = {
-                y = y_destiny,
-                x = x_destiny
-            }})
-        Timer.after(3, function()
-            SOUNDS['bus']:play()
-            player:changeAnimation('win')
-        end)
-    end
-    for k, player in pairs(self.players) do
-        Timer.after(6, function()
-            player:changeAnimation(self.animationPrefix .. player.direction)
-            Timer.tween(3, {
-                [player] = {
-                    y = VIRTUAL_HEIGHT*0.46 +10,
-                    x = MAP_WIDTH - 200
-                }})
-        end)
-    end
+    self:PlayersAnimation()
 end
 
 function CinematicState:update(dt)
@@ -121,4 +92,36 @@ function CinematicState:render()
         end
 
     self.camera:unset()
+end
+function CinematicState:PlayersAnimation()
+    self.animationPrefix = 'walk-'
+    for k, player in pairs(self.players) do
+        player:changeAnimation(self.animationPrefix .. player.direction)
+    end
+    for k, player in pairs(self.players) do
+        local y_destiny = VIRTUAL_HEIGHT*0.46 +10
+        local x_destiny = MAP_WIDTH - 380
+        if k == 2 then
+            x_destiny = x_destiny - player.width - 10
+        end
+        Timer.tween(3, {
+            [player] = {
+                y = y_destiny,
+                x = x_destiny
+            }})
+        Timer.after(3, function()
+            SOUNDS['bus']:play()
+            player:changeAnimation('win')
+        end)
+    end
+    for k, player in pairs(self.players) do
+        Timer.after(6, function()
+            player:changeAnimation(self.animationPrefix .. player.direction)
+            Timer.tween(3, {
+                [player] = {
+                    y = VIRTUAL_HEIGHT*0.46 +10,
+                    x = MAP_WIDTH - 200
+                }})
+        end)
+    end  
 end

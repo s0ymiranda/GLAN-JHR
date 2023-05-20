@@ -28,7 +28,6 @@ require 'src/states/entity/player/PlayerSlapState'
 require 'src/states/entity/player/PlayerKneeHitState'
 require 'src/states/entity/player/PlayerPickUpState'
 require 'src/states/entity/player/PlayerDodgeState'
-require 'src/states/entity/player/PlayerCinematicState'
 
 require 'src/states/entity/boss/BossIdleState'
 require 'src/states/entity/boss/BossWalkState'
@@ -41,6 +40,7 @@ require 'src/states/game/WinState'
 require 'src/states/game/PlayState'
 require 'src/states/game/PauseState'
 require 'src/states/game/CinematicState'
+require 'src/states/game/CinematicStartState'
 require 'src/states/game/StartState'
 
 require 'src/utilities/quads'
@@ -105,9 +105,9 @@ HELP_MESSAGES = {
 }
 
 REGULAR_MESSAGES = {
-    "I'm so tired of this",
+    "I'm so tired of this life",
     "Good night",
-    "I'm getting late",
+    "Excuse me, I'm getting late",
     "Sup",
 }
 
@@ -115,6 +115,7 @@ WRONG_PERSON_MESSAGES = {
     "Hey!",
     "What are you doing?",
     "Stop!",
+    "Are you crazy woman?",
     "Get away from me!",
     "Help!",
     "Leave me alone!",
@@ -170,40 +171,42 @@ TEXTURES = {
     ['npc0-walk'] = love.graphics.newImage('graphics/Npc0/Walk-Npc0.png'),
     ['Npc0-punch'] = love.graphics.newImage('graphics/Npc0/Punch-Npc0.png'),
     ['Npc0-dead'] = love.graphics.newImage('graphics/Npc0/dead-Npc0.png'),
+    ['Npc0-spank-cinematic'] = love.graphics.newImage('graphics/Npc0/Spank-cinematic-Npc0.png'),
 
-    --Npc1
-    ['npc1-0-walk'] = love.graphics.newImage('graphics/Npc1-0/Walk-Npc1-0.png'),
-    ['npc1-0-punch'] = love.graphics.newImage('graphics/Npc1-0/Punch-Npc1-0.png'),
-    ['npc1-0-dead'] = love.graphics.newImage('graphics/Npc1-0/dead-npc1-0.png'),
-
+    
     --Adding the NPC0 Versions
     ['npc0-blackskin-blond-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Walk-Npc0-BlackSkin-Blond.png'),
     ['npc0-blackskin-blond-punch'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Punch-Npc0-BlackSkin-Blond.png'),
     ['npc0-blackskin-blond-dead'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond/Dead-Npc0-BlackSkin-Blond.png'),
-
+    
     ['npc0-blackskin-blond-noglasses-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond-NoGlasses/Walk-Npc0-BlackSkin-Blond-NoGlasses.png'),
     ['npc0-blackskin-blond-noglasses-punch'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond-NoGlasses/Punch-Npc0-BlackSkin-Blond-NoGlasses.png'),
     ['npc0-blackskin-blond-noglasses-dead'] = love.graphics.newImage('graphics/Npc0-BlackSkin-Blond-NoGlasses/Dead-Npc0-BlackSkin-Blond-NoGlasses.png'),
-
+    
     ['npc0-blackskin-whiteclothes-walk'] = love.graphics.newImage('graphics/Npc0-BlackSkin-WhiteClothes/Walk-Npc0-BlackSkin-WhiteClothes.png'),
     ['npc0-blackskin-whiteclothes-punch'] = love.graphics.newImage('graphics/Npc0-BlackSkin-WhiteClothes/Punch-Npc0-BlackSkin-WhiteClothes.png'),
     ['npc0-blackskin-whiteclothes-dead'] = love.graphics.newImage('graphics/Npc0-BlackSkin-WhiteClothes/Dead-Npc0-BlackSkin-WhiteClothes.png'),
-
+    
     ['npc0-blond-walk'] = love.graphics.newImage('graphics/Npc0-Blond/Walk-Npc0-Blond.png'),
     ['npc0-blond-punch'] = love.graphics.newImage('graphics/Npc0-Blond/Punch-Npc0-Blond.png'),
     ['npc0-blond-dead'] = love.graphics.newImage('graphics/Npc0-Blond/Dead-Npc0-Blond.png'),
-
+    
     ['npc0-blond-chinese-walk'] = love.graphics.newImage('graphics/Npc0-Blond-Chinese/Walk-Npc0-Blond-Chinese.png'),
     ['npc0-blond-chinese-punch'] = love.graphics.newImage('graphics/Npc0-Blond-Chinese/Punch-Npc0-Blond-Chinese.png'),
     ['npc0-blond-chinese-dead'] = love.graphics.newImage('graphics/Npc0-Blond-Chinese/Dead-Npc0-Blond-Chinese.png'),
-
+    
     ['npc0-blond-noglasses-walk'] = love.graphics.newImage('graphics/Npc0-Blond-NoGlasses/Walk-Npc0-Blond-NoGlasses.png'),
     ['npc0-blond-noglasses-punch'] = love.graphics.newImage('graphics/Npc0-Blond-NoGlasses/Punch-Npc0-Blond-NoGlasses.png'),
     ['npc0-blond-noglasses-dead'] = love.graphics.newImage('graphics/Npc0-Blond-NoGlasses/Dead-Npc0-Blond-NoGlasses.png'),
-
+    
     ['npc0-blond-otherclothes-walk'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Walk-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-punch'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Punch-Npc0-Blond-OtherClothes.png'),
     ['npc0-blond-otherclothes-dead'] = love.graphics.newImage('graphics/Npc0-Blond-OtherClothes/Dead-Npc0-Blond-OtherClothes.png'),
+    
+    --Npc1
+    ['npc1-0-walk'] = love.graphics.newImage('graphics/Npc1-0/Walk-Npc1-0.png'),
+    ['npc1-0-punch'] = love.graphics.newImage('graphics/Npc1-0/Punch-Npc1-0.png'),
+    ['npc1-0-dead'] = love.graphics.newImage('graphics/Npc1-0/dead-npc1-0.png'),
 
     --NPC1 alternative versions
     ['npc1-1-walk'] = love.graphics.newImage('graphics/Npc1-1/Walk-Npc1-1.png'),
@@ -276,6 +279,8 @@ FRAMES = {
     ['npc0-walk'] = generateQuads(TEXTURES['npc0-walk'], 25, 75),
     ['Npc0-punch'] = generateQuads(TEXTURES['Npc0-punch'], 35, 75),
     ['Npc0-dead'] = generateQuads(TEXTURES['Npc0-dead'], 75, 75),
+    ['Npc0-spank-cinematic'] = generateQuads(TEXTURES['Npc0-spank-cinematic'], 35, 75),
+    
 
     ['npc1-0-walk'] = generateQuads(TEXTURES['npc1-0-walk'], 25, 74),
     ['npc1-0-punch'] = generateQuads(TEXTURES['npc1-0-punch'], 32, 74),

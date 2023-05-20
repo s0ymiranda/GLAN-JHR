@@ -26,6 +26,7 @@ function PauseState:enter(def)
                         player = self.player,
                         camera = self.camera,
                         entities = self.entities,
+                        cinematicDone = true,
                         objects = self.objects,
                         dayNumber = self.dayNumber,
                         twoPlayers = self.twoPlayers,
