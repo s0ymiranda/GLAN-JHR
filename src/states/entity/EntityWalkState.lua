@@ -156,6 +156,21 @@ end
 function EntityWalkState:processAIFighting(params,dt)
     -- TODO: add punches
     local entity = self.entity
+
+    local entityBottom = {
+        x = entity.x,
+        y = entity.y + entity.height - 2,
+        width = entity.width,
+    }
+    if entity.obstacle then
+        local obstacleBottom = entity.obstacle.getBottom(entity.obstacle)
+        if entity.obstacle.solid and BottomCollision(entityBottom, obstacleBottom, entity.obstacle.bottomCollisionDistance) then
+            return
+        end
+        entity.obstacle = nil
+    end
+
+
     local playState = params.PlayState
     local distance = math.sqrt((entity.x - playState.player.x)^2 + (entity.y - playState.player.y)^2)
     local distance2 = distance
@@ -211,56 +226,36 @@ function EntityWalkState:processAIFighting(params,dt)
         -- elseif playState.player.x > entity.x + entity.width and entity.z-1 > playState.player.z then
         --     entity.direction = "up-right"
         -- end
+
         for _, obj in pairs(self.objects) do
-            local entityBottom = {
-                x = entity.x,
-                y = entity.y + entity.height - 2,
-                width = entity.width,
-            }
             local objBottom = obj.getBottom(obj)
             if obj.solid and BottomCollision(entityBottom, objBottom, obj.bottomCollisionDistance) then
-
-                if (string.match(entity.direction, 'up') and entityBottom.y > objBottom.y) or (string.match(entity.direction, 'down') and entityBottom.y < objBottom.y) then
-                    -- CONVULSION
-                    -- if entity.x + entity.width/2 >= obj.x + obj.width/2 then
-                    --     entity.direction = 'right'
-                    --     self.prevDirection = 'right'
-                    --     entity:changeAnimation('walk-' .. tostring(entity.direction))
-                    --     return
-                    -- else
-                    --     entity.direction = 'left'
-                    --     self.prevDirection = 'left'
-                    --     entity:changeAnimation('walk-' .. tostring(entity.direction))
-                    --     return
-                    -- end
-                    if entity.x + entity.width/2 >= self.objetive.x + self.objetive.width/2 then
-                        entity.direction = 'left'
-                        self.prevDirection = 'left'
-                        -- entity:changeAnimation('walk-' .. tostring(entity.direction))
-                        return
-                    else
-                        entity.direction = 'right'
-                        self.prevDirection = 'right'
-                        -- entity:changeAnimation('walk-' .. tostring(entity.direction))
-                        return
-                    end
+                entity.obstacle = obj
+                if string.match(entity.direction, 'right') then
+                    entity.direction = 'right'
+                    self.prevDirection = 'right'
+                else
+                    entity.direction = 'left'
+                    self.prevDirection = 'left'
                 end
+                entity:changeAnimation('walk-' .. entity.direction)
+                goto processAIFightingEnd
             end
         end
 
 
         if self.objetive.x + self.objetive.width < entity.x and math.abs(self.objetive.z - entity.z) <= 1 then
-            entity.direction = "left"
+            entity.direction = 'left'
         elseif self.objetive.x > entity.x + entity.width and math.abs(self.objetive.z - entity.z) <= 1 then
-            entity.direction = "right"
+            entity.direction = 'right'
         elseif self.objetive.x + self.objetive.width < entity.x and entity.z+1 < self.objetive.z then
-            entity.direction = "down-left"
+            entity.direction = 'down-left'
         elseif self.objetive.x + self.objetive.width < entity.x and entity.z-1 > self.objetive.z then
-            entity.direction = "up-left"
+            entity.direction = 'up-left'
         elseif self.objetive.x > entity.x + entity.width and entity.z+1 < self.objetive.z then
-            entity.direction = "down-right"
+            entity.direction = 'down-right'
         elseif self.objetive.x > entity.x + entity.width and entity.z-1 > self.objetive.z then
-            entity.direction = "up-right"
+            entity.direction = 'up-right'
         end
 
         local a,b = string.find(entity.direction,'left')
@@ -290,6 +285,7 @@ function EntityWalkState:processAIFighting(params,dt)
         })
         return
     end
+    ::processAIFightingEnd::
 end
 
 function EntityWalkState:render()
